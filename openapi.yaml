@@ -1,0 +1,75 @@
+openapi: 3.0.1
+info:
+  title: CSGT Progress Tracker
+  description: 'API for the CSGT faculty and research publication tracker. '
+  contact:
+    email: anirudh.cp2020@vitstudent.ac.in
+  version: 0.1.0
+externalDocs:
+  description: Informal Requirements
+  url: https://github.com/anirudh-cp/CSGT-Progress-Track/blob/13761c305e3914dc15496721d6ade1bf0ec1aff1/Dash_SRS.pdf
+servers:
+  - url: http://127.0.0.1:5000/
+tags:
+  - name: Faculty
+    description: Personal profile page for a faculty.
+components:
+  schemas:
+    Faculty:
+      required: 
+        [EmpID, ]
+      type: object
+      properties:
+        EmpID:
+          type: string
+        Name:
+          type: string
+        Designation:
+          type: string
+paths:
+  /faculty/{EmpID}:
+    parameters:
+      - name: EmpID
+        in: path
+        description: Employee ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      summary: View personal account details
+      description: ''
+      operationId: ''
+      responses:
+        '200':
+          description: Return all details about faculty.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Faculty'
+      tags:
+        - Faculty
+        
+  /faculty/{EmpID}/edit:
+    parameters:
+      - name: EmpID
+        in: path
+        description: Employee ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+    put:
+      summary: Edit/Add personal information of faculty.
+      description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Faculty'
+      responses:
+        '200':
+          description: Edit is successful.
+      tags:
+        - Faculty
+    
