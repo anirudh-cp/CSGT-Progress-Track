@@ -1,10 +1,10 @@
 openapi: 3.0.1
 info:
   title: CSGT Progress Tracker
-  description: "API for the CSGT faculty and research publication tracker. "
+  description: "API for the CSGT faculty and research publication tracker. Created using simplified versions of the schemas. Refer documentation for complete schemas."
   contact:
     email: anirudh.cp2020@vitstudent.ac.in
-  version: 0.2.0
+  version: 0.2.1
 externalDocs:
   description: Informal Requirements
   url: https://github.com/anirudh-cp/CSGT-Progress-Track/blob/13761c305e3914dc15496721d6ade1bf0ec1aff1/Dash_SRS.pdf
@@ -17,6 +17,12 @@ tags:
     description: Personal profile page for a faculty.
   - name: Publications
     description: Publications in various mediums.
+  - name: Consultancy
+    description: Consultancy works overseen by the faculty.
+  - name: Patents
+    description: The patents the faculty is involved in.
+  - name: Director Actions
+    description: The reporting and summarization features accessible by the director.
 
 components:
   schemas:
@@ -47,7 +53,7 @@ components:
 
 
 paths:
-  /faculty/{EmpID}:
+  /api/faculty/{EmpID}:
     parameters:
       - name: EmpID
         in: path
@@ -80,15 +86,6 @@ paths:
       tags:
         - Faculty
 
-  /faculty/{EmpID}/edit:
-    parameters:
-      - name: EmpID
-        in: path
-        description: Employee ID
-        required: true
-        schema:
-          type: integer
-          format: int64
     put:
       summary: Edit/Add personal information of faculty.
       description: ""
@@ -107,7 +104,7 @@ paths:
       tags:
         - Faculty
 
-  /faculty:
+  /api/faculty:
     get:
       summary: View all faculty account details
       responses:
@@ -121,11 +118,8 @@ paths:
         - Faculty
 
 
-  /publications/{EmpID}:
-    get:
-      summary: Filter and View the publications for given faculty.
-      description: ""
-      parameters:
+  /api/publications/{EmpID}:
+    parameters:
       - name: EmpID
         in: path
         description: Employee ID
@@ -133,6 +127,10 @@ paths:
         schema:
           type: integer
           format: int64
+
+    get:
+      summary: Filter and View the publications for given faculty.
+      description: ""
       requestBody:
         content:
           application/json:
@@ -153,17 +151,8 @@ paths:
       tags:
         - Publications
 
-  /publications/{EmpID}/edit:
     put:
       summary: Edit/Add publications for given faculty.
-      parameters:
-      - name: EmpID
-        in: path
-        description: Employee ID
-        required: true
-        schema:
-          type: integer
-          format: int64
       requestBody:
         content:
           application/json:
@@ -180,7 +169,7 @@ paths:
         - Publications
   
   
-  /publications:
+  /api/publications:
     get:
       summary: To generate report for all faculties.
       requestBody:
