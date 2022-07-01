@@ -4,7 +4,7 @@ info:
   description: "API for the CSGT faculty and research publication tracker. Created using simplified versions of the schemas. Refer documentation for complete schemas."
   contact:
     email: anirudh.cp2020@vitstudent.ac.in
-  version: 1.0.1
+  version: 1.1.0
 externalDocs:
   description: Informal Requirements
   url: https://github.com/anirudh-cp/CSGT-Progress-Track/blob/13761c305e3914dc15496721d6ade1bf0ec1aff1/Dash_SRS.pdf
@@ -132,7 +132,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Faculty"
+                type: object
+                properties:
+                  records:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/Faculty"
       tags:
         - Faculty
 
@@ -213,7 +218,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Publication"
+                type: object
+                properties:
+                  records:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Publication"
       tags:
         - Publications
 
@@ -230,15 +240,13 @@ paths:
 
     get:
       summary: Filter and View the consultancies for given faculty.
-      description: ""
+      description: Get all consultancies for given faculty in given time frame.
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                Type:
-                  type: string
                 startDate:
                   type: string
                 endDate:
@@ -249,7 +257,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Consultancy"
+                type: object
+                properties:
+                  records:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Consultancy"
         "400":
           description: Bad request.
       tags:
@@ -257,6 +270,7 @@ paths:
 
     put:
       summary: Edit/Add consultancies for given faculty.
+      description: Insert record into consultancies.
       requestBody:
         content:
           application/json:
@@ -276,14 +290,13 @@ paths:
   /api/consultancy:
     get:
       summary: To generate report for all faculties.
+      description: Return list of all consultancies undertaken by all faculties within given time frame.
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                Type:
-                  type: string
                 startDate:
                   type: string
                 endDate:
@@ -294,7 +307,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Consultancy"
+                type: object
+                properties:
+                  records:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Consultancy"
       tags:
         - Consultancy
 
@@ -311,15 +329,13 @@ paths:
 
     get:
       summary: Filter and View the patents for given faculty.
-      description: ""
+      description: Get all patents for given faculty in given time frame.
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                Type:
-                  type: string
                 startDate:
                   type: string
                 endDate:
@@ -330,7 +346,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Patents"
+                type: object
+                properties:
+                  records:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Patents"
         "400":
           description: Bad request.
       tags:
@@ -338,6 +359,7 @@ paths:
 
     put:
       summary: Edit/Add patents for given faculty.
+      description: Insert a record for patents.
       requestBody:
         content:
           application/json:
@@ -357,14 +379,13 @@ paths:
   /api/patent:
     get:
       summary: To generate report for all faculties.
+      description: Return list of all patents undertaken by all faculties within given time frame.
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
-                Type:
-                  type: string
                 startDate:
                   type: string
                 endDate:
@@ -375,7 +396,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Patents"
+                type: object
+                properties:
+                  records:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Patents"
       tags:
         - Patents
 
