@@ -4,12 +4,12 @@ info:
   description: "API for the CSGT faculty and research publication tracker. Created using simplified versions of the schemas. Refer documentation for complete schemas."
   contact:
     email: anirudh.cp2020@vitstudent.ac.in
-  version: 0.2.1
+  version: 1.0.1
 externalDocs:
   description: Informal Requirements
   url: https://github.com/anirudh-cp/CSGT-Progress-Track/blob/13761c305e3914dc15496721d6ade1bf0ec1aff1/Dash_SRS.pdf
 servers:
-  - url: http://127.0.0.1:5000/
+  - url: http://127.0.0.1:8000/
 
 
 tags:
@@ -46,11 +46,30 @@ components:
         Authors:
           type: object
           properties:
+            EmpID:
+              type: string
             Name:
               type: string
             Designation:
               type: string
-
+    Consultancy:
+      type: object
+      properties:
+        EmpID:
+          type: string
+        Type:
+          type: string
+        Name:
+          type: string
+    Patents:
+      type: object
+      properties:
+        EmpID:
+          type: string
+        Type:
+          type: string
+        Name:
+          type: string
 
 paths:
   /api/faculty/{EmpID}:
@@ -146,6 +165,10 @@ paths:
       responses:
         '200':
           description: Records returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Publication"
         "400":
           description: Bad request.
       tags:
@@ -187,5 +210,206 @@ paths:
       responses:
         '200':
           description: Records returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Publication"
       tags:
         - Publications
+
+
+  /api/consultancy/{EmpID}:
+    parameters:
+      - name: EmpID
+        in: path
+        description: Employee ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+
+    get:
+      summary: Filter and View the consultancies for given faculty.
+      description: ""
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Type:
+                  type: string
+                startDate:
+                  type: string
+                endDate:
+                  type: string
+      responses:
+        '200':
+          description: Records returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Consultancy"
+        "400":
+          description: Bad request.
+      tags:
+        - Consultancy
+
+    put:
+      summary: Edit/Add consultancies for given faculty.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Consultancy"
+      responses:
+        '200':
+          description: Publication added successfully.
+        "201":
+          description: Publication edited successfully.
+        "400":
+          description: Bad request.
+      tags:
+        - Consultancy
+  
+  
+  /api/consultancy:
+    get:
+      summary: To generate report for all faculties.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Type:
+                  type: string
+                startDate:
+                  type: string
+                endDate:
+                  type: string
+      responses:
+        '200':
+          description: Records returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Consultancy"
+      tags:
+        - Consultancy
+
+
+  /api/patent/{EmpID}:
+    parameters:
+      - name: EmpID
+        in: path
+        description: Employee ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+
+    get:
+      summary: Filter and View the patents for given faculty.
+      description: ""
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Type:
+                  type: string
+                startDate:
+                  type: string
+                endDate:
+                  type: string
+      responses:
+        '200':
+          description: Records returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Patents"
+        "400":
+          description: Bad request.
+      tags:
+        - Patents
+
+    put:
+      summary: Edit/Add patents for given faculty.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Patents"
+      responses:
+        '200':
+          description: Publication added successfully.
+        "201":
+          description: Publication edited successfully.
+        "400":
+          description: Bad request.
+      tags:
+        - Patents
+  
+  
+  /api/patent:
+    get:
+      summary: To generate report for all faculties.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Type:
+                  type: string
+                startDate:
+                  type: string
+                endDate:
+                  type: string
+      responses:
+        '200':
+          description: Records returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Patents"
+      tags:
+        - Patents
+
+  /api/actions:
+    get:
+      summary: To generate report for all faculties.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                startDate:
+                  type: string
+                endDate:
+                  type: string
+      responses:
+        '200':
+          description: Records returned successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  records:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        action:
+                          type: string
+                        date:
+                          type: string
+                        EmpID:
+                          type: integer
+      tags:
+        - Director Actions
