@@ -1,9 +1,11 @@
 
 from django.urls import path, include
-from .views import (
-    SampleApiView,
-)
+
+from .Views.Faculty import FacultySingleApiView, FacultyAllApiView
+
 
 urlpatterns = [
-    path('sample', SampleApiView.as_view()),
+    path('faculty/<int:Emp_ID>', FacultySingleApiView.as_view()),
+    path('faculty', FacultyAllApiView.as_view()),
 ]
+

@@ -1,7 +1,12 @@
 openapi: 3.0.1
 info:
   title: CSGT Progress Tracker
-  description: "API for the CSGT faculty and research publication tracker. Created using simplified versions of the schemas. Refer documentation for complete schemas."
+  description: |
+      API for the CSGT faculty and research publication tracker. 
+      Created using simplified versions of the schemas. Refer documentation for complete schemas.
+
+      Not sure about: 
+      https://stackoverflow.com/questions/6439416/status-code-when-deleting-a-resource-using-http-delete-for-the-second-time#:~:text=If%20you%20DELETE%20something%20that,in%20an%20unnecessary%20error%20condition.
   contact:
     email: anirudh.cp2020@vitstudent.ac.in
   version: 1.1.0
@@ -90,8 +95,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Faculty"
-        "400":
-          description: Bad request.
+        "404":
+          description: Record does not exist.
       tags:
         - Faculty
 
@@ -100,8 +105,8 @@ paths:
       responses:
         "200":
           description: Faculty details deleted successfully.
-        "400":
-          description: Bad request.
+        "404":
+          description: Faculty record not found hence deletion unsuccessful.
       tags:
         - Faculty
 
@@ -138,6 +143,8 @@ paths:
                     type: array
                     items:
                         $ref: "#/components/schemas/Faculty"
+        "404":
+          description: No records found.
       tags:
         - Faculty
 
