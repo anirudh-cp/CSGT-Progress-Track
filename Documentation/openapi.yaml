@@ -149,7 +149,7 @@ paths:
         - Faculty
 
 
-  /api/publications/{EmpID}:
+  /api/publications/{EmpID}/{Type}/{startDate}/{endDate}:
     parameters:
       - name: EmpID
         in: path
@@ -158,22 +158,27 @@ paths:
         schema:
           type: integer
           format: int64
-
+      - name: Type
+        in: path
+        description: Type of publication to be fetched.
+        required: true
+        schema:
+          type: string
+      - name: startDate
+        in: path
+        description: Start date of record to be fetched.
+        required: true
+        schema:
+          type: string         
+      - name: endDate
+        in: path
+        description: End date of record to be fetched.
+        required: true
+        schema:
+          type: string
     get:
       summary: Filter and View the publications for given faculty.
       description: ""
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                Type:
-                  type: string
-                startDate:
-                  type: string
-                endDate:
-                  type: string
       responses:
         '200':
           description: Records returned successfully.
@@ -181,11 +186,27 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Publication"
-        "400":
-          description: Bad request.
+        "404":
+          description: No records found.
       tags:
         - Publications
 
+
+  /api/publications/{EmpID}/{Type}:
+    parameters:
+      - name: EmpID
+        in: path
+        description: Employee ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: Type
+        in: path
+        description: Type of publication to be inserted.
+        required: true
+        schema:
+          type: string
     put:
       summary: Edit/Add publications for given faculty.
       requestBody:
@@ -204,21 +225,28 @@ paths:
         - Publications
   
   
-  /api/publications:
+  /api/publications/{Type}/{startDate}/{endDate}:
+    parameters:
+      - name: Type
+        in: path
+        description: Type of publication to be fetched.
+        required: true
+        schema:
+          type: string
+      - name: startDate
+        in: path
+        description: Start date of record to be fetched.
+        required: true
+        schema:
+          type: string         
+      - name: endDate
+        in: path
+        description: End date of record to be fetched.
+        required: true
+        schema:
+          type: string
     get:
       summary: To generate report for all faculties.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                Type:
-                  type: string
-                startDate:
-                  type: string
-                endDate:
-                  type: string
       responses:
         '200':
           description: Records returned successfully.
@@ -231,6 +259,8 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/Publication"
+        "404":
+          description: No records found.
       tags:
         - Publications
 
