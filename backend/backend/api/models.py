@@ -1,6 +1,8 @@
 from djongo import models
-
+from django.contrib.auth.models import User
 # Create your models here.
+
+
 
 class personal(models.Model):
 
@@ -8,6 +10,7 @@ class personal(models.Model):
 		('Male','Male'),
 		('Female','Female'),
 	]
+	user=models.OneToOneField(User,on_delete=models.CASCADE, blank=True,null=True)
 	Name=models.CharField(max_length=100)
 	Designation=models.CharField(max_length=100)
 	Emp_ID=models.IntegerField()
@@ -24,22 +27,16 @@ class personal(models.Model):
 	def __str__(self):
 		return self.Name
 
-class authorinfo(models.Model):
+
+class conference(models.Model):
+
 	TYPE=[
 		('NationaL','NationaL'),
 		('International','International'),
 		('Internal','Internal'),
 
 	]
-	Author_name=models.CharField(max_length=100)
-	Designation=models.CharField(max_length=20)
-	Collaboration=models.CharField(max_length=20,choices=TYPE)
 
-	class Meta:
-		abstract=True
-
-
-class conference(models.Model):
 	POSITION=[
 		(1,1),
 		(2,2),
@@ -69,9 +66,9 @@ class conference(models.Model):
 	
 	Artical_title=models.CharField(max_length=100)
 	no_of_authors=models.IntegerField()
-	Author_info=models.EmbeddedField(
-				model_container=authorinfo, null=True
-		)
+	Author_name=models.CharField(max_length=100)
+	Designation=models.CharField(max_length=20)
+	Collaboration=models.CharField(max_length=20,choices=TYPE)
 	Author_pos=models.IntegerField(choices=POSITION)
 	Conference_name=models.CharField(max_length=100)
 	Conference_startdate=models.DateField()
@@ -89,17 +86,19 @@ class conference(models.Model):
 	def __str__(self):
 		return self.Artical_title
 
-	@property
-	def daysbetween(self):
-		sdays=self.Conference_startdate.date()
-		edays=self.Conference_enddate.date() - sdays
-		return edays 
 
 class journal(models.Model):
 	INDEX=[
 		('SCI','SCI'),
 		('SCIE','SCIE'),
 		('SCOPUS','SCOPUS'),
+	]
+
+	TYPE=[
+		('NationaL','NationaL'),
+		('International','International'),
+		('Internal','Internal'),
+
 	]
 
 	POSITION=[
@@ -122,17 +121,17 @@ class journal(models.Model):
 
 	Artical_title=models.CharField(max_length=100)
 	no_of_authors=models.IntegerField()
-	Author_info=models.EmbeddedField(
-				model_container=authorinfo, null=True
-		)
+	Author_name=models.CharField(max_length=100)
+	Designation=models.CharField(max_length=20)
+	Collaboration=models.CharField(max_length=20,choices=TYPE)
 	Author_pos=models.IntegerField(choices=POSITION)
 	Journal_name=models.CharField(max_length=100)
 	Indexing=models.CharField(max_length=20,choices=INDEX)
 	Impact_factor=models.FloatField('optional',null=True)
 	year=models.IntegerField()
-	Vol_no=models.IntegerField('optional',null=True)
-	Issue_no=models.IntegerField('optional',null=True)
-	DOI=models.CharField('optional', max_length=30,null=True)
+	Vol_no=models.IntegerField(null=True)
+	Issue_no=models.IntegerField(null=True)
+	DOI=models.CharField( max_length=30,null=True)
 	Emp_ID=models.ForeignKey(personal,null=True,on_delete=models.SET_NULL)
 	Type_of_publication=models.CharField(max_length=100, choices=TP)
 	Funder_name=models.CharField('Enter Funder name if type is "Open" ',max_length=100,blank=True)
@@ -143,11 +142,18 @@ class journal(models.Model):
 		return self.Artical_title
 
 
-class book_chapters(models.Model):
+class book_chapter(models.Model):
 	INDEX=[
 		('SCI','SCI'),
 		('SCIE','SCIE'),
 		('SCOPUS','SCOPUS'),
+	]
+
+	TYPE=[
+		('NationaL','NationaL'),
+		('International','International'),
+		('Internal','Internal'),
+
 	]
 
 	POSITION=[
@@ -176,9 +182,9 @@ class book_chapters(models.Model):
 
 	Chapter_title=models.CharField(max_length=100)
 	no_of_authors=models.IntegerField()
-	Author_info=models.EmbeddedField(
-				model_container=authorinfo, null=True
-		)
+	Author_name=models.CharField(max_length=100)
+	Designation=models.CharField(max_length=20)
+	Collaboration=models.CharField(max_length=20,choices=TYPE)
 	Author_pos=models.IntegerField(choices=POSITION)
 	Indexing=models.CharField(max_length=20,choices=INDEX)
 	ISSN_ISBN_number=models.IntegerField()
@@ -186,9 +192,9 @@ class book_chapters(models.Model):
 	book_title=models.CharField(max_length=100)
 	publisher_name=models.CharField(max_length=30)
 	TYpe_of_publisher=models.CharField(max_length=30,choices=TY)
-	Vol_no=models.IntegerField('optional',null=True)
-	Issue_no=models.IntegerField('optional',null=True)
-	DOI=models.CharField('optional', max_length=30,null=True)
+	Vol_no=models.IntegerField(null=True)
+	Issue_no=models.IntegerField(null=True)
+	DOI=models.CharField(max_length=30,null=True)
 	Emp_ID=models.ForeignKey(personal,null=True,on_delete=models.SET_NULL)
 	Type_of_publication=models.CharField(max_length=100, choices=TP)
 	Funder_name=models.CharField('Enter Funder name if type is "Open" ',max_length=100,blank=True)
@@ -208,6 +214,12 @@ class book_editor(models.Model):
 		(4,4),
 		(5,5),
 		(6,6),
+	]
+	TYPE=[
+		('NationaL','NationaL'),
+		('International','International'),
+		('Internal','Internal'),
+
 	]
 
 	jy=[
@@ -235,9 +247,9 @@ class book_editor(models.Model):
 
 	book_title=models.CharField(max_length=50)
 	no_of_authors=models.IntegerField()
-	Author_info=models.EmbeddedField(
-				model_container=authorinfo, null=True
-		)
+	Author_name=models.CharField(max_length=100)
+	Designation=models.CharField(max_length=20)
+	Collaboration=models.CharField(max_length=20,choices=TYPE)
 	Author_pos=models.IntegerField(choices=POSITION)
 	Indexing=models.CharField(max_length=20,choices=INDEX)
 	ISSN_ISBN_number=models.IntegerField()
@@ -245,9 +257,9 @@ class book_editor(models.Model):
 	book_title=models.CharField(max_length=100)
 	publisher_name=models.CharField(max_length=30)
 	TYpe_of_publisher=models.CharField(max_length=30,choices=TY)
-	Vol_no=models.IntegerField('optional',null=True)
-	Issue_no=models.IntegerField('optional',null=True)
-	DOI=models.CharField('optional', max_length=30,null=True)
+	Vol_no=models.IntegerField(null=True)
+	Issue_no=models.IntegerField(null=True)
+	DOI=models.CharField(max_length=30,null=True)
 	Emp_ID=models.ForeignKey(personal,null=True,on_delete=models.SET_NULL)
 	Type_of_publication=models.CharField(max_length=100, choices=TP)
 	Funder_name=models.CharField('Enter if type is "Open" ',max_length=100,blank=True)
@@ -283,11 +295,6 @@ class consultancy_project(models.Model):
 	def __str__(self):
 		return self.company_name
 
-	@property
-	def days(self):
-		cdays=self.Consultancy_startdate.date()
-		ddays=self.Consultancy_enddate.date() - cdays
-		return ddays
 
 class patent(models.Model):
 
@@ -314,3 +321,16 @@ class patent(models.Model):
 
 	def __str__(self):
 		return self.patent_title
+
+
+
+
+
+
+
+
+
+
+
+
+
