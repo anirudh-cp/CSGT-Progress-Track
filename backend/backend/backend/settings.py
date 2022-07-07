@@ -80,7 +80,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'CLIENT':{
-            'host':"mongodb+srv://dbanirudh:anirudh@cluster0.hj3ub.mongodb.net/?retryWrites=true&w=majority",
+            'host':"mongodb+srv://root:rootpass0@cluster0.utdgw.mongodb.net/?retryWrites=true&w=majority",
             #'host':"mongodb+srv://dbkritin:kritin@cluster0.labbs9t.mongodb.net/?retryWrites=true&w=majority",
         }, 
     }

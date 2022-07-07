@@ -60,7 +60,7 @@ def homepage(request):
 @api_view(['GET'])
 def personlist(request):
 
-	person=personal.objects.all()
+	person=patent.objects.all()
 	serializer = personalserializer(person,many=True)
 	return Response(serializer.data)
 
@@ -68,7 +68,7 @@ def personlist(request):
 @api_view(['GET'])
 def persondetails(request,pk):
 
-	person=personal.objects.get(id=pk)
+	person=patent.objects.get(id=pk)
 	serializer = personalserializer(person,many=False)
 	return Response(serializer.data)
 
@@ -85,7 +85,7 @@ def createdetail(request):
 @api_view(['POST'])
 def updatedetails(request,pk):
 
-	person=personal.objects.get(id=pk)
+	person=patent.objects.get(id=pk)
 	serializer = personalserializer(instance=person,data=request.data)
 	if serializer.is_valid():
 		serializer.save()
@@ -95,7 +95,7 @@ def updatedetails(request,pk):
 @api_view(['DELETE'])
 def deletedetails(request,pk):
 
-	person=personal.objects.get(id=pk)
+	person=patent.objects.get(id=pk)
 	person.delete()
 	return Response("deleted !!!")
 
@@ -145,7 +145,7 @@ def deletepatent(request,pk):
 def counsultancylist(request):
 
 	Counsultancy=patent.objects.all()
-	serializer = consultancyserializer(Counsultancy,many=True)
+	serializer = patentserializer(Counsultancy,many=True)
 	return Response(serializer.data)
 
 
@@ -153,14 +153,14 @@ def counsultancylist(request):
 def counsultancydetails(request,pk):
 
 	Counsultancy=patent.objects.get(Emp_ID=pk)
-	serializer = consultancyserializer(Counsultancy,many=False)
+	serializer = patentserializer(Counsultancy,many=False)
 	return Response(serializer.data)
 
 
 @api_view(['POST'])
 def createcounsultancy(request):
 
-	serializer = consultancyserializer(data=request.data)
+	serializer = patentserializer(data=request.data)
 	if serializer.is_valid():
 		serializer.save()
 	return Response(serializer.data)
@@ -169,7 +169,7 @@ def createcounsultancy(request):
 @api_view(['POST'])
 def updatecounsultancy(request,pk):
 	Counsultancy=patent.objects.get(id=pk)
-	serializer = consultancyserializer(instance=Counsultancy,data=request.data)
+	serializer = patentserializer(instance=Counsultancy,data=request.data)
 	if serializer.is_valid():
 		serializer.save()
 	return Response(serializer.data)

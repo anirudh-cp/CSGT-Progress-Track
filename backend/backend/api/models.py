@@ -90,7 +90,7 @@ class conference(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=['Emp_ID', 'DOI', 'Author_pos'], name='unique_EmpID_DOI_combination'
+                fields=['Emp_ID', 'DOI'], name='unique_EmpID_DOI_combination'
             )
         ]
 
@@ -153,7 +153,7 @@ class journal(models.Model):
         return self.Artical_title
 
 
-class book_chapters(models.Model):
+class book_chapter(models.Model):
     INDEX = [
         ('SCI', 'SCI'),
         ('SCIE', 'SCIE'),
@@ -306,17 +306,25 @@ class consultancy_project(models.Model):
         'if funding recieved Enter Amount:', blank=True, null=True)
     invoice_number = models.IntegerField(
         'if funding recieved Enter invoice', blank=True, null=True)
-    Consultancy_startdate = models.DateField()
-    Consultancy_enddate = models.DateField()
+    consultancy_startdate = models.DateField()
+    consultancy_enddate = models.DateField()
 
     def __str__(self):
         return self.company_name
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['Emp_ID', 'company_name'], name='unique_EmpID_CName_combination'
+            )
+        ]
+
 
 
 class patent(models.Model):
 
     TY = [
-        ('NationaL', 'NationaL'),
+        ('National', 'National'),
         ('International', 'International'),
 
     ]
@@ -334,6 +342,15 @@ class patent(models.Model):
     Type_of_patent = models.CharField(max_length=20, choices=TY)
     no_of_authors_in_patent = models.IntegerField()
     Author_pos = models.IntegerField(choices=POSITION)
+    patent_created_date = models.DateField()
 
     def __str__(self):
         return self.patent_title
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['Emp_ID', 'patent_title'], name='unique_EmpID_PTitle_combination'
+            )
+        ]
+

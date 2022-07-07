@@ -1,0 +1,7 @@
+Author position is not implemented. 
+    Multiple employees working on a same project can have the same author position.
+    Author position is limited to 6.
+Fix: Check for records with DOI and same author position existence, If exists then throw 400 Bad request.
+
+Cannot have multiple consultancies with the same company. 
+Fix: Check if a consultancy exists within same time frame and if not then assign.

@@ -43,7 +43,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import personalserializer
 from .forms import CreateUserForm
-from .models import personal
+from .models import patent
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
@@ -93,14 +93,14 @@ def homepage(request):
 @api_view(['GET'])
 def persondetails(request):
 
-	person=personal.objects.all()
+	person=patent.objects.all()
 	serializer = personalserializer(person,many=True)
 	return Response(serializer.data)
 
 @api_view(['GET'])
 def fulldetail(request,pk):
 
-	person=personal.objects.get(id=pk)
+	person=patent.objects.get(id=pk)
 	serializer = personalserializer(person,many=False)
 	return Response(serializer.data)
 
@@ -116,7 +116,7 @@ def createdetail(request):
 
 @api_view(['POST'])
 def updatedetails(request,pk):
-	person=personal.objects.get(id=pk)
+	person=patent.objects.get(id=pk)
 	serializer = personalserializer(instance=person,data=request.data)
 
 	if serializer.is_valid():
@@ -126,7 +126,7 @@ def updatedetails(request,pk):
 
 @api_view(['DELETE'])
 def deletedetails(request,pk):
-	person=personal.objects.get(id=pk)
+	person=patent.objects.get(id=pk)
 	person.delete()
 
 	return Response("deleted !!!")

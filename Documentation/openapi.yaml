@@ -9,7 +9,7 @@ info:
       https://stackoverflow.com/questions/6439416/status-code-when-deleting-a-resource-using-http-delete-for-the-second-time#:~:text=If%20you%20DELETE%20something%20that,in%20an%20unnecessary%20error%20condition.
   contact:
     email: anirudh.cp2020@vitstudent.ac.in
-  version: 1.1.0
+  version: 1.2.0
 externalDocs:
   description: Informal Requirements
   url: https://github.com/anirudh-cp/CSGT-Progress-Track/blob/13761c305e3914dc15496721d6ade1bf0ec1aff1/Dash_SRS.pdf
@@ -119,9 +119,9 @@ paths:
             schema:
               $ref: "#/components/schemas/Faculty"
       responses:
-        "200":
-          description: Addition is successful.
         "201":
+          description: Addition is successful.
+        "200":
           description: Edit is successful.
         "400":
           description: Bad request.
@@ -215,9 +215,9 @@ paths:
             schema:
               $ref: "#/components/schemas/Publication"
       responses:
-        '200':
+        '201':
           description: Publication added successfully.
-        "201":
+        "200":
           description: Publication edited successfully.
         "400":
           description: Bad request.
@@ -265,7 +265,7 @@ paths:
         - Publications
 
 
-  /api/consultancy/{EmpID}:
+  /api/consultancy/{EmpID}/{startDate}/{endDate}:
     parameters:
       - name: EmpID
         in: path
@@ -274,6 +274,18 @@ paths:
         schema:
           type: integer
           format: int64
+      - name: startDate
+        in: path
+        description: Start date of record to be fetched.
+        required: true
+        schema:
+          type: string         
+      - name: endDate
+        in: path
+        description: End date of record to be fetched.
+        required: true
+        schema:
+          type: string
 
     get:
       summary: Filter and View the consultancies for given faculty.
@@ -300,11 +312,20 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/Consultancy"
-        "400":
-          description: Bad request.
+        "404":
+          description: No records found.
       tags:
         - Consultancy
 
+  /api/consultancy/{EmpID}:
+    parameters:
+      - name: EmpID
+        in: path
+        description: Employee ID
+        required: true
+        schema:
+          type: integer
+          format: int64
     put:
       summary: Edit/Add consultancies for given faculty.
       description: Insert record into consultancies.
@@ -314,9 +335,9 @@ paths:
             schema:
               $ref: "#/components/schemas/Consultancy"
       responses:
-        '200':
+        '201':
           description: Publication added successfully.
-        "201":
+        "200":
           description: Publication edited successfully.
         "400":
           description: Bad request.
@@ -324,7 +345,20 @@ paths:
         - Consultancy
   
   
-  /api/consultancy:
+  /api/consultancy/{startDate}/{endDate}:
+    parameters:
+      - name: startDate
+        in: path
+        description: Start date of record to be fetched.
+        required: true
+        schema:
+          type: string         
+      - name: endDate
+        in: path
+        description: End date of record to be fetched.
+        required: true
+        schema:
+          type: string
     get:
       summary: To generate report for all faculties.
       description: Return list of all consultancies undertaken by all faculties within given time frame.
@@ -350,11 +384,13 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/Consultancy"
+        "404":
+          description: No records found.
       tags:
         - Consultancy
 
 
-  /api/patent/{EmpID}:
+  /api/patent/{EmpID}/{startDate}/{endDate}:
     parameters:
       - name: EmpID
         in: path
@@ -363,6 +399,18 @@ paths:
         schema:
           type: integer
           format: int64
+      - name: startDate
+        in: path
+        description: Start date of record to be fetched.
+        required: true
+        schema:
+          type: string         
+      - name: endDate
+        in: path
+        description: End date of record to be fetched.
+        required: true
+        schema:
+          type: string
 
     get:
       summary: Filter and View the patents for given faculty.
@@ -389,11 +437,21 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/Patents"
-        "400":
-          description: Bad request.
+        "404":
+          description: No records found.
       tags:
         - Patents
 
+
+  /api/patent/{EmpID}:
+    parameters:
+      - name: EmpID
+        in: path
+        description: Employee ID
+        required: true
+        schema:
+          type: integer
+          format: int64
     put:
       summary: Edit/Add patents for given faculty.
       description: Insert a record for patents.
@@ -403,9 +461,9 @@ paths:
             schema:
               $ref: "#/components/schemas/Patents"
       responses:
-        '200':
+        '201':
           description: Publication added successfully.
-        "201":
+        "200":
           description: Publication edited successfully.
         "400":
           description: Bad request.
@@ -413,7 +471,20 @@ paths:
         - Patents
   
   
-  /api/patent:
+  /api/patent/{startDate}/{endDate}:
+    parameters:
+      - name: startDate
+        in: path
+        description: Start date of record to be fetched.
+        required: true
+        schema:
+          type: string         
+      - name: endDate
+        in: path
+        description: End date of record to be fetched.
+        required: true
+        schema:
+          type: string
     get:
       summary: To generate report for all faculties.
       description: Return list of all patents undertaken by all faculties within given time frame.
@@ -439,6 +510,8 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/Patents"
+        "404":
+          description: No records found.
       tags:
         - Patents
 

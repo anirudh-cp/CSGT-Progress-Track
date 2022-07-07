@@ -10,10 +10,10 @@ import sys
 from uritemplate import partial
 sys.path.append('../..')
 
-from api.models import conference, journal, book_chapters, book_editor
+from api.models import conference, journal, book_chapter, book_editor
 from api.serializers import conferneceserializer, journalserializer, bookchapterserializer, bookeditorserializer
 
-model = {'conference': conference, 'journal':journal, 'book_chapters': book_chapters, 'book_editor': book_editor}
+model = {'conference': conference, 'journal':journal, 'book_chapters': book_chapter, 'book_editor': book_editor}
 serilaizerTypes = {'conference': conferneceserializer, 'journal':journalserializer, 
                    'book_chapters': bookchapterserializer, 'book_editor': bookeditorserializer}
 
@@ -65,7 +65,7 @@ class PublicationsSinglePutApiView(APIView):
             serializer = serilaizerTypes[Type](data=data)
             if serializer.is_valid():
                 serializer.save()
-                return Response(serializer.data, status=status.HTTP_200_OK)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     

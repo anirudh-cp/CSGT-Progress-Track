@@ -18,7 +18,7 @@ class journalserializer(serializers.ModelSerializer):
 
 class bookchapterserializer(serializers.ModelSerializer):
 	class Meta:
-		model=book_chapters
+		model=book_chapter
 		fields='__all__'
 
 class bookeditorserializer(serializers.ModelSerializer):
