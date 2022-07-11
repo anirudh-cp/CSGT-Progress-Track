@@ -5,3 +5,6 @@ Fix: Check for records with DOI and same author position existence, If exists th
 
 Cannot have multiple consultancies with the same company. 
 Fix: Check if a consultancy exists within same time frame and if not then assign.
+
+Journal, book chapter and book editor do not have a date created field. Only a year is assigned. This makes report generation problematic.
+Fix: Implement a date field.

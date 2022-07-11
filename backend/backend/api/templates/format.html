@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report</title>
+    <style>
+        @page {
+            size: A4 portrait;
+            margin: 2cm;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 32px;
+            margin: 5px;
+        }
+
+        [class~=subtile] {
+            text-align: center;
+            font-style: italic;
+            font-size: 13px;
+            margin: 0px;
+        }
+
+        [class~=normal] {
+            font-size: 16px;
+            margin: 5px;
+        }
+    </style>
+    
+</head>
+<body>
+    <h1>CSGT Progress Report</h1>
+    <p class="subtile">
+        Generated on the {{ currentDate }}. Report on {{ params }} from {{ startDate }} to {{ endDate }}.
+    </p>
+    <hr > 
+    <br >
+    {% for record in records %}
+        <p class="normal"> <i>{{ record.0 }}</i> : {{ record.1 }} </p>
+    {% endfor %}
+</body>
+</html>

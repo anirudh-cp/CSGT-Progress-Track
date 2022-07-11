@@ -62,7 +62,7 @@ class conference(models.Model):
         ('Subscription', 'Subscription'),
     ]
 
-    Article_title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100)
     no_of_authors = models.IntegerField()
     Designation = models.CharField(max_length=20)
     Collaboration = models.CharField(max_length=20, choices=TYPE)
@@ -84,13 +84,13 @@ class conference(models.Model):
         'Whether Support received from Vellore Institute of Technology?', max_length=4, choices=jy, null=True)
 
     def __str__(self):
-        return self.Article_title
+        return self.title
     
     
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=['Emp_ID', 'DOI'], name='unique_EmpID_DOI_combination'
+                fields=['Emp_ID', 'title'], name='unique_EmpID_title_conference'
             )
         ]
 
@@ -103,7 +103,7 @@ class journal(models.Model):
     ]
 
     TYPE = [
-        ('NationaL', 'NationaL'),
+        ('National', 'National'),
         ('International', 'International'),
         ('Internal', 'Internal'),
 
@@ -127,15 +127,14 @@ class journal(models.Model):
         ('Subscription', 'Subscription'),
     ]
 
-    Artical_title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100)
     no_of_authors = models.IntegerField()
-    Author_name = models.CharField(max_length=100)
     Designation = models.CharField(max_length=20)
     Collaboration = models.CharField(max_length=20, choices=TYPE)
     Author_pos = models.IntegerField(choices=POSITION)
     Journal_name = models.CharField(max_length=100)
     Indexing = models.CharField(max_length=20, choices=INDEX)
-    Impact_factor = models.FloatField('optional', null=True)
+    Impact_factor = models.FloatField(null=True)
     year = models.IntegerField()
     Vol_no = models.IntegerField(null=True)
     Issue_no = models.IntegerField(null=True)
@@ -150,7 +149,14 @@ class journal(models.Model):
         'Whether Support received from Vellore Institute of Technology?', max_length=4, choices=jy, null=True)
 
     def __str__(self):
-        return self.Artical_title
+        return self.title
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['Emp_ID', 'title'], name='unique_EmpID_title_journal'
+            )
+        ]
 
 
 class book_chapter(models.Model):
@@ -161,7 +167,7 @@ class book_chapter(models.Model):
     ]
 
     TYPE = [
-        ('NationaL', 'NationaL'),
+        ('National', 'National'),
         ('International', 'International'),
         ('Internal', 'Internal'),
 
@@ -186,14 +192,13 @@ class book_chapter(models.Model):
     ]
 
     TY = [
-        ('NationaL', 'NationaL'),
+        ('National', 'National'),
         ('International', 'International'),
 
     ]
 
-    Chapter_title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100)
     no_of_authors = models.IntegerField()
-    Author_name = models.CharField(max_length=100)
     Designation = models.CharField(max_length=20)
     Collaboration = models.CharField(max_length=20, choices=TYPE)
     Author_pos = models.IntegerField(choices=POSITION)
@@ -202,7 +207,7 @@ class book_chapter(models.Model):
     year = models.IntegerField()
     book_title = models.CharField(max_length=100)
     publisher_name = models.CharField(max_length=30)
-    TYpe_of_publisher = models.CharField(max_length=30, choices=TY)
+    Type_of_publisher = models.CharField(max_length=30, choices=TY)
     Vol_no = models.IntegerField(null=True)
     Issue_no = models.IntegerField(null=True)
     DOI = models.CharField(max_length=30, null=True)
@@ -216,7 +221,14 @@ class book_chapter(models.Model):
         'Whether Support received from Vellore Institute of Technology?', max_length=4, choices=jy, null=True)
 
     def __str__(self):
-        return self.Chapter_title
+        return self.title
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['Emp_ID', 'title'], name='unique_EmpID_title_bookChapter'
+            )
+        ]
 
 
 class book_editor(models.Model):
@@ -230,7 +242,7 @@ class book_editor(models.Model):
         (6, 6),
     ]
     TYPE = [
-        ('NationaL', 'NationaL'),
+        ('National', 'National'),
         ('International', 'International'),
         ('Internal', 'Internal'),
 
@@ -247,7 +259,7 @@ class book_editor(models.Model):
     ]
 
     TY = [
-        ('NationaL', 'NationaL'),
+        ('National', 'National'),
         ('International', 'International'),
 
     ]
@@ -258,18 +270,16 @@ class book_editor(models.Model):
         ('SCOPUS', 'SCOPUS'),
     ]
 
-    book_title = models.CharField(max_length=50)
+    title = models.CharField(max_length=100)
     no_of_authors = models.IntegerField()
-    Author_name = models.CharField(max_length=100)
     Designation = models.CharField(max_length=20)
     Collaboration = models.CharField(max_length=20, choices=TYPE)
     Author_pos = models.IntegerField(choices=POSITION)
     Indexing = models.CharField(max_length=20, choices=INDEX)
     ISSN_ISBN_number = models.IntegerField()
     year = models.IntegerField()
-    book_title = models.CharField(max_length=100)
     publisher_name = models.CharField(max_length=30)
-    TYpe_of_publisher = models.CharField(max_length=30, choices=TY)
+    Type_of_publisher = models.CharField(max_length=30, choices=TY)
     Vol_no = models.IntegerField(null=True)
     Issue_no = models.IntegerField(null=True)
     DOI = models.CharField(max_length=30, null=True)
@@ -283,7 +293,14 @@ class book_editor(models.Model):
         'Whether Support received from Vellore Institute of Technology?', max_length=4, choices=jy, null=True)
 
     def __str__(self):
-        return self.book_title
+        return self.title
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['Emp_ID', 'title'], name='unique_EmpID_title_bookEditor'
+            )
+        ]
 
 
 class consultancy_project(models.Model):

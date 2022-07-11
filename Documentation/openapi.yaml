@@ -516,7 +516,7 @@ paths:
         - Patents
 
   /api/actions:
-    get:
+    post:
       summary: To generate report for all faculties.
       requestBody:
         content:
@@ -528,24 +528,26 @@ paths:
                   type: string
                 endDate:
                   type: string
+                conference:
+                  type: boolean
+                journal:
+                  type: boolean
+                chapter:
+                  type: boolean
+                editor:
+                  type: boolean
+                patent:
+                  type: boolean
+                consultancy:
+                  type: boolean
       responses:
         '200':
-          description: Records returned successfully.
+          description: Records returned successfully in PDF.
           content:
-            application/json:
+            application/pdf:
               schema:
-                type: object
-                properties:
-                  records:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        action:
-                          type: string
-                        date:
-                          type: string
-                        EmpID:
-                          type: integer
+                type: string
+                format: binary
+  
       tags:
         - Director Actions
