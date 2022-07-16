@@ -39,8 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'api'
+    'api',
+
+    'rest_framework.authtoken',  # new
+    'corsheaders',  # new
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -50,6 +54,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware'
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -79,10 +85,10 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'CLIENT':{
-            'host':"mongodb+srv://root:rootpass0@cluster0.utdgw.mongodb.net/?retryWrites=true&w=majority",
-            #'host':"mongodb+srv://dbkritin:kritin@cluster0.labbs9t.mongodb.net/?retryWrites=true&w=majority",
-        }, 
+        'CLIENT': {
+            'host': "mongodb+srv://root:rootpass0@cluster0.utdgw.mongodb.net/?retryWrites=true&w=majority",
+            # 'host':"mongodb+srv://dbkritin:kritin@cluster0.labbs9t.mongodb.net/?retryWrites=true&w=majority",
+        },
     }
 }
 
@@ -127,3 +133,15 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'api.Account'
+
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000'
+]
+
+# Rest Framework config. Add all of this.
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication', ],
+}

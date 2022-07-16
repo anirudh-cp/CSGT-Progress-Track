@@ -7,7 +7,6 @@ from rest_framework import permissions
 
 import sys
 
-from uritemplate import partial
 sys.path.append('../..')
 
 from api.models import consultancy_project
