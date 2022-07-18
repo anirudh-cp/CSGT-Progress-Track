@@ -1,4 +1,5 @@
-from api.models import Account
+from requests import request
+from api.models import Account, personal
 from api.serializers import RegistrationUserSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -21,13 +22,14 @@ def registration_view(request):
 
     if request.method == 'POST':
         data = {}
+        
         email = request.data.get('email', '0').lower()
         if validate_email(email) != None:
             data['error_message'] = 'That email is already in use.'
             data['response'] = 'Error'
             return Response(data)
 
-        group = request.data.get('group', '0').lower()
+        group = request.user.groups.values_list('name',flat = True)
         if group != 'director' and group != 'admin':
             data['error_message'] = 'Cannot create new user unless director or admin.'
             data['response'] = 'Error'
@@ -65,8 +67,9 @@ class ObtainAuthTokenView(APIView):
     def post(self, request):
         context = {}
 
-        email = request.POST.get('email')
-        password = request.POST.get('password')
+        email = request.data.get('email')
+        password = request.data.get('password')
+        
         account = authenticate(email=email, password=password)
         if account:
             try:
@@ -75,7 +78,20 @@ class ObtainAuthTokenView(APIView):
                 token = Token.objects.create(user=account)
             context['response'] = 'Successfully authenticated.'
             context['groups'] = list(account.groups.values_list('name', flat=True))
-            context['email'] = email.lower()
+            context['email'] = account.email
+            
+            if context['groups'][0] == 'faculty':
+                queryData = personal.objects.filter(user=account.email)[0]
+                context['name'] = queryData.Name
+                context['Emp_ID'] = queryData.Emp_ID
+            elif context['groups'][0] == 'admin':
+                context['name'] = "Admin"
+                context['Emp_ID'] = 0
+            elif context['groups'][0] == 'director':
+                context['name'] = "Director"
+                context['Emp_ID'] = 0
+
+                
             context['token'] = token.key
         else:
             context['response'] = 'Error'
