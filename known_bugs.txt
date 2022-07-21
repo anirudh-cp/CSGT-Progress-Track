@@ -9,5 +9,8 @@ Fix: Check if a consultancy exists within same time frame and if not then assign
 Journal, book chapter and book editor do not have a date created field. Only a year is assigned. This makes report generation problematic.
 Fix: Implement a date field.
 
-Anyone who is a user can pose as a director or admin and make a call to /register and create a user of any type.
+*Anyone who is a user can pose as a director or admin and make a call to /register and create a user of any type.
 Fix: Check who the token belongs to before creating a user.
+
+Can move back from faculty into login page and the name is still visible in the header.
+Fix: Prevent moving back + erase contents when moved back to login page.

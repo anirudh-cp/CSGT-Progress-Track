@@ -10,7 +10,11 @@ import FacultyHome from './components/faculty/FacultyHome'
 import DirHome from './components/director/DirHome'
 
 import useStore from './API/store'
-import { useEffect } from "react";
+
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import "bootstrap-css-only/css/bootstrap.min.css";
+import "mdbreact/dist/css/mdb.css";
+
 
 function App() {
 
