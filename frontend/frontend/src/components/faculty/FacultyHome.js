@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 
 import All from "./All";
 import Journal from "./journal/Journal";
-import Conference from "./Conference";
+import Conference from "./conference/Conference";
 import Event from "./Event";
 import Consultancy from "./Consultancy";
 import Chapter from "./Chapter";
@@ -41,7 +41,7 @@ export default function FacultyHome() {
                     <Journal key={key}/>
                 </TabPanel>
                 <TabPanel>
-                    <Conference />
+                    <Conference key={key} />
                 </TabPanel>
                 <TabPanel>
                     <Event />

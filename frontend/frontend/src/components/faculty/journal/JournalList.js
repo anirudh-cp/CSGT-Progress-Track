@@ -20,8 +20,8 @@ const JournalList = ({ data }) => {
 
 
     return (
-        <div>
-            <MDBTable striped>
+        <div key="journal-key">
+            <MDBTable striped key="journal-table-key">
                 <MDBTableHead>
                     <tr key="head-record">
                         <th scope="col">Title</th>
@@ -34,7 +34,7 @@ const JournalList = ({ data }) => {
                 <MDBTableBody>
                     {
                         data.map(obj => {
-                            return (<tr key={obj._id}>
+                            return (<tr key={obj.id}>
                                 <th scope="row" > {obj.title} </th>
                                 <th> {obj.Author_pos} </th>
                                 <th> {obj.Journal_name} </th>

@@ -4,8 +4,7 @@ import {
 } from "mdb-react-ui-kit";
 
 
-const JournalView = ({ record }) => {
-
+const ConferenceView = ({ record }) => {
     return (
         <div style={{height:"60vh"}}>
             <h2>Additional Information</h2>
@@ -18,8 +17,16 @@ const JournalView = ({ record }) => {
                             <td> {record.title} </td>
                         </tr>
                         <tr>
-                            <th scope="row" > Journal </th>
-                            <td> {record.Journal_name} </td>
+                            <th scope="row" > Conference </th>
+                            <td> {record.Conference_name} </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" > Conference location </th>
+                            <td> {record.Place_of_conference} </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" > Type of conference </th>
+                            <td> {record.Type} </td>
                         </tr>
                         <tr>
                             <th scope="row" > Designation </th>
@@ -38,32 +45,24 @@ const JournalView = ({ record }) => {
                             <td> {record.Collaboration} </td>
                         </tr>
                         <tr>
-                            <th scope="row" > Impact Factor </th>
-                            <td> {record.Impact_factor} </td>
-                        </tr>
-                        <tr>
                             <th scope="row" > Type of Publication </th>
                             <td> {record.Type_of_publication} </td>
                         </tr>
                         <tr>
-                            <th scope="row" > Volume Number </th>
-                            <td> {record.Vol_no} </td>
+                            <th scope="row" > Start Date </th>
+                            <td> {record.Conference_startdate} </td>
                         </tr>
                         <tr>
-                            <th scope="row" > Issue Number </th>
-                            <td> {record.Issue_no} </td>
-                        </tr>
-                        <tr>
-                            <th scope="row" > Indexing </th>
-                            <td> {record.Indexing} </td>
-                        </tr>
-                        <tr>
-                            <th scope="row" > Year </th>
-                            <td> {record.year} </td>
+                            <th scope="row" > End Date </th>
+                            <td> {record.Conference_enddate} </td>
                         </tr>
                         <tr>
                             <th scope="row" > DOI </th>
                             <td> {record.DOI} </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" > Indexed in SCOPUS? </th>
+                            <td> {record.Indexed_Scopus} </td>
                         </tr>
                         <tr>
                             <th scope="row" > Funder Name </th>
@@ -85,4 +84,4 @@ const JournalView = ({ record }) => {
     )
 }
 
-export default JournalView
+export default ConferenceView

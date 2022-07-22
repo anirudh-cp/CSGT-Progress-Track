@@ -7,7 +7,7 @@ import Loading from "../../common/Loading";
 import EmptyResults from "../../common/EmptyResults"
 
 
-export default function FacultyHomeAll() {
+export default function Journal() {
 
     const APIObject = new API();
     const { token, filterStartDate, filterEndDate } = useStore();
