@@ -5,7 +5,7 @@ import All from "./All";
 import Journal from "./journal/Journal";
 import Conference from "./conference/Conference";
 import Event from "./Event";
-import Consultancy from "./Consultancy";
+import Consultancy from "./consultancy/Consultancy";
 import Chapter from "./Chapter";
 import Editor from "./Editor";
 import Patent from "./Patent";
@@ -47,7 +47,7 @@ export default function FacultyHome() {
                     <Event />
                 </TabPanel>
                 <TabPanel>
-                    <Consultancy />
+                    <Consultancy key={key}/>
                 </TabPanel>
                 <TabPanel>
                     <Chapter />
