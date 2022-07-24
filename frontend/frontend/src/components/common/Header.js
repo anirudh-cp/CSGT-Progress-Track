@@ -11,7 +11,7 @@ const Header = ({ Name }) => {
     <div>
       <header className="">
         {/* Navbar */}
-        <MDBNavbar expand="lg" dark style={{ backgroundColor: "#00008B" , height: "67px"}}>
+        <MDBNavbar expand="lg" dark style={{ backgroundColor: "#00008B" , height: "67px", padding:"0px"}}>
           <MDBContainer fluid>
             <MDBNavbarBrand style={{color: "white"}}>
               {Name != "" ? "Welcome " + Name : ""}

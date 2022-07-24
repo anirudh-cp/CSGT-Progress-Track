@@ -1,13 +1,13 @@
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
-import All from "./All";
+import All from "./all/All";
 import Journal from "./journal/Journal";
 import Conference from "./conference/Conference";
-import Event from "./Event";
+import Event from "./events/Event";
 import Consultancy from "./consultancy/Consultancy";
 import Chapter from "./chapter/Chapter";
-import Editor from "./Editor";
+import Editor from "./editor/Editor";
 import Patent from "./patents/Patents";
 import Filter from "./Filter";
 
@@ -22,7 +22,7 @@ export default function FacultyHome() {
         <div className="">
             <Tabs className="Tabs">
                 <TabList>
-                    <Tab>All</Tab>
+                    {/* <Tab>All</Tab> */}
                     <Tab>Journal</Tab>
                     <Tab>Conference</Tab>
                     <Tab>Event</Tab>
@@ -34,9 +34,10 @@ export default function FacultyHome() {
 
                 <Filter setKey={setKey}/>
 
-                <TabPanel>
+                {/* <TabPanel>
                     <All />
                 </TabPanel>
+                 */}
                 <TabPanel>
                     <Journal key={key}/>
                 </TabPanel>
@@ -44,7 +45,7 @@ export default function FacultyHome() {
                     <Conference key={key} />
                 </TabPanel>
                 <TabPanel>
-                    <Event />
+                    <Event key={key}/>
                 </TabPanel>
                 <TabPanel>
                     <Consultancy key={key}/>
@@ -53,7 +54,7 @@ export default function FacultyHome() {
                     <Chapter key={key}/>
                 </TabPanel>
                 <TabPanel>
-                    <Editor />
+                    <Editor key={key}/>
                 </TabPanel>
                 <TabPanel>
                     <Patent key={key} />

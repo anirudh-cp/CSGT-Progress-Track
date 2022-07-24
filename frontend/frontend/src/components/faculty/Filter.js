@@ -11,6 +11,15 @@ const Filter = ({ setKey }) => {
         setFilterEndDate(new Date());
     }, [])
 
+    const handleClick = () => {
+        if (filterStartDate <= filterEndDate) {
+            setKey(Date.now());
+        }
+        else {
+            alert("Start date cannot exceed end date.")
+            setFilterStartDate(filterEndDate);
+        }
+    }
 
     return (
         <div className="d-flex justify-content-center pt-3 pb-4">
@@ -32,7 +41,7 @@ const Filter = ({ setKey }) => {
 
                 <span className="pl-2">
                     <button className="ripple ripple-surface ripple-surface-light btn btn-dark btn-sm mx-2"
-                        size="sm" color="dark" onClick={() => {setKey(Date.now())}}>
+                        size="sm" color="dark" onClick={handleClick}>
                         Filter
                     </button>
                 </span>
