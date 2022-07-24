@@ -14,10 +14,12 @@ import API from "../../../API/APIService";
 const ConsultancyList = ({ data }) => {
 
     const [show, setShow] = useState(false)
+    const [currentRecord, setCurrentRecord] = useState([])
 
     const APIObject = new API();
 
-    const handleClick = () => {
+    const handleClick = (obj) => {
+        setCurrentRecord(obj);
         setShow(!show);
     }
 
@@ -45,9 +47,9 @@ const ConsultancyList = ({ data }) => {
                                 <td>
                                     <div className="d-grid gap-2 flex justify-content-md-end">
                                         <Modal handleClick={handleClick} show={show}
-                                            childElement={<ConsultancyView record={obj} />}></Modal>
+                                            childElement={<ConsultancyView record={currentRecord} />}></Modal>
                                         <button className="ripple ripple-surface ripple-surface-light btn btn-dark btn-sm mx-2"
-                                            size="sm" color="dark" onClick={handleClick}>
+                                            size="sm" color="dark" onClick={() => {handleClick(obj)}}>
                                             View
                                         </button>
                                     </div>

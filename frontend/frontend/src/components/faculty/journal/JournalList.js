@@ -13,11 +13,12 @@ import JournalView from "./JournalView";
 const JournalList = ({ data }) => {
 
     const [show, setShow] = useState(false)
+    const [currentRecord, setCurrentRecord] = useState([])
 
-    const handleClick = () => {
+    const handleClick = (obj) => {
+        setCurrentRecord(obj);
         setShow(!show);
     }
-
 
     return (
         <div key="journal-key">
@@ -42,9 +43,9 @@ const JournalList = ({ data }) => {
                                 <td>
                                     <div className="d-grid gap-2 flex justify-content-md-end">
                                         <Modal handleClick={handleClick} show={show} 
-                                        childElement={<JournalView record={obj} />}></Modal>
+                                        childElement={<JournalView record={currentRecord} />}></Modal>
                                         <button className="ripple ripple-surface ripple-surface-light btn btn-dark btn-sm mx-2"
-                                            size="sm" color="dark" onClick={handleClick}>
+                                            size="sm" color="dark" onClick={() => {handleClick(obj)}}>
                                             View
                                         </button>
                                     </div>
