@@ -6,7 +6,7 @@ import Journal from "./journal/Journal";
 import Conference from "./conference/Conference";
 import Event from "./Event";
 import Consultancy from "./consultancy/Consultancy";
-import Chapter from "./Chapter";
+import Chapter from "./chapter/Chapter";
 import Editor from "./Editor";
 import Patent from "./patents/Patents";
 import Filter from "./Filter";
@@ -50,7 +50,7 @@ export default function FacultyHome() {
                     <Consultancy key={key}/>
                 </TabPanel>
                 <TabPanel>
-                    <Chapter />
+                    <Chapter key={key}/>
                 </TabPanel>
                 <TabPanel>
                     <Editor />
