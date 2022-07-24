@@ -1,26 +1,13 @@
-import React, { useState } from "react";
-import "@fortawesome/fontawesome-free/css/all.min.css";
-import "mdbreact/dist/css/mdb.css";
-
-import DatePicker from "react-date-picker/dist/entry.nostyle";
-
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
 import {
-  MDBContainer,
-  MDBInput,
-  MDBCol,
-  MDBRow,
-  MDBCheckbox,
-  MDBBtn,
-  MDBIcon,
   MDBTypography,
 } from "mdb-react-ui-kit";
 
-import ProgressReport from "./ProgressReport";
+import ProgressReport from "./progress/ProgressReport";
 import Faculty from "./Faculty";
 
-import "./DirectorCSS.css";
+import "./../../assets/director.css"
 
 export default function App() {
   return (

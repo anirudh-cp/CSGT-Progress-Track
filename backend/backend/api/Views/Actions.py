@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
 from django.db.models import F
+from django.db.models import IntegerField
+from django.db.models.functions import Cast
 
 from xhtml2pdf import pisa
 from django.http import HttpResponse
@@ -54,16 +56,25 @@ class ActionsApiView(APIView):
 
         if 'journal' in data:
             queryData = journal.objects.filter(year__gte=startDate.year, year__lte=endDate.year)
-            dataPool.extend(queryData.values('Emp_ID', 'title', 'Journal_name', date=F('year')))
+            temp = queryData.values('Emp_ID', 'title', 'Journal_name', date=F('year'))
+            for index, val in enumerate(temp):
+                temp[index]['date'] = datetime.date(val['date'], 1, 1)
+            dataPool.extend(temp)
         
         if 'book_chapter' in data:
             queryData = book_chapter.objects.filter(year__gte=startDate.year, year__lte=endDate.year)
-            dataPool.extend(queryData.values('Emp_ID', 'title', 'book_title', date=F('year')))
-            
-        if 'book_editor' in data:
+            temp = queryData.values('Emp_ID', 'title', 'book_title',  date=F('year'))
+            for index, val in enumerate(temp):
+                temp[index]['date'] = datetime.date(val['date'], 1, 1)
+            dataPool.extend(temp)
+
+        if 'publisher_name' in data:
             queryData = book_editor.objects.filter(year__gte=startDate.year, year__lte=endDate.year)
-            dataPool.extend(queryData.values('Emp_ID', 'title', 'publisher_name', date=F('year')))
-            
+            temp = queryData.values('Emp_ID', 'title', 'publisher_name',  date=F('year'))
+            for index, val in enumerate(temp):
+                temp[index]['date'] = datetime.date(val['date'], 1, 1)
+            dataPool.extend(temp)
+
 
         dataPool = sorted(dataPool, key=lambda d: d['date'])
         
@@ -85,9 +96,9 @@ class ActionsApiView(APIView):
                 line = line + f"ends consulting with {record['company_nameE']}."
             elif 'patent_title' in record:
                 line = line + f"creates patent about {record['patent_title']}."
-            elif 'journal' in record:
+            elif 'Journal_name' in record:
                 line = line + f"publishes journal {record['title']} in {record['Journal_name']}."
-            elif 'book_chapter' in record:
+            elif 'book_title' in record:
                 line = line + f"publishes a book chapter {record['title']} in {record['book_title']}."
             elif 'book_editor' in record:
                 line = line + f"publishes a book editorial {record['title']} with {record['publisher_name']} publications."

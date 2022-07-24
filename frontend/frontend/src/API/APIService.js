@@ -1,12 +1,15 @@
+import { saveAs } from "file-saver";
+
+
 class API {
     async getPublicationsData(token, type, startDate, endDate) {
-        
+
         const response = await fetch('http://127.0.0.1:8000/api/publications/' + type + '/' + startDate + '/' + endDate, {
             method: 'get',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Token ${token}`
-              }
+            }
         }).catch((error) => {
             // Your error is here!
             alert('Cannot connect to server. Please try again later.')
@@ -20,7 +23,7 @@ class API {
             // console.log("End API");
             return data;
         }
-        else{
+        else {
             console.log("Returning none")
             return []
         }
@@ -28,14 +31,13 @@ class API {
     }
 
 
-    async getConsultancyData(token, startDate, endDate)
-    {
+    async getConsultancyData(token, startDate, endDate) {
         const response = await fetch('http://127.0.0.1:8000/api/consultancy/' + startDate + '/' + endDate, {
             method: 'get',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Token ${token}`
-              }
+            }
         }).catch((error) => {
             // Your error is here!
             alert('Cannot connect to server. Please try again later.')
@@ -49,7 +51,7 @@ class API {
             // console.log("End API");
             return data;
         }
-        else{
+        else {
             console.log("Returning none")
             return []
         }
@@ -57,25 +59,24 @@ class API {
     }
 
 
-    returnDuration(end, start)
-    {
+    returnDuration(end, start) {
         var strftime = require('strftime');
         // Return the duration between two dates.
         // First subtract the dates. This is returned in the form of YYYY-MM-DD relative to 1st of Jan 1970 (UNIX epoch).
         // Subtract the appropriate values and then return the relevant string
         let duration = strftime("%Y-%m-%d", new Date(new Date(end) - new Date(start)));
-        let durations = duration.split('-').map(x => {return Number(x);})
+        let durations = duration.split('-').map(x => { return Number(x); })
 
         durations[0] -= 1970
         durations[1] -= 1
         durations[2] -= 1
 
         let resString = ""
-        if(durations[0] !== 0){ 
+        if (durations[0] !== 0) {
             resString += durations[0] + " years, "
         }
 
-        if(durations[1] !== 0){
+        if (durations[1] !== 0) {
             resString += durations[1] + " months, "
         }
 
@@ -85,14 +86,13 @@ class API {
     }
 
 
-    async getPatentData(token, startDate, endDate)
-    {
+    async getPatentData(token, startDate, endDate) {
         const response = await fetch('http://127.0.0.1:8000/api/patent/' + startDate + '/' + endDate, {
             method: 'get',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Token ${token}`
-              }
+            }
         }).catch((error) => {
             // Your error is here!
             alert('Cannot connect to server. Please try again later.')
@@ -106,7 +106,7 @@ class API {
             // console.log("End API");
             return data;
         }
-        else{
+        else {
             console.log("Returning none")
             return []
         }
@@ -114,6 +114,69 @@ class API {
     }
 
 
+    async getReport(token, startDate, endDate, params) {
+
+        // TODO: Implement a dictionary to map the params to the path.
+
+        let path = ''
+        if(params.includes("Journal")) {
+            path += '/journal'
+        }
+
+        if(params.includes("Conference")) {
+            path += '/conference'
+        }
+        
+        if(params.includes("Event")) {
+            // path += '/event'
+        }
+        
+        if(params.includes("Consultancy")) {
+            path += '/consultancy'
+        }
+
+        if(params.includes("Book Chapter")) {
+            path += '/book_chapter'
+        }
+
+        if(params.includes("Book Editor")) {
+            path += '/book_editor'
+        }
+
+        if(params.includes("Patents")) {
+            path += '/patent'
+        }
+
+        const response = await fetch('http://127.0.0.1:8000/api/actions/' + startDate + '/' + endDate + path, {
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Token ${token}`
+            }
+        }).then((response) => response.blob())
+            .then((blob) => {
+
+                // https://medium.com/yellowcode/download-api-files-with-react-fetch-393e4dae0d9e
+
+                // 2. Create blob link to download
+                const url = window.URL.createObjectURL(new Blob([blob]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', "CSGT_Report.PDF");
+                // 3. Append to html page
+                document.body.appendChild(link);
+                // 4. Force download
+                link.click();
+                // 5. Clean up and remove the link
+                link.parentNode.removeChild(link);
+
+            }).catch((error) => {
+                // Your error is here!
+                console.log(error)
+                alert('Cannot connect to server. Please try again later.')
+            });
+
+    }
 
 }
 

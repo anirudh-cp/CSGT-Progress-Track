@@ -14,3 +14,6 @@ Fix: Check who the token belongs to before creating a user.
 
 Can move back from faculty into login page and the name is still visible in the header.
 Fix: Prevent moving back + erase contents when moved back to login page.
+
+Book editor does not have unique named column for identification in report generation.
+Fix: Change title to be book_title
