@@ -8,7 +8,7 @@ import Event from "./Event";
 import Consultancy from "./consultancy/Consultancy";
 import Chapter from "./Chapter";
 import Editor from "./Editor";
-import Patent from "./Patent";
+import Patent from "./patents/Patents";
 import Filter from "./Filter";
 
 import "../../assets/faculty.css";
@@ -56,7 +56,7 @@ export default function FacultyHome() {
                     <Editor />
                 </TabPanel>
                 <TabPanel>
-                    <Patent />
+                    <Patent key={key} />
                 </TabPanel>
             </Tabs>
         </div>
