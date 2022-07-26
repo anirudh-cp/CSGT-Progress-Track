@@ -12,7 +12,7 @@ import DirHome from './components/director/DirHome'
 import ProfilePage from './components/profile/ProfilePage'
 import JournalForm from './components/forms/JournalForm'
 
-import useStore from './API/store'
+import useUserStore from "./API/Stores/UserStore";
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
@@ -21,7 +21,7 @@ import "mdbreact/dist/css/mdb.css";
 
 function App() {
 
-  const { name } = useStore();
+  const { name } = useUserStore();
 
   return (
     <div className="overflow-hidden">

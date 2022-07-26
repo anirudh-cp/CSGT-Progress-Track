@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import useStore from '../../../API/store'
+import useUserStore from "../../../API/Stores/UserStore";
 import API from '../../../API/APIService'
 import FacultyList from "./FacultyList";
 import Loading from "../../common/Loading";
@@ -10,7 +10,7 @@ import EmptyResults from "../../common/EmptyResults"
 export default function Faculty() {
 
     const APIObject = new API();
-    const { token } = useStore();
+    const { token } = useUserStore();
     const [data, setData] = useState([]);
     const [load, setLoad] = useState(true);
     var strftime = require('strftime');

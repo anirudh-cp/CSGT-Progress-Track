@@ -4,13 +4,13 @@ import { MDBRow } from "mdb-react-ui-kit";
 import DatePickerTab from "./DatePickerTab"
 import InputContainer from "./InputContainer";
 import API from "../../../API/APIService";
-import useStore from '../../../API/store'
+import useUserStore from "../../../API/Stores/UserStore";
 
 
 export default function App() {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
-    const { token } = useStore();
+    const { token } = useUserStore();
     var strftime = require('strftime');
     const [out, setOut] = useState(["Journal", "Conference", "Event", "Consultancy", "Book Chapter", "Book Editor", "Patents"]);
 

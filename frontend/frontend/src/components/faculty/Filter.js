@@ -1,10 +1,11 @@
 import DatePicker from "react-date-picker/dist/entry.nostyle";
 import React, { useEffect } from "react";
-import useStore from "../../API/store";
+import useFilterStore from "../../API/Stores/FilterStore";
+
 
 const Filter = ({ setKey }) => {
 
-    const { filterStartDate, filterEndDate, setFilterStartDate, setFilterEndDate } = useStore();
+    const { filterStartDate, filterEndDate, setFilterStartDate, setFilterEndDate } = useFilterStore();
 
     useEffect(() => {
         setFilterStartDate(new Date());

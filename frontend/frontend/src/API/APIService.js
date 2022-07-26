@@ -1,6 +1,3 @@
-import { saveAs } from "file-saver";
-
-
 class API {
     async getPublicationsData(token, type, startDate, endDate) {
 

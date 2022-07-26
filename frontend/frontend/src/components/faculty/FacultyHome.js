@@ -1,5 +1,5 @@
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import All from "./all/All";
 import Journal from "./journal/Journal";
@@ -11,13 +11,24 @@ import Editor from "./editor/Editor";
 import Patent from "./patents/Patents";
 import Filter from "./Filter";
 
+import useUserStore from "../../API/Stores/UserStore";
+import { useNavigate } from 'react-router-dom';  
+
 import "../../assets/faculty.css";
 
 
 export default function FacultyHome() {
 
     const [key, setKey] = useState(new Date);
+    const { group, token } = useUserStore();
+    const navigate = useNavigate();
 
+    useEffect(() => {
+        if(group !== 'faculty' && token === '')
+            navigate('/');
+    }, [])
+    
+    
     return (
         <div className="">
             <Tabs className="Tabs" style={{color:"black"}}>

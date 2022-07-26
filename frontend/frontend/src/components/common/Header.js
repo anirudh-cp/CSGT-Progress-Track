@@ -14,12 +14,12 @@ const Header = ({ Name }) => {
         <MDBNavbar expand="lg" dark style={{ backgroundColor: "#00008B" , height: "67px", padding:"0px"}}>
           <MDBContainer fluid>
             <MDBNavbarBrand style={{color: "white"}}>
-              {Name != "" ? "Welcome " + Name : ""}
+              {Name != "" && Name != undefined ? "Welcome " + Name : ""}
             </MDBNavbarBrand>
 
-            {Name != "" &&
+            {Name != "" && Name != undefined && 
               
-                <button outline color="light" size="md" onClick={(e) => e.preventDefault()}
+                <button color="light" size="md" onClick={(e) => e.preventDefault()}
                 className="ripple ripple-surface ripple-surface-dark btn btn-outline-light btn-md">
                   Profile
                 </button>

@@ -1,39 +1,39 @@
 import './../../assets/home.css'
 
-import useStore from '../../API/store'
-import UseFish from '../../API/fish'
-import { useEffect } from "react";
 import Login from "../../API/Login";
 
+import useAuthStore from '../../API/Stores/AuthStore';
+import useUserStore from '../../API/Stores/UserStore';
 
 import { useNavigate } from 'react-router-dom';  
+import { useEffect } from 'react';
 
 
 export default function Home() {
 
     const navigate = useNavigate();
-    const { email, password, groups, 
-        setEmail, setPassword, setErrors, setToken, 
-        setLoading, setGroup, setName, setEmpID } = useStore();
-
-    const {fishes, setFish } = UseFish();
+    const { email, password, setEmail, setPassword, setErrors, AuthDeleteEverything } = useAuthStore();
+    const { group, setToken, setGroup, setName, setEmpID, UserDeleteEverything } = useUserStore();
 
     const login = new Login();
 
+    useEffect(() => {
+        AuthDeleteEverything();
+        UserDeleteEverything();
+    }, [])
+    
+
     const onsubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
-        setFish(10);
-        console.log(fishes)
-
-        // const groups = await login.login(email, password, setEmail, setPassword, setErrors, setToken, setGroup, setName, setEmpID);
-        if (groups === 'faculty') {
+        const response = await login.login(email, password, setEmail, setPassword, setErrors, setToken, setGroup, setName, setEmpID);
+        if (response === 'faculty') {
             navigate("/faculty");
         }
-        else if (groups === 'director') {
+        else if (response === 'director') {
             navigate("/director");
         }
-        else if (groups === 'admin') {
+        else if (response === 'admin') {
             navigate("/admin");
         }
     }
