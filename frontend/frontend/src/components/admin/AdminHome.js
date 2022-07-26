@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import "bootstrap-css-only/css/bootstrap.min.css";
-import "mdbreact/dist/css/mdb.css";
 
 import Addition from "./Addition";
 import Deletion from "./Deletion";
@@ -24,9 +22,6 @@ import {
 } from "mdb-react-ui-kit";
 
 export default function AdminHome() {
-  const [value1, onChange1] = useState(new Date());
-  const [value2, onChange2] = useState(new Date());
-
   return (
     <div className="">
       <Tabs className="Tabs">
@@ -39,7 +34,7 @@ export default function AdminHome() {
           <Addition />
         </TabPanel>
         <TabPanel>
-          <Addition />
+          <Deletion />
         </TabPanel>
         <TabPanel>
           <Permission />

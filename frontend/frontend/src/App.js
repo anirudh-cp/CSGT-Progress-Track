@@ -9,6 +9,9 @@ import AdminHome from './components/admin/AdminHome'
 import FacultyHome from './components/faculty/FacultyHome'
 import DirHome from './components/director/DirHome'
 
+import ProfilePage from './components/profile/ProfilePage'
+import JournalForm from './components/forms/JournalForm'
+
 import useStore from './API/store'
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -31,6 +34,8 @@ function App() {
           <Route exact path='/admin' element={<AdminHome />}></Route>
           <Route exact path='/faculty' element={<FacultyHome />}></Route>
           <Route exact path='/director' element={<DirHome />}></Route>
+          <Route exact path='/profile' element={<ProfilePage />}></Route>
+          {/* <Route exact path='/forms' element={<JournalForm />}></Route> */}
           <Route path="*" element={<NoPage />}></Route>
         </Routes>
       </Router>

@@ -38,12 +38,16 @@ border-width: 20px;
   margin-top: 30px;
 }
 
+.top-container{
+  color: #000000;
+}
+
 .input {
   background-color: #FFFFFF;
   border-radius: 12px;
   border: 0;
   box-sizing: border-box; 
-  color: #eee;
+  color: #000000;
   font-size: 18px;
   height: 100%;
   outline: 0;
@@ -114,6 +118,14 @@ border-width: 20px;
 
 .submit:active {
   background-color: #06b;
+}
+
+.dropdown {
+  color: #65657b;
+  font-family: sans-serif;
+  font-size: medium;
+  line-height: 14px;
+  transition: transform 200ms, color 200ms;
 }
 
 

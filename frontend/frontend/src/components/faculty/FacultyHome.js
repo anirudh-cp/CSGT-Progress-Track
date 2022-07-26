@@ -20,7 +20,7 @@ export default function FacultyHome() {
 
     return (
         <div className="">
-            <Tabs className="Tabs">
+            <Tabs className="Tabs" style={{color:"black"}}>
                 <TabList>
                     {/* <Tab>All</Tab> */}
                     <Tab>Journal</Tab>

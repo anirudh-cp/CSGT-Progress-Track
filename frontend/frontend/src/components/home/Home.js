@@ -1,6 +1,7 @@
-import "./HomeCSS.css";
+import './../../assets/home.css'
 
 import useStore from '../../API/store'
+import UseFish from '../../API/fish'
 import { useEffect } from "react";
 import Login from "../../API/Login";
 
@@ -15,30 +16,17 @@ export default function Home() {
         setEmail, setPassword, setErrors, setToken, 
         setLoading, setGroup, setName, setEmpID } = useStore();
 
-    useEffect(() => {
-        if (localStorage.getItem('token') !== null) {
-
-            if (groups === 'faculty') {
-                navigate("/faculty");
-            }
-            else if (groups === 'director') {
-                navigate("/director");
-            }
-            else if (groups === 'admin') {
-                navigate("/admin");
-            }
-
-        } else {
-            setLoading(false);
-        }
-    }, []);
-
+    const {fishes, setFish } = UseFish();
 
     const login = new Login();
 
     const onsubmit = async (e) => {
         e.preventDefault()
-        const groups = await login.login(email, password, setEmail, setPassword, setErrors, setToken, setGroup, setName, setEmpID);
+
+        setFish(10);
+        console.log(fishes)
+
+        // const groups = await login.login(email, password, setEmail, setPassword, setErrors, setToken, setGroup, setName, setEmpID);
         if (groups === 'faculty') {
             navigate("/faculty");
         }
@@ -48,22 +36,22 @@ export default function Home() {
         else if (groups === 'admin') {
             navigate("/admin");
         }
-
     }
 
     return (
         <div className="d-flex justify-content-center">
-            <div className="form justify-content-center">
-                <div className="title">Log In</div>
+            <div className="form-home justify-content-center">
+                <div className="title-home">Log In</div>
 
-                <form onSubmit={onsubmit}>
+                <form onSubmit={onsubmit} autoComplete="off">
                     <div className="input-container ic2">
-                        <input id="email" className="input" type="text"
+                        <input id="email" className="input" type="email"
                             placeholder=" " value={email}
                             required
-                            onChange={e => setEmail(e.target.value)} />
-                        <div className="cut cut-short" />
-                        <label htmlFor="email" className="placeholder">
+                            onChange={e => setEmail(e.target.value)} 
+                            />
+                        <div className="cut_home cut-short" />
+                        <label htmlFor="email" className="placeholder_home">
                             Email
                         </label>
                     </div>
@@ -72,9 +60,10 @@ export default function Home() {
                         <input id="password" className="input" type="password" placeholder=" "
                             value={password}
                             required
-                            onChange={e => setPassword(e.target.value)} />
-                        <div className="cut" />
-                        <label htmlFor="password" className="placeholder">
+                            onChange={e => setPassword(e.target.value)} 
+                            autoComplete="new-password"/>
+                        <div className="cut_home" />
+                        <label htmlFor="password" className="placeholder_home">
                             Password
                         </label>
                     </div>
