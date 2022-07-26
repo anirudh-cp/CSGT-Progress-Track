@@ -1,14 +1,8 @@
-import {
-    MDBTable,
-    MDBTableHead,
-    MDBTableBody,
-    MDBTypography
-} from "mdb-react-ui-kit";
-
+import { MDBTable, MDBTableHead, MDBTableBody, MDBTypography } from "mdb-react-ui-kit";
 
 import { useState } from "react";
 import Modal from "../../common/Modal";
-import FacultyView from "./FacultyView";
+import Profile from './../../profile/Profile'
 
 
 const FacultyList = ({ data }) => {
@@ -60,7 +54,7 @@ const FacultyList = ({ data }) => {
                                 <td>
                                     <div className="d-grid gap-2 flex justify-content-md-end">
                                         <Modal handleClick={handleClick} show={show}
-                                            childElement={<FacultyView record={currentRecord} />}></Modal>
+                                            childElement={<Profile record={currentRecord} />}></Modal>
                                         <button className="ripple ripple-surface ripple-surface-light btn btn-dark btn-sm mx-2"
                                             size="sm" color="dark" onClick={() => { handleClick(obj) }}>
                                             View

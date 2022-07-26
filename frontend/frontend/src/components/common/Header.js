@@ -1,54 +1,44 @@
-import {
-  MDBNavbar,
-  MDBContainer,
-  MDBNavbarBrand,
-} from "mdb-react-ui-kit";
+import { MDBNavbar, MDBContainer, MDBNavbarBrand, MDBDropdown, MDBDropdownMenu, MDBDropdownToggle, MDBDropdownItem, MDBDropdownLink } from "mdb-react-ui-kit";
+import useUserStore from "../../API/Stores/UserStore";
+
+import Dropdown from "./Dropdown";
+
+const Header = () => {
+
+    const { name } = useUserStore();
+
+    return (
+        <header className="">
+            {/* Navbar */}
+            <MDBNavbar expand="lg" dark style={{ backgroundColor: "#00008B", height: "67px", padding: "0px" }}>
+                <MDBContainer fluid>
+
+                    <MDBNavbarBrand style={{ color: "white" }}>
+                        {name != "" && name != undefined ? "Welcome " + name : ""}
+                    </MDBNavbarBrand>
+
+                    {name != "" && name != undefined &&
+                        <Dropdown />
+                    }
+                </MDBContainer>
+            </MDBNavbar>
 
 
-const Header = ({ Name }) => {
+            {/* HEADING TEXT */}
+            <div className="m-4">
+                <p className="text-center h2 p-3" style={{ fontWeight: "bold" }}>
+                    VITCC - Centre for Smart Grid Technologies
+                </p>
+            </div>
 
-  return (
-    <div>
-      <header className="">
-        {/* Navbar */}
-        <MDBNavbar expand="lg" dark style={{ backgroundColor: "#00008B" , height: "67px", padding:"0px"}}>
-          <MDBContainer fluid>
-            <MDBNavbarBrand style={{color: "white"}}>
-              {Name != "" && Name != undefined ? "Welcome " + Name : ""}
-            </MDBNavbarBrand>
+            {/* LINE SEPARATOR */}
+            <hr
+                className=" mb-5 flex"
+                style={{background: "#007BFF", color: "#007BFF", borderColor: "#007BFF", height: "1px" }}
+            />
+        </header>
 
-            {Name != "" && Name != undefined && 
-              
-                <button color="light" size="md" onClick={(e) => e.preventDefault()}
-                className="ripple ripple-surface ripple-surface-dark btn btn-outline-light btn-md">
-                  Profile
-                </button>
-  
-            }
-
-          </MDBContainer>
-        </MDBNavbar>
-        {/* HEADING TEXT */}
-
-        <div className="m-4">
-          <p className="text-center h2 p-3" style={{ fontWeight: "bold" }}>
-            VITCC - Centre for Smart Grid Technologies
-          </p>
-        </div>
-
-        {/* LINE SEPARATOR */}
-        <hr
-          className=" mb-5 flex"
-          style={{
-            background: "#007BFF",
-            color: "#007BFF",
-            borderColor: "#007BFF",
-            height: "1px",
-          }}
-        />
-      </header>
-    </div>
-  );
+    );
 };
 
 export default Header;

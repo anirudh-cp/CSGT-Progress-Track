@@ -9,10 +9,7 @@ import AdminHome from './components/admin/AdminHome'
 import FacultyHome from './components/faculty/FacultyHome'
 import DirHome from './components/director/DirHome'
 
-import ProfilePage from './components/profile/ProfilePage'
 import JournalForm from './components/forms/JournalForm'
-
-import useUserStore from "./API/Stores/UserStore";
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
@@ -21,12 +18,10 @@ import "mdbreact/dist/css/mdb.css";
 
 function App() {
 
-  const { name } = useUserStore();
-
   return (
     <div className="overflow-hidden">
 
-      <Header Name={name} />
+      <Header />
 
       <Router>
         <Routes>
@@ -34,7 +29,6 @@ function App() {
           <Route exact path='/admin' element={<AdminHome />}></Route>
           <Route exact path='/faculty' element={<FacultyHome />}></Route>
           <Route exact path='/director' element={<DirHome />}></Route>
-          <Route exact path='/profile' element={<ProfilePage />}></Route>
           {/* <Route exact path='/forms' element={<JournalForm />}></Route> */}
           <Route path="*" element={<NoPage />}></Route>
         </Routes>

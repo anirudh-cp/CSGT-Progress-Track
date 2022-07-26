@@ -13,7 +13,6 @@ export default function Faculty() {
     const { token } = useUserStore();
     const [data, setData] = useState([]);
     const [load, setLoad] = useState(true);
-    var strftime = require('strftime');
 
     const GetAPI = async () => {
         setLoad(true);

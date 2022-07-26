@@ -9,9 +9,9 @@ const Modal = ({ handleClick, show, childElement }) => {
         <div className={outer} onClick={handleClick}>
             <div className='modal-main_' onClick={e => e.stopPropagation()}>
                 {childElement}
-                <button type="button" onClick={handleClick}>
+                {/* <button type="button" onClick={handleClick}>
                     Click
-                </button>
+                </button> */}
             </div>
         </div>
     )
