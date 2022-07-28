@@ -1,19 +1,6 @@
-import React, { useState } from "react";
-import "@fortawesome/fontawesome-free/css/all.min.css";
-import "bootstrap-css-only/css/bootstrap.min.css";
-import "mdbreact/dist/css/mdb.css";
-
 import DatePicker from "react-date-picker/dist/entry.nostyle";
+import React, { useState } from "react";
 
-import "./AdminCSS.css";
-
-import {
-  MDBInput,
-  MDBCol,
-  MDBRow,
-  MDBCheckbox,
-  MDBBtn,
-} from "mdb-react-ui-kit";
 
 export default function App() {
   const [value1, onChange1] = useState(new Date());

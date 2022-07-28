@@ -295,6 +295,44 @@ class API {
             return 'Error'
         }
     }
+
+
+    async AddUser(token, email, password, password2, destinationGroup)
+    {
+        const response = await fetch('http://127.0.0.1:8000/api/account/register',  {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Token ${token}`
+            },
+            body: JSON.stringify(
+                {
+                    "email": email,
+                    "password": password,
+                    "password2": password2,
+                    "destinationGroup":destinationGroup
+                }
+            ),
+        }).catch((error) => {
+            // Your error is here!
+            console.log(error)
+            alert('Cannot connect to server. Please try again later.')
+        });
+
+
+        if (response.status === 409) {
+            return "The email is already in use."
+        }
+        else if (response.status === 201)
+        {
+            return "User has been created successfully!"
+        }
+        else {
+            console.log(response)
+            return 'Error'
+        }
+    }
+
 }
 
 export default API
