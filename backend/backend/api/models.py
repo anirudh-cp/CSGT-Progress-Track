@@ -72,8 +72,7 @@ class personal(models.Model):
         ('Male', 'Male'),
         ('Female', 'Female'),
     ]
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     Emp_ID = models.IntegerField(primary_key=True)
     Name = models.CharField(max_length=100)
     Designation = models.CharField(max_length=100)
@@ -81,11 +80,11 @@ class personal(models.Model):
     DOJ = models.DateField()
     DOB = models.DateField()
     Gender = models.CharField(max_length=10, choices=GENDER)
-    ORCID_ID = models.IntegerField()
-    Researchgate = models.CharField(max_length=100)
-    linkedin = models.CharField(max_length=100)
-    Google_scholar_name = models.CharField(max_length=100)
-    Personal_page = models.CharField(max_length=100)
+    ORCID_ID = models.IntegerField(null=True, blank=True, default=0)
+    Researchgate = models.CharField(max_length=100, null=True, blank=True)
+    linkedin = models.CharField(max_length=100, null=True, blank=True)
+    Google_scholar_name = models.CharField(max_length=100,null=True, blank=True)
+    Personal_page = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
         return str(self.Emp_ID)

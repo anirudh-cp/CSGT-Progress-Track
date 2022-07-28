@@ -34,6 +34,7 @@ class FacultySingleApiView(APIView):
         ''' Create/Update the record with given data. '''
         
         data = request.data
+        print(data)
         if personal.objects.filter(Emp_ID=Emp_ID).exists():
             record = personal.objects.get(Emp_ID=Emp_ID)
             serializer = personalserializer(record, data=data, partial=True)

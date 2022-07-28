@@ -333,6 +333,42 @@ class API {
         }
     }
 
+
+    async AddFaculty(token, data)
+    {
+        if (data.ORCID_ID === "") {
+            data.ORCID_ID = 0
+        }
+
+        const response = await fetch('http://127.0.0.1:8000/api/faculty/' + data.Emp_ID,  {
+            method: 'put',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Token ${token}`
+            },
+            body: JSON.stringify(data),
+        }).catch((error) => {
+            // Your error is here!
+            console.log(error)
+            alert('Cannot connect to server. Please try again later.')
+        });
+
+
+        if (response.status === 200) {
+            return "Faculty has been created successfully!"
+        }
+        else if (response.status === 201)
+        {
+            return "Faculty has been updated successfully!"
+        }
+        else {
+            let json = await response.json()
+            let str = JSON.stringify(json)
+            console.log(str)
+            return 'Error\n' + str
+        }
+    }
+
 }
 
 export default API
