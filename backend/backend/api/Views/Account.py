@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework import status
 
 from rest_framework.authtoken.models import Token
 
@@ -27,13 +28,13 @@ def registration_view(request):
         if validate_email(email) != None:
             data['error_message'] = 'That email is already in use.'
             data['response'] = 'Error'
-            return Response(data)
+            return Response(data, status=status.HTTP_409_CONFLICT)
 
-        group = request.user.groups.values_list('name',flat = True)
-        if group != 'director' and group != 'admin':
+        group = request.user.groups.values_list('name', flat=True)
+        if not any(item in ('admin', 'director') for item in group):
             data['error_message'] = 'Cannot create new user unless director or admin.'
             data['response'] = 'Error'
-            return Response(data)
+            return Response(data, status=status.HTTP_401_UNAUTHORIZED)
 
         serializer = RegistrationUserSerializer(data=request.data)
 
@@ -46,7 +47,7 @@ def registration_view(request):
             data['token'] = token
         else:
             data = serializer.errors
-        return Response(data)
+        return Response(data, status=status.HTTP_201_CREATED)
 
 
 def validate_email(email):
@@ -90,11 +91,10 @@ class ObtainAuthTokenView(APIView):
             elif context['groups'][0] == 'director':
                 context['name'] = "Director"
                 context['Emp_ID'] = 0
-
                 
             context['token'] = token.key
+            return Response(context, status=status.HTTP_200_OK)
         else:
             context['response'] = 'Error'
             context['error_message'] = 'Invalid credentials'
-
-        return Response(context)
+            return Response(context, status=status.HTTP_404_NOT_FOUND)

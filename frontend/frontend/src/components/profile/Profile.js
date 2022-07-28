@@ -4,7 +4,7 @@ import './../../assets/profile.css'
 import { useEffect } from "react";
 
 
-export default function Home({ record }) {
+export default function Profile({ record }) {
 
   useEffect(() => {
     console.log(record);

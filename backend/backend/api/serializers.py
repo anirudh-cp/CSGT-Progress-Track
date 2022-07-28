@@ -37,6 +37,10 @@ class patentserializer(serializers.ModelSerializer):
 		model=patent
 		fields='__all__'
 
+class accountserializer(serializers.ModelSerializer):
+    class Meta:
+        model=Account
+        fields=('email', 'date_joined', 'is_superuser', 'groups')
 
 
 class RegistrationUserSerializer(serializers.ModelSerializer):

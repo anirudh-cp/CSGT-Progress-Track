@@ -24,7 +24,8 @@ export default function FacultyHome() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(group !== 'faculty' && token === '')
+        console.log(group);
+        if(group != "faculty" || token === '')
             navigate('/');
     }, [])
     

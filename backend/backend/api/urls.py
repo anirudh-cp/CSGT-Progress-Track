@@ -29,7 +29,8 @@ urlpatterns = [
     path('patent/<int:Emp_ID>', PatentSinglePutApiView.as_view()),
     path('patent/<date:startDate>/<date:endDate>', PatentAllApiView.as_view()),
     
-     path('actions/<date:startDate>/<date:endDate>/<path:data>', ActionsApiView.as_view()),
+     path('actions/<date:startDate>/<date:endDate>/<path:data>', ActionsReportApiView.as_view()),
+     path('actions/users', ActionsUsersApiView.as_view()),
      
      path('account/login', ObtainAuthTokenView.as_view()),
      path('account/register', registration_view),
