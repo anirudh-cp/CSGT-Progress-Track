@@ -15,7 +15,6 @@ export default function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(group);
       if(group !== 'director' || token === '')
           navigate('/');
   }, [])

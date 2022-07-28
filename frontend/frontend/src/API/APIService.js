@@ -231,6 +231,70 @@ class API {
 
     }
 
+
+    async DeleteUser(token, email) {
+        const response = await fetch('http://127.0.0.1:8000/api/actions/users',  {
+            method: 'delete',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Token ${token}`
+            },
+            body: JSON.stringify(
+                {
+                    "email": email,
+                }
+            ),
+        }).catch((error) => {
+            // Your error is here!
+            console.log(error)
+            alert('Cannot connect to server. Please try again later.')
+        });
+
+
+        if (response.status === 200 || response.status === 404) {
+            return await response.json()
+        }
+        else {
+            console.log(response)
+            return 'Error'
+        }
+    }
+
+
+    async ChangeGroup(token, email, group)
+    {
+        const response = await fetch('http://127.0.0.1:8000/api/actions/users',  {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Token ${token}`
+            },
+            body: JSON.stringify(
+                {
+                    "email": email,
+                    "group":group
+                }
+            ),
+        }).catch((error) => {
+            // Your error is here!
+            console.log(error)
+            alert('Cannot connect to server. Please try again later.')
+        });
+
+
+        if (response.status === 401 || response.status === 404) {
+            return await response.json()
+        }
+        else if (response.status === 200)
+        {
+            let resp = await response.json()
+            return resp.response + ' to ' + resp.group
+        }
+        else {
+            console.log(response)
+            return 'Error'
+        }
+    }
 }
 
 export default API

@@ -19,13 +19,12 @@ import "../../assets/faculty.css";
 
 export default function FacultyHome() {
 
-    const [key, setKey] = useState(new Date);
+    const [key, setKey] = useState(new Date());
     const { group, token } = useUserStore();
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(group);
-        if(group != "faculty" || token === '')
+        if(group !== "faculty" || token === '')
             navigate('/');
     }, [])
     

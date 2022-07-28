@@ -49,7 +49,7 @@ export default function Dropdown() {
     document.addEventListener('mousedown', closeOpenMenus)
 
     return (
-        <div class="dropdown" ref={refMenu}>
+        <div className="dropdown" ref={refMenu}>
             <button color="light" size="md"
                 className=" dropButton ripple ripple-surface ripple-surface-dark btn btn-outline-light btn-md dropdown-toggle"
                 onClick={ () => { setShowMenu(!showMenu); }}>

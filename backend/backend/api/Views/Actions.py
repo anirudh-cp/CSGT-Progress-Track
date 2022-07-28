@@ -152,13 +152,21 @@ class ActionsUsersApiView(APIView):
         group = request.user.groups.values_list('name', flat=True)
         data = {}
         if not any(item in ('admin', 'director') for item in group):
-            data['error_message'] = 'Cannot change user permission unless director or admin.'
-            data['response'] = 'Error'
-            return Response(data, status=status.HTTP_401_UNAUTHORIZED)
+            return Response('Cannot change user permission unless director or admin.', 
+                            status=status.HTTP_401_UNAUTHORIZED)
 
         data = request.data
-        queryData = Account.objects.get(email=data['email'])
+        queryData = None
+        try:
+            queryData = Account.objects.get(email=data['email'])
+        except Account.DoesNotExist:
+            return Response('User does not exist', status=status.HTTP_404_NOT_FOUND)
 
+        groups = list(queryData.groups.values_list('name', flat=True))
+        if not any(item in ('admin', 'director') for item in groups):
+            return Response('Cannot change user permission as they are faculty', 
+                            status=status.HTTP_401_UNAUTHORIZED)
+                
         queryData.groups.clear()
         group = Group.objects.get(name=data['group'])
         queryData.groups.add(group)
@@ -167,6 +175,7 @@ class ActionsUsersApiView(APIView):
         data = {'response': 'Successfully changed group',
                 'email': data['email'], 'group': data['group']}
         return Response(data, status=status.HTTP_200_OK)
+    
 
     def delete(self, request, *args, **kwargs):
         # Delete the user
@@ -183,6 +192,6 @@ class ActionsUsersApiView(APIView):
             account = Account.objects.get(email=data['email'])
             account.delete()
             return Response('User deleted', status=status.HTTP_200_OK)
-            
         except Account.DoesNotExist:
             return Response('User does not exist', status=status.HTTP_404_NOT_FOUND)
+        
