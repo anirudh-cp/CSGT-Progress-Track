@@ -139,7 +139,7 @@ class conference(models.Model):
     Type_of_publication = models.CharField(max_length=100, choices=TP)
     Emp_ID = models.ForeignKey(personal, null=True, on_delete=models.SET_NULL)
     Funder_name = models.CharField(
-        'Enter Funder name if type of publications is "Open" ', max_length=100, blank=True)
+        'Enter Funder name if type of publications is "Open" ', max_length=100, null=True, blank=True)
     Amount_of_Publication = models.IntegerField(
         'Enter Amount of Publication if type is "Open" ', blank=True, null=True)
     Support = models.CharField(
@@ -204,7 +204,7 @@ class journal(models.Model):
     Emp_ID = models.ForeignKey(personal, null=True, on_delete=models.SET_NULL)
     Type_of_publication = models.CharField(max_length=100, choices=TP)
     Funder_name = models.CharField(
-        'Enter Funder name if type is "Open" ', max_length=100, blank=True)
+        'Enter Funder name if type is "Open" ', max_length=100, null=True, blank=True)
     Amount_of_Publication = models.IntegerField(
         'Enter Amount of Publication if type is "Open" ', blank=True, null=True)
     Support = models.CharField(
@@ -270,13 +270,13 @@ class book_chapter(models.Model):
     book_title = models.CharField(max_length=100)
     publisher_name = models.CharField(max_length=30)
     Type_of_publisher = models.CharField(max_length=30, choices=TY)
-    Vol_no = models.IntegerField(null=True)
-    Issue_no = models.IntegerField(null=True)
-    DOI = models.CharField(max_length=30, null=True)
+    Vol_no = models.IntegerField(null=True, blank=True)
+    Issue_no = models.IntegerField(null=True, blank=True)
+    DOI = models.CharField(max_length=30, null=True, blank=True)
     Emp_ID = models.ForeignKey(personal, null=True, on_delete=models.SET_NULL)
     Type_of_publication = models.CharField(max_length=100, choices=TP)
     Funder_name = models.CharField(
-        'Enter Funder name if type is "Open" ', max_length=100, blank=True)
+        'Enter Funder name if type is "Open" ', max_length=100, null=True, blank=True)
     Amount_of_Publication = models.IntegerField(
         'Enter Amount of Publication if type is "Open" ', blank=True, null=True)
     Support = models.CharField(
@@ -342,13 +342,13 @@ class book_editor(models.Model):
     year = models.IntegerField()
     publisher_name = models.CharField(max_length=30)
     Type_of_publisher = models.CharField(max_length=30, choices=TY)
-    Vol_no = models.IntegerField(null=True)
-    Issue_no = models.IntegerField(null=True)
-    DOI = models.CharField(max_length=30, null=True)
+    Vol_no = models.IntegerField(null=True, blank=True)
+    Issue_no = models.IntegerField(null=True, blank=True)
+    DOI = models.CharField(max_length=30, null=True, blank=True)
     Emp_ID = models.ForeignKey(personal, null=True, on_delete=models.SET_NULL)
     Type_of_publication = models.CharField(max_length=100, choices=TP)
     Funder_name = models.CharField(
-        'Enter if type is "Open" ', max_length=100, blank=True)
+        'Enter if type is "Open" ', max_length=100, null=True, blank=True)
     Amount_of_Publication = models.IntegerField(
         'Enter if type is "Open" ', blank=True, null=True)
     Support = models.CharField(

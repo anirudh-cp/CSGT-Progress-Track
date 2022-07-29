@@ -3,32 +3,30 @@ import API from "../../../API/APIService";
 import useUserStore from "../../../API/Stores/UserStore";
 
 
-const JournalAdd = () => {
+const EditorAdd = () => {
 
     const { register, handleSubmit } = useForm({
         defaultValues: {
-            Impact_factor: 0,
             Vol_no: 0,
             Issue_no: 0,
             DOI: "",
             Amount_of_Publication: 0,
-            Support:"No"
-          }
+            Support: "No"
+        }
     });
     const { token, empID } = useUserStore();
     const api = new API()
-    
-    const onSubmit = async (data) => {        
+
+    const onSubmit = async (data) => {
         console.log(data)
-        const response = await api.AddPublication(token, empID, "journal", data);
+        const response = await api.AddPublication(token, empID, "book_editor", data);
         alert(response);
     }
 
-
     return (
         <div className="d-flex justify-content-center top-container" style={{ height: "80vh" }}>
-            <form className="form justify-content-center wrapper" style={{ height: "100%", width:"100%" }} onSubmit={handleSubmit(onSubmit)}>
-                <div className="title">Add or Update Journal</div>
+            <form className="form justify-content-center wrapper" style={{ height: "100%", width: "100%" }} onSubmit={handleSubmit(onSubmit)}>
+                <div className="title">Add or Update Book Editorials</div>
 
                 <div className="input-container ic1">
                     <input
@@ -41,7 +39,7 @@ const JournalAdd = () => {
                     />
                     <div className="cut" />
                     <label htmlFor="title" className="placeholder">
-                        Title
+                        Book Title
                     </label>
                 </div>
 
@@ -62,7 +60,7 @@ const JournalAdd = () => {
 
                 {/* AUTHOR INFO MULTIPLE ROWS DYNAMIC ADJUSTMENT */}
                 {/* AUTHOR INFO MULTIPLE ROWS DYNAMIC ADJUSTMENT */}
-                
+
                 <div className="input-container ic1">
                     <input
                         id="desig"
@@ -102,21 +100,6 @@ const JournalAdd = () => {
                     </select>
                 </div>
 
-                <div className="input-container ic1">
-                    <input
-                        id="jname"
-                        className="input"
-                        type="text"
-                        placeholder=" "
-                        required
-                        {...register("Journal_name")}
-                    />
-                    <div className="cut" />
-                    <label htmlFor="jname" className="placeholder">
-                        Journal name
-                    </label>
-                </div>
-
                 <div className="input-container ic1 dropdown">
                     <select id="indexing" className="input dropdown" type="text" {...register("Indexing")}>
                         <option value="" disabled defaultValue="SCI">
@@ -130,16 +113,16 @@ const JournalAdd = () => {
 
                 <div className="input-container ic1">
                     <input
-                        id="ifactor"
+                        id="issn"
                         className="input"
                         type="number"
-                        step="0.01"
                         placeholder=" "
-                        {...register("Impact_factor")}
+                        required
+                        {...register("ISSN_ISBN_number")}
                     />
                     <div className="cut" />
-                    <label htmlFor="ifactor" className="placeholder">
-                        Impact Factor
+                    <label htmlFor="issn" className="placeholder">
+                        ISSN ISBN Number
                     </label>
                 </div>
 
@@ -156,6 +139,31 @@ const JournalAdd = () => {
                     <label htmlFor="year" className="placeholder">
                         Year
                     </label>
+                </div>
+
+                <div className="input-container ic1">
+                    <input
+                        id="pname"
+                        className="input"
+                        type="text"
+                        placeholder=" "
+                        required
+                        {...register("publisher_name")}
+                    />
+                    <div className="cut" />
+                    <label htmlFor="pname" className="placeholder">
+                        Publisher Name
+                    </label>
+                </div>
+
+                <div className="input-container ic1 dropdown">
+                    <select id="type" className="input dropdown" type="text" {...register("Type_of_publisher")}>
+                        <option value="national" disabled defaultValue="national">
+                            Type of Publisher
+                        </option>
+                        <option value="National">National</option>
+                        <option value="International">International</option>
+                    </select>
                 </div>
 
                 <div className="input-container ic1">
@@ -187,7 +195,7 @@ const JournalAdd = () => {
                 </div>
 
                 <div className="input-container ic1">
-                    <input id="doi" className="input" type="text" placeholder=" " {...register("DOI")}/>
+                    <input id="doi" className="input" type="text" placeholder=" " {...register("DOI")} />
                     <div className="cut" />
                     <label htmlFor="doi" className="placeholder">
                         Digital Object Identifier
@@ -207,19 +215,21 @@ const JournalAdd = () => {
                 {/* ONLY IF OPEN ACCESS IS SELECTED */}
                 {/* ONLY IF OPEN ACCESS IS SELECTED */}
                 <div className="input-container ic1">
-                    <input id="fname" className="input" type="text" placeholder=" " {...register("Funder_name")}/>
+                    <input id="fname" className="input" type="text" placeholder=" " {...register("Funder_name")} />
                     <div className="cut" />
                     <label htmlFor="fname" className="placeholder">
                         Funder Name
                     </label>
                 </div>
+
                 <div className="input-container ic1">
-                    <input id="pubamt" className="input" type="text" placeholder=" " {...register("Amount_of_Publication")}/>
+                    <input id="pubamt" className="input" type="text" placeholder=" " {...register("Amount_of_Publication")} />
                     <div className="cut" />
                     <label htmlFor="pubamt" className="placeholder">
                         Amount of Publication
                     </label>
                 </div>
+                
                 <div className="input-container ic1 dropdown">
                     <select id="indexing" className="input dropdown" type="text" {...register("Support")}>
                         <option value="" disabled defaultValue="No">
@@ -235,8 +245,7 @@ const JournalAdd = () => {
                 <input type="submit" className="submit" value="Add Record" />
             </form>
         </div>
-
     )
 }
 
-export default JournalAdd
+export default EditorAdd

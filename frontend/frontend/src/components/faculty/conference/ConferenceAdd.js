@@ -34,7 +34,7 @@ const ConferenceAdd = () => {
 
     return (
         <div className="d-flex justify-content-center top-container" style={{ height: "80vh" }}>
-            <form className="form justify-content-center wrapper" style={{ height: "100%" }} onSubmit={handleSubmit(onSubmit)}>
+            <form className="form justify-content-center wrapper" style={{ height: "100%", width:"100%" }} onSubmit={handleSubmit(onSubmit)}>
                 <div className="title">Add or Update Conference</div>
 
                 <div className="input-container ic1">
