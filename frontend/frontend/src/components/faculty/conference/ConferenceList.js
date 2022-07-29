@@ -8,11 +8,13 @@ import {
 import { useState } from "react";
 import Modal from "../../common/Modal";
 import ConferenceView from "./ConferenceView";
+import ConferenceAdd from "./ConferenceAdd";
 
 
 const ConferenceList = ({ data }) => {
 
     const [show, setShow] = useState(false)
+    const [showAdd, setShowAdd] = useState(false)
     const [currentRecord, setCurrentRecord] = useState([])
 
     const handleClick = (obj) => {
@@ -31,7 +33,16 @@ const ConferenceList = ({ data }) => {
                         <th scope="col">Place</th>
                         <th scope="col">Start Date</th>
                         <th scope="col">End Date</th>
-                        <th scope="col"></th>
+                        <th scope="col">
+                            <div className="d-grid flex justify-content-md-end">
+                                <Modal handleClick={() => { setShowAdd(!showAdd) }} show={showAdd}
+                                    childElement={<ConferenceAdd />}></Modal>
+                                <button className="ripple ripple-surface ripple-surface-light btn btn-primary btn-sm mx-2"
+                                    size="sm" color="dark" onClick={() => { setShowAdd(!showAdd); console.log("Add") }}>
+                                    Add Record
+                                </button>
+                            </div>
+                        </th>
                     </tr>
                 </MDBTableHead>
                 <MDBTableBody>
@@ -41,6 +52,7 @@ const ConferenceList = ({ data }) => {
                                 <th scope="row" > {obj.title} </th>
                                 <th> {obj.Author_pos} </th>
                                 <th> {obj.Conference_name} </th>
+                                <th> {obj.Place_of_conference} </th>
                                 <th> {obj.Conference_startdate} </th>
                                 <th> {obj.Conference_enddate} </th>
                                 <td>
@@ -48,7 +60,7 @@ const ConferenceList = ({ data }) => {
                                         <Modal handleClick={handleClick} show={show}
                                             childElement={<ConferenceView record={currentRecord} />}></Modal>
                                         <button className="ripple ripple-surface ripple-surface-light btn btn-dark btn-sm mx-2"
-                                            size="sm" color="dark" onClick={() => {handleClick(obj)}}>
+                                            size="sm" color="dark" onClick={() => { handleClick(obj) }}>
                                             View
                                         </button>
                                     </div>

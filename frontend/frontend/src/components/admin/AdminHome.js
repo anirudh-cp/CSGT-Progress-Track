@@ -1,9 +1,9 @@
-import Addition from "./Addition";
-import Deletion from "./Deletion";
-import Permission from "./Permission";
-import AddUser from "./AddUser";
+import AddFaculty from './../UserMod/AddFaculty'
+import AddUser from './../UserMod/AddUser'
+import DeleteUser from './../UserMod/DeleteUser'
 
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import Permission from "./Permission";
 
 import React, { useEffect } from "react";
 import useUserStore from "../../API/Stores/UserStore";
@@ -26,19 +26,19 @@ export default function AdminHome() {
         <div className="">
             <Tabs className="Tabs">
                 <TabList>
-                    <Tab>Addition</Tab>
+                    <Tab>Add Faculty</Tab>
                     <Tab>Add User</Tab>
-                    <Tab>Deletion</Tab>
-                    <Tab>Permission</Tab>
+                    <Tab>Delete User</Tab>
+                    <Tab>Permissions</Tab>
                 </TabList>
                 <TabPanel>
-                    <Addition />
+                    <AddFaculty />
                 </TabPanel>
                 <TabPanel>
                     <AddUser />
                 </TabPanel>
                 <TabPanel>
-                    <Deletion />
+                    <DeleteUser />
                 </TabPanel>
                 <TabPanel>
                     <Permission />

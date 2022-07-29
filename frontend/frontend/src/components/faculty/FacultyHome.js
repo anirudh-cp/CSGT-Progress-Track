@@ -20,6 +20,7 @@ import "../../assets/faculty.css";
 export default function FacultyHome() {
 
     const [key, setKey] = useState(new Date());
+    const [tabIndex, setTabIndex] = useState(0);
     const { group, token } = useUserStore();
     const navigate = useNavigate();
 
@@ -31,7 +32,7 @@ export default function FacultyHome() {
     
     return (
         <div className="">
-            <Tabs className="Tabs" style={{color:"black"}}>
+            <Tabs className="Tabs" style={{color:"black"}} onSelect={(index) => {setTabIndex(index)}}>
                 <TabList>
                     {/* <Tab>All</Tab> */}
                     <Tab>Journal</Tab>
@@ -43,14 +44,14 @@ export default function FacultyHome() {
                     <Tab>Patent</Tab>
                 </TabList>
 
-                <Filter setKey={setKey}/>
+                <Filter setKey={setKey} tabIndex={tabIndex} />
 
                 {/* <TabPanel>
                     <All />
                 </TabPanel>
                  */}
                 <TabPanel>
-                    <Journal key={key}/>
+                    <Journal key={key} />
                 </TabPanel>
                 <TabPanel>
                     <Conference key={key} />

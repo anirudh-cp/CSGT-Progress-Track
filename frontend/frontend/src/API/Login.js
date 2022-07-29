@@ -1,9 +1,9 @@
-import { useNavigate } from 'react-router-dom';  
+import { useNavigate } from 'react-router-dom';
 
 
 class Login {
     async login(email, password, setEmail, setPassword, setErrors, setToken, setGroup, setName, setEmpID) {
-        
+
 
         const response = await fetch('http://127.0.0.1:8000/api/account/login', {
             method: 'post',
@@ -38,7 +38,13 @@ class Login {
                 await setErrors(true);
                 alert('Login Error. Please enter correct credentials.')
             }
-
+        }
+        else if (response.status === 404) {
+            await setEmail('');
+            await setPassword('');
+            await setToken("")
+            await setErrors(true);
+            alert('Login Error. Please enter correct credentials.')
         }
 
     }

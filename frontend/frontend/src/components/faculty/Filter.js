@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import useFilterStore from "../../API/Stores/FilterStore";
 
 
-const Filter = ({ setKey }) => {
+const Filter = ({ setKey, tabIndex }) => {
 
     const { filterStartDate, filterEndDate, setFilterStartDate, setFilterEndDate } = useFilterStore();
 

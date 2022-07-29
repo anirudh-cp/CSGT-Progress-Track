@@ -355,11 +355,44 @@ class API {
 
 
         if (response.status === 200) {
-            return "Faculty has been created successfully!"
+            return "Faculty has been updated successfully!"
         }
         else if (response.status === 201)
         {
-            return "Faculty has been updated successfully!"
+            return "Faculty has been created successfully!"
+        }
+        else {
+            let json = await response.json()
+            let str = JSON.stringify(json)
+            console.log(str)
+            return 'Error\n' + str
+        }
+    }
+
+
+    async AddPublication(token, empID, type, data)
+    {
+        data.Emp_ID = empID
+        const response = await fetch('http://127.0.0.1:8000/api/publications/' + empID + '/' + type, {
+            method: 'put',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Token ${token}`
+            },
+            body: JSON.stringify(data),
+        }).catch((error) => {
+            // Your error is here!
+            console.log(error)
+            alert('Cannot connect to server. Please try again later.')
+        });
+
+
+        if (response.status === 200) {
+            return `${type} has been updated successfully!`
+        }
+        else if (response.status === 201)
+        {
+            return `${type} has been created successfully!`
         }
         else {
             let json = await response.json()

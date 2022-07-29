@@ -8,11 +8,13 @@ import {
 import { useState } from "react";
 import Modal from "../../common/Modal";
 import JournalView from "./JournalView";
+import JournalAdd from "./JournalAdd";
 
 
 const JournalList = ({ data }) => {
 
     const [show, setShow] = useState(false)
+    const [showAdd, setShowAdd] = useState(false)
     const [currentRecord, setCurrentRecord] = useState([])
 
     const handleClick = (obj) => {
@@ -29,7 +31,16 @@ const JournalList = ({ data }) => {
                         <th scope="col">Position</th>
                         <th scope="col">Journal</th>
                         <th scope="col">Year</th>
-                        <th scope="col"></th>
+                        <th scope="col">
+                            <div className="d-grid flex justify-content-md-end">
+                                <Modal handleClick={() => {setShowAdd(!showAdd)}} show={showAdd}
+                                    childElement={<JournalAdd />}></Modal>
+                                <button className="ripple ripple-surface ripple-surface-light btn btn-primary btn-sm mx-2"
+                                    size="sm" color="dark" onClick={() => {setShowAdd(!showAdd); console.log("Add")}}>
+                                    Add Record
+                                </button>
+                            </div>   
+                        </th>
                     </tr>
                 </MDBTableHead>
                 <MDBTableBody>
@@ -42,10 +53,10 @@ const JournalList = ({ data }) => {
                                 <th> {obj.year} </th>
                                 <td>
                                     <div className="d-grid gap-2 flex justify-content-md-end">
-                                        <Modal handleClick={handleClick} show={show} 
-                                        childElement={<JournalView record={currentRecord} />}></Modal>
+                                        <Modal handleClick={handleClick} show={show}
+                                            childElement={<JournalView record={currentRecord} />}></Modal>
                                         <button className="ripple ripple-surface ripple-surface-light btn btn-dark btn-sm mx-2"
-                                            size="sm" color="dark" onClick={() => {handleClick(obj)}}>
+                                            size="sm" color="dark" onClick={() => { handleClick(obj) }}>
                                             View
                                         </button>
                                     </div>

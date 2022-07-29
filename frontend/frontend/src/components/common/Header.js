@@ -27,7 +27,7 @@ const Header = () => {
             {/* HEADING TEXT */}
             <div className="m-4">
                 <p className="text-center h2 p-3" style={{ fontWeight: "bold" }}>
-                    VITCC - Centre for Smart Grid Technologies
+                    VIT C: Centre for Smart Grid Technologies
                 </p>
             </div>
 

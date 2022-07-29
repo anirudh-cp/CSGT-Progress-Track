@@ -17,3 +17,6 @@ Fix: Prevent moving back + erase contents when moved back to login page.
 
 Book editor does not have unique named column for identification in report generation.
 Fix: Change title to be book_title
+
+Certain inputs can accept negative numbers.
+Fix: Introduce validation using react-hook-forms
