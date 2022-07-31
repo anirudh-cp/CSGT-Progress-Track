@@ -20,3 +20,6 @@ Fix: Change title to be book_title
 
 Certain inputs can accept negative numbers.
 Fix: Introduce validation using react-hook-forms
+
+No loading status for many operations.
+Fix: Introduce state loading state and CSS animation for the same.

@@ -47,6 +47,7 @@ class ConsultancySinglePutApiView(APIView):
         ''' Create/Update the record with given data. '''
         
         data = request.data
+        print(data)
         queryData = consultancy_project.objects.filter(Emp_ID=Emp_ID, company_name=data['company_name'])
         if queryData.exists():
             serializer = consultancyserializer(queryData[0], data=data, partial=True)

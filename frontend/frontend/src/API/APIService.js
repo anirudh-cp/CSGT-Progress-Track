@@ -402,6 +402,72 @@ class API {
         }
     }
 
+
+    async AddConsultancy(token, empID, data)
+    {
+        data.Emp_ID = empID
+        const response = await fetch('http://127.0.0.1:8000/api/consultancy/' + empID, {
+            method: 'put',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Token ${token}`
+            },
+            body: JSON.stringify(data),
+        }).catch((error) => {
+            // Your error is here!
+            console.log(error)
+            alert('Cannot connect to server. Please try again later.')
+        });
+
+
+        if (response.status === 200) {
+            return `Consultancy has been updated successfully!`
+        }
+        else if (response.status === 201)
+        {
+            return `Consultancy has been created successfully!`
+        }
+        else {
+            let json = await response.json()
+            let str = JSON.stringify(json)
+            console.log(str)
+            return 'Error\n' + str
+        }
+    }
+
+    
+    async AddPatents(token, empID, data)
+    {
+        data.Emp_ID = empID
+        const response = await fetch('http://127.0.0.1:8000/api/patent/' + empID, {
+            method: 'put',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Token ${token}`
+            },
+            body: JSON.stringify(data),
+        }).catch((error) => {
+            // Your error is here!
+            console.log(error)
+            alert('Cannot connect to server. Please try again later.')
+        });
+
+
+        if (response.status === 200) {
+            return `Patent has been updated successfully!`
+        }
+        else if (response.status === 201)
+        {
+            return `Patent has been created successfully!`
+        }
+        else {
+            let json = await response.json()
+            let str = JSON.stringify(json)
+            console.log(str)
+            return 'Error\n' + str
+        }
+    }
+
 }
 
 export default API

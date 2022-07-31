@@ -1,236 +1,105 @@
+import DatePicker from "react-date-picker/dist/entry.nostyle";
 import { useForm } from "react-hook-form";
 import API from "../../../API/APIService";
 import useUserStore from "../../../API/Stores/UserStore";
+import React, { useState } from "react";
 
 
 const ConsultancyAdd = () => {
 
     const { register, handleSubmit } = useForm({
         defaultValues: {
-            Impact_factor: 0,
-            Vol_no: 0,
-            Issue_no: 0,
-            DOI: "",
-            Amount_of_Publication: 0
-          }
+            Amount: 0,
+            invoice_number: 0,
+            Funding:"No"
+        }
     });
+
     const { token, empID } = useUserStore();
     const api = new API()
-    
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+    var strftime = require('strftime');
+
     const onSubmit = async (data) => {        
         console.log(data)
-        const response = await api.AddPublication(token, empID, "journal", data);
+        data.consultancy_startdate = strftime("%Y-%m-%d", startDate)
+        data.consultancy_enddate = strftime("%Y-%m-%d", endDate)
+        const response = await api.AddConsultancy(token, empID, data);
         alert(response);
     }
-
 
     return (
         <div className="d-flex justify-content-center top-container" style={{ height: "80vh" }}>
             <form className="form justify-content-center wrapper" style={{ height: "100%" }} onSubmit={handleSubmit(onSubmit)}>
-                <div className="title">Add or Update Journal</div>
-
-                <div className="input-container ic1">
-                    <input
-                        id="title"
-                        className="input"
-                        type="text"
-                        placeholder=" "
-                        required
-                        {...register("title")}
-                    />
-                    <div className="cut" />
-                    <label htmlFor="title" className="placeholder">
-                        Title
-                    </label>
-                </div>
-
-                <div className="input-container ic1">
-                    <input
-                        id="firstname"
-                        className="input"
-                        type="number"
-                        placeholder=" "
-                        required
-                        {...register("no_of_authors")}
-                    />
-                    <div className="cut" />
-                    <label htmlFor="firstname" className="placeholder">
-                        No. of Authors
-                    </label>
-                </div>
-
-                {/* AUTHOR INFO MULTIPLE ROWS DYNAMIC ADJUSTMENT */}
-                {/* AUTHOR INFO MULTIPLE ROWS DYNAMIC ADJUSTMENT */}
-                
-                <div className="input-container ic1">
-                    <input
-                        id="firstname"
-                        className="input"
-                        type="text"
-                        placeholder=" "
-                        required
-                        {...register("Designation")}
-                    />
-                    <div className="cut" />
-                    <label htmlFor="firstname" className="placeholder">
-                        Author Designation
-                    </label>
-                </div>
+                <div className="title">Add or Update Consultancy</div>
 
                 <div className="input-container ic1 dropdown">
-                    <select id="type" className="input dropdown" type="text" {...register("Collaboration")}>
+                    <select id="type" className="input dropdown" type="text" {...register("type_of_consultancy")}>
                         <option value="national" disabled defaultValue="national">
-                            Type of collaboration
+                            Type of Consultancy
                         </option>
-                        <option value="National">National</option>
-                        <option value="International">International</option>
-                        <option value="Internal">Internal</option>
+                        <option value="Product development">Product development</option>
+                        <option value="Research Collaboration">Research Collaboration</option>
                     </select>
                 </div>
+
                 {/* AUTHOR INFO MULTIPLE ROWS DYNAMIC ADJUSTMENT */}
                 {/* AUTHOR INFO MULTIPLE ROWS DYNAMIC ADJUSTMENT */}
 
-                <div className="input-container ic1 dropdown">
-                    <select id="position" className="input dropdown" type="text" {...register("Author_pos")}>
-                        <option value="" disabled defaultValue="1">
-                            Author Position
-                        </option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                    </select>
-                </div>
 
                 <div className="input-container ic1">
                     <input
-                        id="firstname"
+                        id="cname"
                         className="input"
                         type="text"
                         placeholder=" "
                         required
-                        {...register("Journal_name")}
+                        {...register("company_name")}
                     />
                     <div className="cut" />
-                    <label htmlFor="firstname" className="placeholder">
-                        Journal name
+                    <label htmlFor="cname" className="placeholder">
+                        Company name
                     </label>
                 </div>
 
                 <div className="input-container ic1 dropdown">
-                    <select id="indexing" className="input dropdown" type="text" {...register("Indexing")}>
-                        <option value="" disabled defaultValue="SCI">
-                            Indexing
-                        </option>
-                        <option value="SCI">SCI</option>
-                        <option value="SCIE">SCIE</option>
-                        <option value="SCOPUS">SCOPUS</option>
-                    </select>
-                </div>
-
-                <div className="input-container ic1">
-                    <input
-                        id="firstname"
-                        className="input"
-                        type="number"
-                        step="0.01"
-                        placeholder=" "
-                        {...register("Impact_factor")}
-                    />
-                    <div className="cut" />
-                    <label htmlFor="firstname" className="placeholder">
-                        Impact Factor
-                    </label>
-                </div>
-
-                <div className="input-container ic1">
-                    <input
-                        id="firstname"
-                        className="input"
-                        type="number"
-                        placeholder=" "
-                        required
-                        {...register("year")}
-                    />
-                    <div className="cut" />
-                    <label htmlFor="firstname" className="placeholder">
-                        Year
-                    </label>
-                </div>
-
-                <div className="input-container ic1">
-                    <input
-                        id="firstname"
-                        className="input"
-                        type="number"
-                        placeholder=" "
-                        {...register("Vol_no")}
-                    />
-                    <div className="cut" />
-                    <label htmlFor="firstname" className="placeholder">
-                        Volume No
-                    </label>
-                </div>
-
-                <div className="input-container ic1">
-                    <input
-                        id="firstname"
-                        className="input"
-                        type="number"
-                        placeholder=" "
-                        {...register("Issue_no")}
-                    />
-                    <div className="cut" />
-                    <label htmlFor="firstname" className="placeholder">
-                        Issue No
-                    </label>
-                </div>
-
-                <div className="input-container ic1">
-                    <input id="firstname" className="input" type="text" placeholder=" " {...register("DOI")}/>
-                    <div className="cut" />
-                    <label htmlFor="firstname" className="placeholder">
-                        Digital Object Identifier
-                    </label>
-                </div>
-
-                <div className="input-container ic1 dropdown">
-                    <select id="indexing" className="input dropdown" type="text" {...register("Type_of_publication")}>
-                        <option value="" disabled defaultValue="Open Access">
-                            Type of Publication
-                        </option>
-                        <option value="Open Access">Open Access</option>
-                        <option value="Subscription">Subscription</option>
-                    </select>
-                </div>
-
-                {/* ONLY IF OPEN ACCESS IS SELECTED */}
-                {/* ONLY IF OPEN ACCESS IS SELECTED */}
-                <div className="input-container ic1">
-                    <input id="firstname" className="input" type="text" placeholder=" " {...register("Funder_name")}/>
-                    <div className="cut" />
-                    <label htmlFor="firstname" className="placeholder">
-                        Funder Name
-                    </label>
-                </div>
-                <div className="input-container ic1">
-                    <input id="firstname" className="input" type="text" placeholder=" " {...register("Amount_of_Publication")}/>
-                    <div className="cut" />
-                    <label htmlFor="firstname" className="placeholder">
-                        Amount of Publication
-                    </label>
-                </div>
-                <div className="input-container ic1 dropdown">
-                    <select id="indexing" className="input dropdown" type="text" {...register("Support")}>
+                    <select id="indexing" className="input dropdown" type="text" {...register("Funding")}>
                         <option value="" disabled defaultValue="No">
-                            Support from VIT
+                            Funding status
                         </option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
                     </select>
                 </div>
-                {/* ONLY IF OPEN ACCESS IS SELECTED */}
-                {/* ONLY IF OPEN ACCESS IS SELECTED */}
+                
+                <div className="input-container ic1">
+                    <input id="amt" className="input" type="number" placeholder=" " {...register("Amount")}/>
+                    <div className="cut" />
+                    <label htmlFor="amt" className="placeholder">
+                        Amount
+                    </label>
+                </div>
+                
+                <div className="input-container ic1">
+                    <input id="invoice" className="input" type="number" placeholder=" " {...register("invoice_number")}/>
+                    <div className="cut" />
+                    <label htmlFor="invoice" className="placeholder">
+                        Invoice Number
+                    </label>
+                </div>
 
+                <div className="mt-4 d-flex justify-content-start">
+                    <span className="pr-3 pl-1 pt-2 text-dark">Consultancy Start Date:</span>
+                    <DatePicker onChange={setStartDate} value={startDate} className="pb-2 pt-2" />
+                </div>
+
+                <div className="mt-3 d-flex justify-content-start">
+                    <span className="pr-5 pl-1 pt-2 text-dark">Consultancy End Date:</span>
+                    <DatePicker onChange={setEndDate} value={endDate} className=" pt-2" />
+                </div>
+
+                
                 <input type="submit" className="submit" value="Add Record" />
             </form>
         </div>
@@ -238,4 +107,4 @@ const ConsultancyAdd = () => {
     )
 }
 
-export default JournalAdd
+export default ConsultancyAdd

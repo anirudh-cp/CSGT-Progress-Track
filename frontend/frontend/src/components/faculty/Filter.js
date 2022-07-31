@@ -7,6 +7,8 @@ import JournalAdd from "./journal/JournalAdd";
 import ConferenceAdd from "./conference/ConferenceAdd";
 import ChapterAdd from "./chapter/ChapterAdd";
 import EditorAdd from "./editor/EditorAdd";
+import ConsultancyAdd from "./consultancy/ConsultancyAdd";
+import PatentsAdd from "./patents/PatentsAdd";
 
 
 const Filter = ({ setKey, tabIndex }) => {
@@ -34,17 +36,23 @@ const Filter = ({ setKey, tabIndex }) => {
 
     const handleAdd = () => {
         setShowAdd(!showAdd);
-        if(tabIndex === 0) {
+        if (tabIndex === 0) {
             setChild(<JournalAdd />);
         }
         else if (tabIndex === 1) {
             setChild(<ConferenceAdd />);
+        }
+        else if (tabIndex === 3) {
+            setChild(<ConsultancyAdd />)
         }
         else if (tabIndex === 4) {
             setChild(<ChapterAdd />)
         }
         else if (tabIndex === 5) {
             setChild(<EditorAdd />)
+        }
+        else if (tabIndex === 6) {
+            setChild(<PatentsAdd />)
         }
 
     }
