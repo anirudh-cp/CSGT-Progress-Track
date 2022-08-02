@@ -16,7 +16,7 @@ export default function Dropdown() {
     const refMenu = useRef(null)
     
     const APIObject = new API();
-    const { token, empID } = useUserStore();
+    const { token, empID, group } = useUserStore();
     const [data, setData] = useState([]);
     const [load, setLoad] = useState(true);
 
@@ -59,8 +59,7 @@ export default function Dropdown() {
 
                 <Modal handleClick={handleClick} show={show}
                     childElement={load? <Loading />: <Profile record={data} />}></Modal>
-                <button className='dropdown-buttons' onClick={ handleClick }>Account</button>
-                
+                { group==='faculty' && <button className='dropdown-buttons' onClick={ handleClick }>Account</button>}
                 <button className='dropdown-buttons' onClick={handleLogout}>Logout</button>
             </div>
         </div>

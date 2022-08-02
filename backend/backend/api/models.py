@@ -137,7 +137,7 @@ class conference(models.Model):
     Indexed_Scopus = models.CharField(max_length=4, choices=jy)
     DOI = models.CharField(max_length=30, null=True, blank=True)
     Type_of_publication = models.CharField(max_length=100, choices=TP)
-    Emp_ID = models.ForeignKey(personal, null=True, on_delete=models.SET_NULL)
+    Emp_ID = models.ForeignKey(personal, null=True, on_delete=models.CASCADE)
     Funder_name = models.CharField(
         'Enter Funder name if type of publications is "Open" ', max_length=100, null=True, blank=True)
     Amount_of_Publication = models.IntegerField(
@@ -201,7 +201,7 @@ class journal(models.Model):
     Vol_no = models.IntegerField(null=True, blank=True)
     Issue_no = models.IntegerField(null=True, blank=True)
     DOI = models.CharField(max_length=30, null=True, blank=True)
-    Emp_ID = models.ForeignKey(personal, null=True, on_delete=models.SET_NULL)
+    Emp_ID = models.ForeignKey(personal, null=True, on_delete=models.CASCADE)
     Type_of_publication = models.CharField(max_length=100, choices=TP)
     Funder_name = models.CharField(
         'Enter Funder name if type is "Open" ', max_length=100, null=True, blank=True)
@@ -273,7 +273,7 @@ class book_chapter(models.Model):
     Vol_no = models.IntegerField(null=True, blank=True)
     Issue_no = models.IntegerField(null=True, blank=True)
     DOI = models.CharField(max_length=30, null=True, blank=True)
-    Emp_ID = models.ForeignKey(personal, null=True, on_delete=models.SET_NULL)
+    Emp_ID = models.ForeignKey(personal, null=True, on_delete=models.CASCADE)
     Type_of_publication = models.CharField(max_length=100, choices=TP)
     Funder_name = models.CharField(
         'Enter Funder name if type is "Open" ', max_length=100, null=True, blank=True)
@@ -345,7 +345,7 @@ class book_editor(models.Model):
     Vol_no = models.IntegerField(null=True, blank=True)
     Issue_no = models.IntegerField(null=True, blank=True)
     DOI = models.CharField(max_length=30, null=True, blank=True)
-    Emp_ID = models.ForeignKey(personal, null=True, on_delete=models.SET_NULL)
+    Emp_ID = models.ForeignKey(personal, null=True, on_delete=models.CASCADE)
     Type_of_publication = models.CharField(max_length=100, choices=TP)
     Funder_name = models.CharField(
         'Enter if type is "Open" ', max_length=100, null=True, blank=True)
@@ -377,7 +377,7 @@ class consultancy_project(models.Model):
         ('Research Collaboration', 'Research Collaboration'),
     ]
 
-    Emp_ID = models.ForeignKey(personal, null=True, on_delete=models.SET_NULL)
+    Emp_ID = models.ForeignKey(personal, null=True, on_delete=models.CASCADE)
     type_of_consultancy = models.CharField(max_length=50, choices=TYPE)
     company_name = models.CharField(max_length=50)
     Funding = models.CharField(max_length=5, null=True, choices=jy, blank=True)
@@ -416,7 +416,7 @@ class patent(models.Model):
         (6, 6),
     ]
 
-    Emp_ID = models.ForeignKey(personal, null=True, on_delete=models.SET_NULL)
+    Emp_ID = models.ForeignKey(personal, null=True, on_delete=models.CASCADE)
     patent_title = models.CharField(max_length=40)
     Type_of_patent = models.CharField(max_length=20, choices=TY)
     no_of_authors_in_patent = models.IntegerField()

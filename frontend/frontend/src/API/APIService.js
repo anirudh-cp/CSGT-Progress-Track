@@ -1,7 +1,7 @@
 class API {
-    async getPublicationsData(token, type, startDate, endDate) {
+    async getPublicationsData(token, empID, type, startDate, endDate) {
 
-        const response = await fetch('http://127.0.0.1:8000/api/publications/' + type + '/' + startDate + '/' + endDate, {
+        const response = await fetch('http://127.0.0.1:8000/api/publications/' + empID + '/' + type + '/' + startDate + '/' + endDate, {
             method: 'get',
             headers: {
                 'Content-Type': 'application/json',
@@ -28,8 +28,8 @@ class API {
     }
 
 
-    async getConsultancyData(token, startDate, endDate) {
-        const response = await fetch('http://127.0.0.1:8000/api/consultancy/' + startDate + '/' + endDate, {
+    async getConsultancyData(token, empID, startDate, endDate) {
+        const response = await fetch('http://127.0.0.1:8000/api/consultancy/' + empID + '/' + startDate + '/' + endDate, {
             method: 'get',
             headers: {
                 'Content-Type': 'application/json',
@@ -83,8 +83,8 @@ class API {
     }
 
 
-    async getPatentData(token, startDate, endDate) {
-        const response = await fetch('http://127.0.0.1:8000/api/patent/' + startDate + '/' + endDate, {
+    async getPatentData(token, empID, startDate, endDate) {
+        const response = await fetch('http://127.0.0.1:8000/api/patent/' + empID + '/' + startDate + '/' + endDate, {
             method: 'get',
             headers: {
                 'Content-Type': 'application/json',
