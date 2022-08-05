@@ -39,7 +39,7 @@ class patentserializer(serializers.ModelSerializer):
 
 class accountserializer(serializers.ModelSerializer):
     class Meta:
-        model=Account
+        model=account
         fields=('email', 'date_joined', 'is_superuser', 'groups')
 
 
@@ -49,14 +49,14 @@ class RegistrationUserSerializer(serializers.ModelSerializer):
                                       write_only=True)
     
     class Meta:
-        model = Account
+        model = account
         fields = ('email', 'password', 'password2')
         extra_kwargs = {
 			'password': {'write_only': True}
 		}
         
     def save(self, **kwargs):
-        user = Account(email=self.validated_data['email'])
+        user = account(email=self.validated_data['email'])
         password = self.validated_data['password']
         password2 = self.validated_data['password2']
         

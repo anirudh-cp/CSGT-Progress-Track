@@ -12,10 +12,10 @@ admin.site.register(patent)
 
 
 from django.contrib.auth.admin import UserAdmin
-from .models import Account
+from .models import account
 
 
-class AccountAdmin(UserAdmin):
+class account_admin(UserAdmin):
     list_display = ('email','date_joined', 'last_login', 'is_admin','is_staff')
     search_fields = ('email', )
     readonly_fields=('date_joined', 'last_login')
@@ -25,4 +25,4 @@ class AccountAdmin(UserAdmin):
     fieldsets = ()
 
 
-admin.site.register(Account, AccountAdmin)
+admin.site.register(account, account_admin)

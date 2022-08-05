@@ -8,7 +8,7 @@ from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 
 
-class MyAccountManager(BaseUserManager):
+class my_account_manager(BaseUserManager):
 	def create_user(self, email, password=None):
 		if not email:
 			raise ValueError('Users must have an email address')
@@ -33,7 +33,7 @@ class MyAccountManager(BaseUserManager):
 		return user
 
 
-class Account(AbstractBaseUser):
+class account(AbstractBaseUser):
     email = models.EmailField(verbose_name="email", max_length=60, unique=True, primary_key=True)
     date_joined = models.DateTimeField(
         verbose_name='date joined', auto_now_add=True)
@@ -46,7 +46,7 @@ class Account(AbstractBaseUser):
 
     USERNAME_FIELD = 'email'
 
-    objects = MyAccountManager()
+    objects = my_account_manager()
 
     def __str__(self):
         return self.email
@@ -71,152 +71,142 @@ class personal(models.Model):
     GENDER = [
         ('Male', 'Male'),
         ('Female', 'Female'),
+        ('Other', 'Other'),
+        ('Prefer not to say', 'Prefer not to say')
     ]
+    
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    Emp_ID = models.IntegerField(primary_key=True)
-    Name = models.CharField(max_length=100)
-    Designation = models.CharField(max_length=100)
-    School = models.CharField(max_length=100)
-    DOJ = models.DateField()
-    DOB = models.DateField()
-    Gender = models.CharField(max_length=10, choices=GENDER)
-    ORCID_ID = models.IntegerField(null=True, blank=True, default=0)
-    Researchgate = models.CharField(max_length=100, null=True, blank=True)
+    emp_id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=100)
+    designation = models.CharField(max_length=100)
+    school = models.CharField(max_length=100)
+    date_of_join = models.DateField()
+    date_of_birth = models.DateField()
+    gender = models.CharField(max_length=10, choices=GENDER)
+    orcid = models.IntegerField(null=True, blank=True, default=0)
+    research_gate = models.CharField(max_length=100, null=True, blank=True)
     linkedin = models.CharField(max_length=100, null=True, blank=True)
-    Google_scholar_name = models.CharField(max_length=100,null=True, blank=True)
-    Personal_page = models.CharField(max_length=100, null=True, blank=True)
+    google_scholar = models.CharField(max_length=100,null=True, blank=True)
+    personal_page = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
-        return str(self.Emp_ID)
+        return str(self.emp_id)
 
 
 class conference(models.Model):
 
-    TYPE = [
+    COLLABORATION = [
         ('National', 'National'),
         ('International', 'International'),
         ('Internal', 'Internal'),
 
     ]
 
-    POSITION = [
-        (1, 1),
-        (2, 2),
-        (3, 3),
-        (4, 4),
-        (5, 5),
-        (6, 6),
-    ]
-
-    TY = [
+    TYPE = [
         ('National', 'National'),
         ('International', 'International'),
 
     ]
 
-    jy = [
+    INDEXING = [
+        ('SCI', 'SCI'),
+        ('SCIE', 'SCIE'),
+        ('SCOPUS', 'SCOPUS'),
+        ('Springer', 'Springer')
+    ]
+
+
+    SUPPORT = [
         ('Yes', 'Yes'),
         ('No', 'No'),
     ]
 
-    TP = [
-        ('Open Access', 'Open Access'),
+    TYPE_OF_PUBLICATION = [
         ('Subscription', 'Subscription'),
     ]
+    
+    CONDUCTING = [('Conducting', 'Conducting'), ('Attending', 'Attending')]
+    
+    PUBLISHED_AS = [('Research Paper','Research Paper'),]
 
-    title = models.CharField(max_length=100)
+    article_title = models.CharField(max_length=100)
     no_of_authors = models.IntegerField()
-    Designation = models.CharField(max_length=20)
-    Collaboration = models.CharField(max_length=20, choices=TYPE)
-    Author_pos = models.IntegerField(choices=POSITION)
-    Conference_name = models.CharField(max_length=100)
-    Conference_startdate = models.DateField()
-    Conference_enddate = models.DateField()
-    Place_of_conference = models.CharField(max_length=100)
-    Type = models.CharField(max_length=20, choices=TY)
-    Indexed_Scopus = models.CharField(max_length=4, choices=jy)
-    DOI = models.CharField(max_length=30, null=True, blank=True)
-    Type_of_publication = models.CharField(max_length=100, choices=TP)
-    Emp_ID = models.ForeignKey(personal, null=True, on_delete=models.CASCADE)
-    Funder_name = models.CharField(
-        'Enter Funder name if type of publications is "Open" ', max_length=100, null=True, blank=True)
-    Amount_of_Publication = models.IntegerField(
-        'Enter Amount of Publication if type is "Open" ', blank=True, null=True)
-    Support = models.CharField(
-        'Whether Support received from Vellore Institute of Technology?', max_length=4, choices=jy, null=True)
+    collaboration = models.CharField(max_length=20, choices=COLLABORATION)
+    conference_name = models.CharField(max_length=100)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    place = models.CharField(max_length=100)
+    type = models.CharField(max_length=20, choices=TYPE)
+    indexing = models.CharField(max_length=20, choices=INDEXING)
+    conducting = models.CharField(max_length=20, choices=CONDUCTING)
+    published_as = models.CharField(max_length=30, choices=PUBLISHED_AS)
+    digital_obj_id = models.CharField(max_length=30, null=True, blank=True)
+    type_of_publication = models.CharField(max_length=100, choices=TYPE_OF_PUBLICATION)
+    emp_id = models.ForeignKey(personal, null=True, on_delete=models.CASCADE)
+    funder_name = models.CharField(max_length=100, null=True, blank=True)
+    amount_of_publication = models.IntegerField(blank=True, null=True)
+    support = models.CharField(max_length=4, choices=SUPPORT, null=True)
 
     def __str__(self):
-        return self.title
+        return self.article_title
     
     
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=['Emp_ID', 'title'], name='unique_EmpID_title_conference'
+                fields=['emp_id', 'article_title'], name='unique_emp_id_article_title_conference'
             )
         ]
 
 
 class journal(models.Model):
-    INDEX = [
+    INDEXING = [
         ('SCI', 'SCI'),
         ('SCIE', 'SCIE'),
         ('SCOPUS', 'SCOPUS'),
+        ('Springer', 'Springer')
     ]
 
-    TYPE = [
+    COLLABORATION = [
         ('National', 'National'),
         ('International', 'International'),
         ('Internal', 'Internal'),
 
     ]
 
-    POSITION = [
-        (1, 1),
-        (2, 2),
-        (3, 3),
-        (4, 4),
-        (5, 5),
-        (6, 6),
-    ]
-    jy = [
+    SUPPORT = [
         ('Yes', 'Yes'),
         ('No', 'No'),
     ]
 
-    TP = [
+    TYPE_OF_PUBLICATION = [
         ('Open Access', 'Open Access'),
         ('Subscription', 'Subscription'),
     ]
 
-    title = models.CharField(max_length=100)
+    article_title = models.CharField(max_length=100)
     no_of_authors = models.IntegerField()
-    Designation = models.CharField(max_length=20)
-    Collaboration = models.CharField(max_length=20, choices=TYPE)
-    Author_pos = models.IntegerField(choices=POSITION)
-    Journal_name = models.CharField(max_length=100)
-    Indexing = models.CharField(max_length=20, choices=INDEX)
-    Impact_factor = models.FloatField(null=True, blank=True)
+    journal_name = models.CharField(max_length=100)
+    collaboration = models.CharField(max_length=20, choices=COLLABORATION)
+    indexing = models.CharField(max_length=20, choices=INDEXING)
+    impact_factor = models.FloatField(null=True, blank=True)
     year = models.IntegerField()
-    Vol_no = models.IntegerField(null=True, blank=True)
-    Issue_no = models.IntegerField(null=True, blank=True)
-    DOI = models.CharField(max_length=30, null=True, blank=True)
-    Emp_ID = models.ForeignKey(personal, null=True, on_delete=models.CASCADE)
-    Type_of_publication = models.CharField(max_length=100, choices=TP)
-    Funder_name = models.CharField(
-        'Enter Funder name if type is "Open" ', max_length=100, null=True, blank=True)
-    Amount_of_Publication = models.IntegerField(
-        'Enter Amount of Publication if type is "Open" ', blank=True, null=True)
-    Support = models.CharField(
-        'Whether Support received from Vellore Institute of Technology?', max_length=4, choices=jy, null=True)
+    volume_no = models.IntegerField(null=True, blank=True)
+    issue_no = models.IntegerField(null=True, blank=True)
+    digital_obj_id = models.CharField(max_length=30, null=True, blank=True)
+    emp_id = models.ForeignKey(personal, null=True, on_delete=models.CASCADE)
+    type_of_publication = models.CharField(max_length=100, choices=TYPE_OF_PUBLICATION)
+    funder_name = models.CharField(max_length=100, null=True, blank=True)
+    amount_of_publication = models.IntegerField(blank=True, null=True)
+    support = models.CharField(max_length=4, choices=SUPPORT, null=True)
 
     def __str__(self):
-        return self.title
+        return self.article_title
 
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=['Emp_ID', 'title'], name='unique_EmpID_title_journal'
+                fields=['emp_id', 'article_title'], name='unique_emp_id_article_title_journal'
             )
         ]
 

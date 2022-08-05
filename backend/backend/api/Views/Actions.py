@@ -5,7 +5,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
 from django.db.models import F
-from sklearn.preprocessing import quantile_transform
 
 from xhtml2pdf import pisa
 from django.http import HttpResponse
@@ -158,8 +157,8 @@ class ActionsUsersApiView(APIView):
         data = request.data
         queryData = None
         try:
-            queryData = Account.objects.get(email=data['email'])
-        except Account.DoesNotExist:
+            queryData = account.objects.get(email=data['email'])
+        except account.DoesNotExist:
             return Response('User does not exist', status=status.HTTP_404_NOT_FOUND)
 
         groups = list(queryData.groups.values_list('name', flat=True))
@@ -189,9 +188,9 @@ class ActionsUsersApiView(APIView):
 
         data = request.data
         try:
-            account = Account.objects.get(email=data['email'])
+            account = account.objects.get(email=data['email'])
             account.delete()
             return Response('User deleted', status=status.HTTP_200_OK)
-        except Account.DoesNotExist:
+        except account.DoesNotExist:
             return Response('User does not exist', status=status.HTTP_404_NOT_FOUND)
         

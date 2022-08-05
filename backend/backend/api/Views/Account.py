@@ -1,5 +1,5 @@
 from requests import request
-from api.models import Account, personal
+from api.models import account, personal
 from api.serializers import RegistrationUserSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -53,8 +53,8 @@ def registration_view(request):
 def validate_email(email):
     account = None
     try:
-        account = Account.objects.get(email=email)
-    except Account.DoesNotExist:
+        account = account.objects.get(email=email)
+    except account.DoesNotExist:
         return None
     if account != None:
         return email

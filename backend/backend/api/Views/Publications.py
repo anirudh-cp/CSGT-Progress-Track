@@ -1,5 +1,4 @@
 from email.policy import HTTP
-from matplotlib.pyplot import title
 from requests import delete
 from rest_framework.views import APIView
 from rest_framework.response import Response
