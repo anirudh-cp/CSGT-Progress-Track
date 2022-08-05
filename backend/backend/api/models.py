@@ -36,11 +36,10 @@ class my_account_manager(BaseUserManager):
 
 
 class account(AbstractBaseUser):
-    email = models.EmailField(verbose_name="email",
-                              max_length=60, unique=True, primary_key=True)
-    date_joined = models.DateTimeField(
-        verbose_name='date joined', auto_now_add=True)
-    last_login = models.DateTimeField(verbose_name='last login', auto_now=True)
+    # 320 Characters is the max len of a email.
+    email = models.EmailField(max_length=320, unique=True, primary_key=True)
+    date_joined = models.DateTimeField(auto_now_add=True)
+    last_login = models.DateTimeField(auto_now=True)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -78,8 +77,7 @@ class personal(models.Model):
         ('Prefer not to say', 'Prefer not to say')
     ]
 
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     emp_id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
     designation = models.CharField(max_length=100)
@@ -88,10 +86,10 @@ class personal(models.Model):
     date_of_birth = models.DateField()
     gender = models.CharField(max_length=20, choices=GENDER)
     orcid = models.IntegerField(null=True, blank=True, default=0)
-    research_gate = models.CharField(max_length=100, null=True, blank=True)
-    linkedin = models.CharField(max_length=100, null=True, blank=True)
-    google_scholar = models.CharField(max_length=100, null=True, blank=True)
-    personal_page = models.CharField(max_length=100, null=True, blank=True)
+    research_gate = models.CharField(max_length=256, null=True, blank=True)
+    linkedin = models.CharField(max_length=256, null=True, blank=True)
+    google_scholar = models.CharField(max_length=256, null=True, blank=True)
+    personal_page = models.CharField(max_length=256, null=True, blank=True)
 
     def __str__(self):
         return str(self.emp_id)
@@ -106,11 +104,7 @@ class conference(models.Model):
 
     ]
 
-    TYPE = [
-        ('National', 'National'),
-        ('International', 'International'),
-
-    ]
+    TYPE = [('National', 'National'), ('International', 'International'),]
 
     INDEXING = [
         ('SCI', 'SCI'),
@@ -119,19 +113,15 @@ class conference(models.Model):
         ('Springer', 'Springer')
     ]
 
-    SUPPORT = [
-        ('Yes', 'Yes'),
-        ('No', 'No'),
-    ]
+    SUPPORT = [('Yes', 'Yes'),('No', 'No'),]
 
-    TYPE_OF_PUBLICATION = [
-        ('Subscription', 'Subscription'),
-    ]
+    TYPE_OF_PUBLICATION = [('Subscription', 'Subscription'),]
 
     CONDUCTING = [('Conducting', 'Conducting'), ('Attending', 'Attending')]
 
     PUBLISHED_AS = [('Research Paper', 'Research Paper'), ]
 
+    emp_id = models.ForeignKey(personal, on_delete=models.CASCADE)
     article_title = models.CharField(max_length=100)
     no_of_authors = models.IntegerField()
     collaboration = models.CharField(max_length=20, choices=COLLABORATION)
@@ -144,9 +134,7 @@ class conference(models.Model):
     conducting = models.CharField(max_length=20, choices=CONDUCTING)
     published_as = models.CharField(max_length=30, choices=PUBLISHED_AS)
     digital_obj_id = models.CharField(max_length=30, null=True, blank=True)
-    type_of_publication = models.CharField(
-        max_length=100, choices=TYPE_OF_PUBLICATION)
-    emp_id = models.ForeignKey(personal, null=True, on_delete=models.CASCADE)
+    type_of_publication = models.CharField(max_length=100, choices=TYPE_OF_PUBLICATION)
     funder_name = models.CharField(max_length=100, null=True, blank=True)
     amount_of_publication = models.IntegerField(blank=True, null=True)
     support = models.CharField(max_length=4, choices=SUPPORT, null=True)
@@ -177,16 +165,14 @@ class journal(models.Model):
 
     ]
 
-    SUPPORT = [
-        ('Yes', 'Yes'),
-        ('No', 'No'),
-    ]
+    SUPPORT = [('Yes', 'Yes'), ('No', 'No'),]
 
     TYPE_OF_PUBLICATION = [
         ('Open Access', 'Open Access'),
         ('Subscription', 'Subscription'),
     ]
 
+    emp_id = models.ForeignKey(personal, null=True, on_delete=models.CASCADE)
     article_title = models.CharField(max_length=100)
     no_of_authors = models.IntegerField()
     journal_name = models.CharField(max_length=100)
@@ -197,9 +183,7 @@ class journal(models.Model):
     volume_no = models.IntegerField(null=True, blank=True)
     issue_no = models.IntegerField(null=True, blank=True)
     digital_obj_id = models.CharField(max_length=30, null=True, blank=True)
-    emp_id = models.ForeignKey(personal, null=True, on_delete=models.CASCADE)
-    type_of_publication = models.CharField(
-        max_length=100, choices=TYPE_OF_PUBLICATION)
+    type_of_publication = models.CharField(max_length=100, choices=TYPE_OF_PUBLICATION)
     funder_name = models.CharField(max_length=100, null=True, blank=True)
     amount_of_publication = models.IntegerField(blank=True, null=True)
     support = models.CharField(max_length=4, choices=SUPPORT, null=True)
@@ -373,6 +357,7 @@ class consultancy(models.Model):
 
     emp_id = models.ForeignKey(personal, on_delete=models.CASCADE)
     type = models.CharField(max_length=50, choices=TYPE)
+    description = models.CharField(max_length=256, blank=True, null=True)
     company_name = models.CharField(max_length=50)
     funding_status = models.CharField(max_length=5, choices=FUNDING_STATUS)
     amount_registered = models.IntegerField(blank=True, null=True)
@@ -417,3 +402,40 @@ class patent(models.Model):
                 fields=['emp_id', 'patent_title'], name='unique-emp_id-patent_title-patent'
             )
         ]
+
+
+
+class project(models.Model):
+
+    ROLES = [('PI', 'PI'), ('Co-PI', 'Co-PI'), ('Other', 'Other')]
+
+    emp_id = models.ForeignKey(personal, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    role = models.CharField(max_length=30, choices=ROLES)
+    funding_agency = models.CharField(max_length=100)
+    amount_registered = models.IntegerField(blank=True, null=True)
+    amount_sanctioned = models.IntegerField(blank=True, null=True)
+    start_date = models.DateField(default=datetime(1970, 1, 1))
+    
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['emp_id', 'title'], name='unique-emp_id-title-project'
+            )
+        ]
+
+
+class industrial_interaction(models.Model):
+
+    MOU_SIGNED = [('Yes', 'Yes'), ('No', 'No')]
+
+    emp_id = models.ForeignKey(personal, on_delete=models.CASCADE)
+    mou_signed = models.CharField(max_length=30, choices=MOU_SIGNED)
+    description = models.CharField(max_length=256, null=True, blank=True)
+    date = models.DateField(default=datetime(1970, 1, 1))
+    
+    def __str__(self):
+        return self.description
