@@ -343,6 +343,67 @@ class book_editor(models.Model):
         ]
 
 
+
+class book(models.Model):
+    
+    INDEXING = [
+        ('SCI', 'SCI'),
+        ('SCIE', 'SCIE'),
+        ('SCOPUS', 'SCOPUS'),
+        ('Springer', 'Springer')
+    ]
+
+    COLLABORATION = [
+        ('National', 'National'),
+        ('International', 'International'),
+        ('Internal', 'Internal'),
+
+    ]
+    
+    TYPE_OF_PUBLICATION = [
+        ('Open Access', 'Open Access'),
+        ('Subscription', 'Subscription'),
+    ]
+    
+    INDEX = [
+        ('SCI', 'SCI'),
+        ('SCIE', 'SCIE'),
+        ('SCOPUS', 'SCOPUS'),
+    ]
+    
+    SUPPORT = [('Yes', 'Yes'), ('No', 'No'),]
+    
+    TYPE = [('Book Chapter', 'Book Chapter'), ('Book Editorial', 'Book Editorial')]
+
+    emp_id = models.ForeignKey(personal, on_delete=models.CASCADE)
+    book_title = models.CharField(max_length=100)	
+    chapter_title = models.CharField(max_length=100, null=True, blank=True)
+    type = models.CharField(max_length=20)
+    no_of_authors = models.IntegerField()
+    type_of_publication = models.CharField(max_length=100, choices=TYPE_OF_PUBLICATION)
+    volume_no = models.IntegerField(null=True, blank=True)
+    issue_no = models.IntegerField(null=True, blank=True)
+    digital_obj_id = models.CharField(max_length=30, null=True, blank=True)
+    year = models.IntegerField()
+    isbn = models.IntegerField() 
+    indexing = models.CharField(max_length=20, choices=INDEXING)
+    funder_name = models.CharField(max_length=100, null=True, blank=True)
+    amount_of_publication = models.IntegerField(blank=True, null=True)
+    support = models.CharField(max_length=4, choices=SUPPORT, null=True)
+
+    def __str__(self):
+        return self.book_title
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['emp_id', 'book_title'], name='unique-emp_id-book_title-book'
+            )
+        ]
+
+    
+    
+
 class consultancy(models.Model):
 
     FUNDING_STATUS = [
