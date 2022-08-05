@@ -7,7 +7,7 @@ admin.site.register(conference)
 admin.site.register(journal)
 admin.site.register(book_chapter)
 admin.site.register(book_editor)
-admin.site.register(consultancy_project)
+admin.site.register(consultancy)
 admin.site.register(patent)
 
 

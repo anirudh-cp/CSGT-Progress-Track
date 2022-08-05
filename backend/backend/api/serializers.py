@@ -29,7 +29,7 @@ class bookeditorserializer(serializers.ModelSerializer):
 
 class consultancyserializer(serializers.ModelSerializer):
 	class Meta:
-		model=consultancy_project
+		model=consultancy
 		fields='__all__'
 
 class patentserializer(serializers.ModelSerializer):

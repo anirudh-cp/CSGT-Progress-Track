@@ -9,7 +9,7 @@ import sys
 
 sys.path.append('../..')
 
-from api.models import consultancy_project
+from api.models import consultancy
 from api.serializers import consultancyserializer
 
 
@@ -21,10 +21,10 @@ class ConsultancySingleGetApiView(APIView):
     def get(self, request, Emp_ID, startDate, endDate, *args, **kwargs):
         ''' List text for given requested user. '''
         
-        queryData = (consultancy_project.objects.filter(Emp_ID=Emp_ID, 
+        queryData = (consultancy.objects.filter(Emp_ID=Emp_ID, 
                                                consultancy_startdate__gt=startDate, 
                                                consultancy_startdate__lte=endDate) | 
-                     consultancy_project.objects.filter(Emp_ID=Emp_ID, 
+                     consultancy.objects.filter(Emp_ID=Emp_ID, 
                                                consultancy_startdate__lte=startDate, 
                                                consultancy_enddate__gte=startDate))
         
@@ -48,7 +48,7 @@ class ConsultancySinglePutApiView(APIView):
         
         data = request.data
         print(data)
-        queryData = consultancy_project.objects.filter(Emp_ID=Emp_ID, company_name=data['company_name'])
+        queryData = consultancy.objects.filter(Emp_ID=Emp_ID, company_name=data['company_name'])
         if queryData.exists():
             serializer = consultancyserializer(queryData[0], data=data, partial=True)
             if serializer.is_valid():
@@ -73,9 +73,9 @@ class ConsultancyAllApiView(APIView):
     def get(self, request, startDate, endDate, *args, **kwargs):
         ''' Get all records. '''
         
-        queryData = (consultancy_project.objects.filter(consultancy_startdate__gt=startDate, 
+        queryData = (consultancy.objects.filter(consultancy_startdate__gt=startDate, 
                                                 consultancy_startdate__lte=endDate) | 
-                     consultancy_project.objects.filter(consultancy_startdate__lte=startDate, 
+                     consultancy.objects.filter(consultancy_startdate__lte=startDate, 
                                                 consultancy_enddate__gte=startDate))
         
         

@@ -37,9 +37,9 @@ class ActionsReportApiView(APIView):
                 'title'), date=F('Conference_enddate')))
 
         if 'consultancy' in data:
-            queryData = (consultancy_project.objects.filter(consultancy_startdate__gt=startDate,
+            queryData = (consultancy.objects.filter(consultancy_startdate__gt=startDate,
                                                             consultancy_startdate__lte=endDate) |
-                         consultancy_project.objects.filter(consultancy_startdate__lte=startDate,
+                         consultancy.objects.filter(consultancy_startdate__lte=startDate,
                                                             consultancy_enddate__gte=startDate))
             dataPool.extend(queryData.values('Emp_ID', company_nameS=F(
                 'company_name'), date=F('consultancy_startdate')))
