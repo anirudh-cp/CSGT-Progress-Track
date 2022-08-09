@@ -21,7 +21,7 @@ export default function Journal() {
     const GetAPI = async () => {
         setLoad(true);
         // console.log(strftime("%Y-%m-%d", filterStartDate), strftime("%Y-%m-%d", filterEndDate));
-        const response = await APIObject.getPublicationsData(token, empID, "journal", 
+        const response = await APIObject.getData(token, empID, "journal", 
         strftime("%Y-%m-%d", filterStartDate), strftime("%Y-%m-%d", filterEndDate)).then(response => {
             setData(response);
         }).catch(error => console.log(error));

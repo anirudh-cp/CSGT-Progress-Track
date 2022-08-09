@@ -15,15 +15,15 @@ const ConsultancyAdd = () => {
 
   const { token, empID } = useUserStore();
   const api = new API();
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
   var strftime = require("strftime");
 
   const onSubmit = async (data) => {
     console.log(data);
     data.consultancy_startdate = strftime("%Y-%m-%d", startDate);
     data.consultancy_enddate = strftime("%Y-%m-%d", endDate);
-    const response = await api.AddConsultancy(token, empID, data);
+    const response = await api.AddData(token, empID, "consultancy", data);
     alert(response);
   };
 

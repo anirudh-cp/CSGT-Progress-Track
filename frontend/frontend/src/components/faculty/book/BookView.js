@@ -1,6 +1,6 @@
 import { MDBTable, MDBTableBody } from "mdb-react-ui-kit";
 
-const ChapterView = ({ record }) => {
+const BookView = ({ record }) => {
   return (
     <div style={{ height: "60vh" }}>
       <h2>Additional Information</h2>
@@ -71,4 +71,4 @@ const ChapterView = ({ record }) => {
   );
 };
 
-export default ChapterView;
+export default BookView;

@@ -38,8 +38,8 @@ const ConsultancyList = ({ data }) => {
                   {" "}
                   {APIObject.returnDuration(obj.end_date, obj.start_date)}{" "}
                 </th>
-                <td>
-                  <div className="d-grid gap-2 flex justify-content-md-end">
+                <td style={{"display": "flex", "justifyContent":"space-around"}}>
+                  <div>
                     <Modal
                       handleClick={handleClick}
                       show={show}

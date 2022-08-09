@@ -158,6 +158,11 @@ class journal(models.Model):
 
     ]
 
+    TYPE_OF_PUBLICATION = [
+        ('Open Access', 'Open Access'),
+        ('Subscription', 'Subscription'),
+    ]
+
     SUPPORT = [('Yes', 'Yes'), ('No', 'No'), ]
 
     emp_id = models.ForeignKey(personal, null=True, on_delete=models.CASCADE)
@@ -165,6 +170,8 @@ class journal(models.Model):
     no_of_authors = models.IntegerField()
     journal_name = models.CharField(max_length=100)
     collaboration = models.CharField(max_length=20, choices=COLLABORATION)
+    type_of_publication = models.CharField(
+        max_length=100, choices=TYPE_OF_PUBLICATION)
     indexing = models.CharField(max_length=20, choices=INDEXING)
     impact_factor = models.FloatField(null=True, blank=True)
     year = models.IntegerField()

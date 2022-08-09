@@ -29,10 +29,6 @@ const JournalView = ({ record }) => {
               <td> {record.impact_factor} </td>
             </tr>
             <tr>
-              <th scope="row"> Type of Publication </th>
-              <td> {record.type_of_publication} </td>
-            </tr>
-            <tr>
               <th scope="row"> Volume Number </th>
               <td> {record.volume_no} </td>
             </tr>
@@ -58,7 +54,7 @@ const JournalView = ({ record }) => {
             </tr>
             <tr>
               <th scope="row"> Amount of Publication </th>
-              <td> {record.amount_of_Publication} </td>
+              <td> {record.amount_of_publication} </td>
             </tr>
             <tr>
               <th scope="row"> Support received status </th>

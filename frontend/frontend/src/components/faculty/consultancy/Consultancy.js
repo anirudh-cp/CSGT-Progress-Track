@@ -21,7 +21,7 @@ export default function Consultancy() {
     const GetAPI = async () => {
         setLoad(true);
         console.log(strftime("%Y-%m-%d", filterStartDate), strftime("%Y-%m-%d", filterEndDate));
-        const response = await APIObject.getConsultancyData(token, empID,
+        const response = await APIObject.getData(token, empID, "consultancy",
         strftime("%Y-%m-%d", filterStartDate), strftime("%Y-%m-%d", filterEndDate)).then(response => {
             setData(response);
         }).catch(error => console.log(error));

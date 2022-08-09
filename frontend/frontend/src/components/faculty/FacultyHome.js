@@ -6,8 +6,7 @@ import Journal from "./journal/Journal";
 import Conference from "./conference/Conference";
 import Event from "./events/Event";
 import Consultancy from "./consultancy/Consultancy";
-import Chapter from "./chapter/Chapter";
-import Editor from "./editor/Editor";
+import Book from "./book/Book";
 import Patent from "./patents/Patents";
 import Filter from "./Filter";
 
@@ -39,8 +38,7 @@ export default function FacultyHome() {
                     <Tab>Conference</Tab>
                     <Tab>Event</Tab>
                     <Tab>Consultancy</Tab>
-                    <Tab>Chapter</Tab>
-                    <Tab>Editor</Tab>
+                    <Tab>Books</Tab>
                     <Tab>Patent</Tab>
                 </TabList>
 
@@ -63,10 +61,7 @@ export default function FacultyHome() {
                     <Consultancy key={key}/>
                 </TabPanel>
                 <TabPanel>
-                    <Chapter key={key}/>
-                </TabPanel>
-                <TabPanel>
-                    <Editor key={key}/>
+                    <Book key={key}/>
                 </TabPanel>
                 <TabPanel>
                     <Patent key={key} />

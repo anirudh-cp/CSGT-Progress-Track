@@ -16,15 +16,16 @@ const ConferenceAdd = () => {
 
   const { token, empID } = useUserStore();
   const api = new API();
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [attend, setAttend] = useState("Conducting")
   var strftime = require("strftime");
 
   const onSubmit = async (data) => {
     console.log(data);
     data.Conference_startdate = strftime("%Y-%m-%d", startDate);
     data.Conference_enddate = strftime("%Y-%m-%d", endDate);
-    const response = await api.AddPublication(token, empID, "conference", data);
+    const response = await api.AddData(token, empID, "conference", data);
     alert(response);
   };
 
@@ -70,26 +71,6 @@ const ConferenceAdd = () => {
           </label>
         </div>
 
-        {/* AUTHOR INFO MULTIPLE ROWS DYNAMIC ADJUSTMENT */}
-        {/* AUTHOR INFO MULTIPLE ROWS DYNAMIC ADJUSTMENT */}
-
-        <div className="input-container ic1">
-          <input
-            id="desig"
-            className="input"
-            type="text"
-            placeholder=" "
-            required
-            {...register("designation")}
-          />
-          <div className="cut" />
-          <label htmlFor="desig" className="placeholder">
-            Author Designation
-          </label>
-        </div>
-        {/* AUTHOR INFO MULTIPLE ROWS DYNAMIC ADJUSTMENT */}
-        {/* AUTHOR INFO MULTIPLE ROWS DYNAMIC ADJUSTMENT */}
-
         <div className="input-container ic1">
           <input
             id="jname"
@@ -120,8 +101,8 @@ const ConferenceAdd = () => {
           </label>
         </div>
 
-        <div className="mt-4 d-flex justify-content-start">
-          <span className="pr-3 pl-1 pt-2 text-dark">
+        <div className="mt-3 d-flex justify-content-start">
+          <span className="pr-5 pl-1 pt-2 text-dark">
             Conference Start Date:
           </span>
           <DatePicker
@@ -138,17 +119,18 @@ const ConferenceAdd = () => {
 
         <div className="input-container ic1 dropdown">
           <select
-            id="type"
+            id="typeCnf"
             className="input dropdown"
             type="text"
             {...register("type")}
           >
-            <option value="national" disabled defaultValue="national">
-              Type of Conference
-            </option>
             <option value="National">National</option>
             <option value="International">International</option>
           </select>
+          <div className="cut" />
+            <label htmlFor="typeCnf" className="placeholder">
+              Type of Conference
+            </label>
         </div>
 
         <div className="input-container ic1 dropdown">
@@ -158,15 +140,63 @@ const ConferenceAdd = () => {
             type="text"
             {...register("indexing")}
           >
-            <option value="" disabled defaultValue="No">
-              Indexed In
-            </option>
             <option value="SCI">SCI</option>
             <option value="SCIE">SCIE</option>
             <option value="SCOPUS">SCOPUS</option>
             <option value="Springer">Springer</option>
             <option value="Ei Compendex">Ei Compendex</option>
           </select>
+          <div className="cut" />
+          <label htmlFor="indexing" className="placeholder">
+            Indexing
+          </label>
+        </div>
+
+        <div className="input-container ic1 dropdown">
+          <select
+            id="conduct"
+            className="input dropdown"
+            type="text"
+            {...register("conducting")}
+            value={attend}
+            onChange={e => {setAttend(e.target.value)}}
+          >
+            <option value="Conducting">Conducting</option>
+            <option value="Attending">Attending</option>
+          </select>
+          <div className="cut" />
+          <label htmlFor="conduct" className="placeholder">
+            Role
+          </label>
+        </div>
+
+        <div className="input-container ic1" style={{ display: (attend === "Conducting" ? 'block' : 'none') }}>
+          <input
+            id="noAttend"
+            className="input"
+            type="text"
+            placeholder=" "
+            {...register("no_of_attendees")}
+          />
+          <div className="cut" />
+          <label htmlFor="noAttend" className="placeholder">
+            Number of Attendees
+          </label>
+        </div>
+
+        <div className="input-container ic1 dropdown">
+          <select
+            id="published_as"
+            className="input dropdown"
+            type="text"
+            {...register("published_as")}
+          >
+            <option value="Research Paper">Research Paper</option>
+          </select>
+          <div className="cut" />
+          <label htmlFor="published_as" className="placeholder">
+            Published as
+          </label>
         </div>
 
         <div className="input-container ic1">
@@ -198,6 +228,7 @@ const ConferenceAdd = () => {
             Funder Name
           </label>
         </div>
+
         <div className="input-container ic1">
           <input
             id="pubamt"

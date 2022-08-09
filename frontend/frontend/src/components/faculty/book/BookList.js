@@ -2,9 +2,9 @@ import { MDBTable, MDBTableHead, MDBTableBody } from "mdb-react-ui-kit";
 
 import { useState } from "react";
 import Modal from "../../common/Modal";
-import EditorView from "./EditorView";
+import BookView from "./BookView";
 
-const EditorList = ({ data }) => {
+const BookList = ({ data }) => {
   const [show, setShow] = useState(false);
   const [currentRecord, setCurrentRecord] = useState([]);
 
@@ -14,12 +14,12 @@ const EditorList = ({ data }) => {
   };
 
   return (
-    <div key="editor-key">
-      <MDBTable striped key="editor-table-key">
+    <div key="chapter-key">
+      <MDBTable striped key="chapter-table-key">
         <MDBTableHead>
           <tr key="head-record">
-            <th scope="col">Book Title</th>
-            <th scope="col">Position</th>
+            <th scope="col">Chapter</th>
+            <th scope="col">Book</th>
             <th scope="col">Indexing</th>
             <th scope="col">Publisher</th>
             <th scope="col">Year</th>
@@ -40,7 +40,7 @@ const EditorList = ({ data }) => {
                     <Modal
                       handleClick={handleClick}
                       show={show}
-                      childElement={<EditorView record={currentRecord} />}
+                      childElement={<BookView record={currentRecord} />}
                     ></Modal>
                     <button
                       className="ripple ripple-surface ripple-surface-light btn btn-dark btn-sm mx-2"
@@ -63,4 +63,4 @@ const EditorList = ({ data }) => {
   );
 };
 
-export default EditorList;
+export default BookList;

@@ -30,13 +30,13 @@ const ConferenceList = ({ data }) => {
           {data.map((obj) => {
             return (
               <tr key={obj.id}>
-                <th scope="row"> {obj.title} </th>
+                <th scope="row"> {obj.article_title} </th>
                 <th> {obj.conference_name} </th>
                 <th> {obj.place} </th>
                 <th> {obj.start_date} </th>
                 <th> {obj.end_date} </th>
-                <td>
-                  <div className="d-grid gap-2 flex justify-content-md-end">
+                <td style={{"display": "flex", "justifyContent":"space-around"}}>
+                  <div>
                     <Modal
                       handleClick={handleClick}
                       show={show}

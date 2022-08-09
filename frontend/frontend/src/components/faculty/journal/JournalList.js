@@ -3,7 +3,7 @@ import { MDBTable, MDBTableHead, MDBTableBody } from "mdb-react-ui-kit";
 import { useState } from "react";
 import Modal from "../../common/Modal";
 import JournalView from "./JournalView";
-import JournalAdd from "./JournalAdd";
+
 
 const JournalList = ({ data }) => {
   const [show, setShow] = useState(false);
@@ -20,7 +20,6 @@ const JournalList = ({ data }) => {
         <MDBTableHead>
           <tr key="head-record">
             <th scope="col">Title</th>
-            <th scope="col">Position</th>
             <th scope="col">Journal</th>
             <th scope="col">Year</th>
             <th scope="col"></th>
@@ -33,8 +32,8 @@ const JournalList = ({ data }) => {
                 <th scope="row"> {obj.article_title} </th>
                 <th> {obj.journal_name} </th>
                 <th> {obj.year} </th>
-                <td>
-                  <div className="d-grid gap-2 flex justify-content-md-end">
+                <td style={{"display": "flex", "justifyContent":"space-around"}}>
+                  <div>
                     <Modal
                       handleClick={handleClick}
                       show={show}

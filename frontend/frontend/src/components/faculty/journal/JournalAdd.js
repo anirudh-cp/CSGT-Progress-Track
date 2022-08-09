@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import API from "../../../API/APIService";
 import useUserStore from "../../../API/Stores/UserStore";
+
 
 const JournalAdd = () => {
   const { register, handleSubmit } = useForm({
@@ -13,12 +15,14 @@ const JournalAdd = () => {
       Support: "No",
     },
   });
+
   const { token, empID } = useUserStore();
+  const [pubType, setPubType] = useState("Open Access")
   const api = new API();
 
   const onSubmit = async (data) => {
     console.log(data);
-    const response = await api.AddPublication(token, empID, "journal", data);
+    const response = await api.AddData(token, empID, "journal", data);
     alert(response);
   };
 
@@ -74,13 +78,14 @@ const JournalAdd = () => {
             type="text"
             {...register("collaboration")}
           >
-            <option value="national" disabled defaultValue="national">
-              Type of collaboration
-            </option>
             <option value="National">National</option>
             <option value="International">International</option>
             <option value="Internal">Internal</option>
           </select>
+          <div className="cut" />
+          <label htmlFor="type" className="placeholder">
+          Type of collaboration
+          </label>
         </div>
         {/* AUTHOR INFO MULTIPLE ROWS DYNAMIC ADJUSTMENT */}
         {/* AUTHOR INFO MULTIPLE ROWS DYNAMIC ADJUSTMENT */}
@@ -113,7 +118,13 @@ const JournalAdd = () => {
             <option value="SCI">SCI</option>
             <option value="SCIE">SCIE</option>
             <option value="SCOPUS">SCOPUS</option>
+            <option value="Springer">Springer</option>
+            <option value="Ei Compendex">Ei Compendex</option>
           </select>
+          <div className="cut" />
+          <label htmlFor="indexing" className="placeholder">
+          Indexing
+          </label>
         </div>
 
         <div className="input-container ic1">
@@ -188,23 +199,26 @@ const JournalAdd = () => {
           </label>
         </div>
 
+        
         <div className="input-container ic1 dropdown">
           <select
-            id="indexing"
+            id="type_of_publication"
             className="input dropdown"
             type="text"
             {...register("type_of_publication")}
+            value={pubType}
+            onChange={e => {setPubType(e.target.value)}}
           >
-            <option value="" disabled defaultValue="Open Access">
-              Type of Publication
-            </option>
             <option value="Open Access">Open Access</option>
             <option value="Subscription">Subscription</option>
           </select>
+          <div className="cut" />
+          <label htmlFor="type_of_publication" className="placeholder">
+          Type of Publication
+          </label>
         </div>
 
-        {/* ONLY IF OPEN ACCESS IS SELECTED */}
-        {/* ONLY IF OPEN ACCESS IS SELECTED */}
+      <div style={{ display: (pubType === "Open Access" ? 'block' : 'none') }}>
         <div className="input-container ic1">
           <input
             id="fname"
@@ -218,32 +232,37 @@ const JournalAdd = () => {
             Funder Name
           </label>
         </div>
+
         <div className="input-container ic1">
           <input
             id="pubamt"
             className="input"
             type="text"
             placeholder=" "
-            {...register("amount_of_Publication")}
+            {...register("amount_of_publication")}
           />
           <div className="cut" />
           <label htmlFor="pubamt" className="placeholder">
             Amount of Publication
           </label>
         </div>
+
+        </div>
+
         <div className="input-container ic1 dropdown">
           <select
-            id="indexing"
+            id="support"
             className="input dropdown"
             type="text"
             {...register("support")}
           >
-            <option value="" disabled defaultValue="No">
-              Support from VIT
-            </option>
             <option value="Yes">Yes</option>
             <option value="No">No</option>
           </select>
+          <div className="cut" />
+          <label htmlFor="support" className="placeholder">
+          Support from VIT
+          </label>
         </div>
         {/* ONLY IF OPEN ACCESS IS SELECTED */}
         {/* ONLY IF OPEN ACCESS IS SELECTED */}

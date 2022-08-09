@@ -11,13 +11,13 @@ const PatentsAdd = () => {
 
   const { token, empID } = useUserStore();
   const api = new API();
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState();
   var strftime = require("strftime");
 
   const onSubmit = async (data) => {
     console.log(data);
     data.patent_created_date = strftime("%Y-%m-%d", startDate);
-    const response = await api.AddPatents(token, empID, data);
+    const response = await api.AddPatents(token, empID, "patent", data);
     alert(response);
   };
 

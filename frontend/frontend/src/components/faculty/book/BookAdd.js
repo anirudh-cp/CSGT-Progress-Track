@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import API from "../../../API/APIService";
 import useUserStore from "../../../API/Stores/UserStore";
 
-const ChapterAdd = () => {
+const BookAdd = () => {
   const { register, handleSubmit } = useForm({
     defaultValues: {
       Vol_no: 0,
@@ -17,12 +17,7 @@ const ChapterAdd = () => {
 
   const onSubmit = async (data) => {
     console.log(data);
-    const response = await api.AddPublication(
-      token,
-      emp_id,
-      "book_chapters",
-      data
-    );
+    const response = await api.AddData(token, emp_id, "book", data);
     alert(response);
   };
 
@@ -321,4 +316,4 @@ const ChapterAdd = () => {
   );
 };
 
-export default ChapterAdd;
+export default BookAdd;

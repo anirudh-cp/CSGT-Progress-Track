@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import API from '../../../API/APIService'
-import EditorList from "./EditorList";
+import BookList from "./BookList";
 import Loading from "../../common/Loading";
 import EmptyResults from "../../common/EmptyResults"
 
@@ -9,7 +9,7 @@ import useUserStore from "../../../API/Stores/UserStore";
 import useFilterStore from "../../../API/Stores/FilterStore";
 
 
-export default function Editor() {
+export default function Book() {
 
     const APIObject = new API();
     const [data, setData] = useState([]);
@@ -20,8 +20,8 @@ export default function Editor() {
 
     const GetAPI = async () => {
         setLoad(true);
-        //console.log(strftime("%Y-%m-%d", filterStartDate), strftime("%Y-%m-%d", filterEndDate));
-        const response = await APIObject.getPublicationsData(token, empID, "book_editor", 
+        console.log(strftime("%Y-%m-%d", filterStartDate), strftime("%Y-%m-%d", filterEndDate));
+        const response = await APIObject.getData(token, empID, "book", 
         strftime("%Y-%m-%d", filterStartDate), strftime("%Y-%m-%d", filterEndDate)).then(response => {
             setData(response);
         }).catch(error => console.log(error));
@@ -36,7 +36,7 @@ export default function Editor() {
     return (
         <div>
             {load? <Loading />: ( 
-                (data.length===0)  ? <EmptyResults /> :<EditorList data={data} />
+                (data.length===0)  ? <EmptyResults /> :<BookList data={data} />
                 ) 
             }
         </div>

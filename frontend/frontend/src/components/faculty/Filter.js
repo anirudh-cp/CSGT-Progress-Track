@@ -5,10 +5,9 @@ import useFilterStore from "../../API/Stores/FilterStore";
 import Modal from "../common/Modal";
 import JournalAdd from "./journal/JournalAdd";
 import ConferenceAdd from "./conference/ConferenceAdd";
-import ChapterAdd from "./chapter/ChapterAdd";
-import EditorAdd from "./editor/EditorAdd";
 import ConsultancyAdd from "./consultancy/ConsultancyAdd";
 import PatentsAdd from "./patents/PatentsAdd";
+import BookAdd from "./book/BookAdd";
 
 
 const Filter = ({ setKey, tabIndex }) => {
@@ -46,12 +45,9 @@ const Filter = ({ setKey, tabIndex }) => {
             setChild(<ConsultancyAdd />)
         }
         else if (tabIndex === 4) {
-            setChild(<ChapterAdd />)
+            setChild(<BookAdd />)
         }
         else if (tabIndex === 5) {
-            setChild(<EditorAdd />)
-        }
-        else if (tabIndex === 6) {
             setChild(<PatentsAdd />)
         }
 
