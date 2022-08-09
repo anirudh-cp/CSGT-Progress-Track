@@ -163,6 +163,18 @@ class ActionsReportApiView(APIView):
             context['industrial'] = reportData
 
 
+        employees = []
+        for key, value in NameDict.items():
+            employees.append([key, value, 
+                              conference.objects.filter(emp_id=key).count(),
+                              journal.objects.filter(emp_id=key).count(),
+                              book.objects.filter(emp_id=key).count(),
+                              consultancy.objects.filter(emp_id=key).count(),
+                              patent.objects.filter(emp_id=key).count(),
+                              project.objects.filter(emp_id=key).count(),
+                              industrial_interaction.objects.filter(emp_id=key).count()])
+        context['employees'] = employees
+
         template_path = 'format.html'
         # Create a Django response object, and specify content_type as pdf
         response = HttpResponse(content_type='application/pdf')

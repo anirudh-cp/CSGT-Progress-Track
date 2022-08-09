@@ -39,17 +39,68 @@
             font-size: 15px;
             margin: 5px;
         }
+
+        th {
+            font-size: 12px;
+            border: 1px solid;
+            border-collapse: collapse;
+            padding: 2px;
+        }
+
+        td {
+            font-size: 11px;
+            border: 1px solid;
+            border-collapse: collapse;
+            padding: 2px;
+            text-align: center;
+        }
+
+        table{
+            border-collapse: collapse;
+            border: 1px solid;
+        }
     </style>
 </head>
 
 <body>
     <h1>CSGT Progress Report</h1>
     <p class="subtile">
-        Generated on the {{ currentDate }}. Report on {{ params }} from {{
-        startDate }} to {{ endDate }}.
+        Generated on the {{ currentDate }}. Report on {{ params }} from {{ startDate }} to {{ endDate }}.
     </p>
     <hr />
     <br />
+
+    {% if employees|length > 0 %}
+    <table border="1">
+        <tr class="normal">
+            <th>Emp ID</th>
+            <th>Name</th>
+            <th>Cf</th>
+            <th>J</th>
+            <th>B</th>
+            <th>Cn</th>
+            <th>Pt</th>
+            <th>Pt</th>
+            <th>I</th>
+        </tr>
+
+        {% for record in employees %}
+        <tr>
+            <td>{{ record.0 }}</td>
+            <td>{{ record.1 }}</td>
+            <td>{{ record.2 }}</td>
+            <td>{{ record.3 }}</td>
+            <td>{{ record.4 }}</td>
+            <td>{{ record.5 }}</td>
+            <td>{{ record.6 }}</td>
+            <td>{{ record.7 }}</td>
+            <td>{{ record.8 }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    <br><br>
 
     {% if conference|length > 0 %}
     <h2>Conferences:</h2>
@@ -129,6 +180,8 @@
         {% endfor %}
     </ul>
     {% endif %}
+
+    <hr>
 
 </body>
 
