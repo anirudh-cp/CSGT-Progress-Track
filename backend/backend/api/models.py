@@ -338,6 +338,7 @@ class industrial_interaction(models.Model):
 
     emp_id = models.ForeignKey(personal, on_delete=models.CASCADE)
     mou_signed = models.CharField(max_length=30, choices=MOU_SIGNED)
+    title = models.CharField(max_length=100)
     description = models.CharField(max_length=256, null=True, blank=True)
     date = models.DateField(default=datetime(1970, 1, 1))
 

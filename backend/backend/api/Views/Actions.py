@@ -126,7 +126,6 @@ class ActionsReportApiView(APIView):
                 'emp_id', 'funding_agency', 'role', 'amount_sanctioned', 'title', 'start_date')
             dataPool['project'] = sorted(queryFields, key=lambda d: d['start_date'])
 
-
         if 'industrial' in data:
             queryData = (industrial_interaction.objects.filter(date__gt=startDate, date__lte=endDate, **filters))
             queryFields = queryData.values('emp_id', 'mou_signed', 'date')

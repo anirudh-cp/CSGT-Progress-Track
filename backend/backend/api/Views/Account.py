@@ -84,17 +84,17 @@ class ObtainAuthTokenView(APIView):
             if context['groups'][0] == 'faculty':
                 try:
                     queryData = personal.objects.get(user=account.email)
-                    context['name'] = queryData.Name
-                    context['Emp_ID'] = queryData.Emp_ID
+                    context['name'] = queryData.name
+                    context['emp_id'] = queryData.emp_id
                 except personal.DoesNotExist:
                     context['name'] = 'undefined'
-                    context['Emp_ID'] = 0
+                    context['emp_id'] = 0
             elif context['groups'][0] == 'admin':
                 context['name'] = "Admin"
-                context['Emp_ID'] = 0
+                context['emp_id'] = 0
             elif context['groups'][0] == 'director':
                 context['name'] = "Director"
-                context['Emp_ID'] = 0
+                context['emp_id'] = 0
                 
             context['token'] = token.key
             return Response(context, status=status.HTTP_200_OK)

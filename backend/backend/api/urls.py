@@ -1,38 +1,28 @@
 from django.urls import path, include, register_converter
 
 from .Views.Faculty import *
-from .Views.Publications import *
-from .Views.Consultancy import *
-from .Views.Patent import *
-
 from .Views.Actions import *
-
 from .Views.Account import *
+from .Views.Data import *
 
 from .convertors import DateConverter
 
 register_converter(DateConverter, 'date')
 
 urlpatterns = [
+    
     path('faculty/<int:Emp_ID>', FacultySingleApiView.as_view()),
     path('faculty', FacultyAllApiView.as_view()),
     
-    path('publications/<int:Emp_ID>/<Type>/<date:startDate>/<date:endDate>', PublicationsSingleGetApiView.as_view()),
-    path('publications/<int:Emp_ID>/<Type>', PublicationsSinglePutApiView.as_view()),
-    path('publications/<Type>/<date:startDate>/<date:endDate>', PublicationsAllApiView.as_view()),
-    
-    path('consultancy/<int:Emp_ID>/<date:startDate>/<date:endDate>', ConsultancySingleGetApiView.as_view()),
-    path('consultancy/<int:Emp_ID>', ConsultancySinglePutApiView.as_view()),
-    path('consultancy/<date:startDate>/<date:endDate>', ConsultancyAllApiView.as_view()),
-    
-    path('patent/<int:Emp_ID>/<date:startDate>/<date:endDate>', PatentSingleGetApiView.as_view()),
-    path('patent/<int:Emp_ID>', PatentSinglePutApiView.as_view()),
-    path('patent/<date:startDate>/<date:endDate>', PatentAllApiView.as_view()),
-    
-     path('actions/<date:startDate>/<date:endDate>/<path:data>', ActionsReportApiView.as_view()),
-     path('actions/users', ActionsUsersApiView.as_view()),
+    path('actions/<date:startDate>/<date:endDate>/<path:data>', ActionsReportApiView.as_view()),
+    path('actions/users', ActionsUsersApiView.as_view()),
      
-     path('account/login', ObtainAuthTokenView.as_view()),
-     path('account/register', registration_view),
+    path('account/login', ObtainAuthTokenView.as_view()),
+    path('account/register', registration_view),
+    
+    path('data/<int:emp_id>/<Type>/<date:startDate>/<date:endDate>', DataSingleGetApiView.as_view()),
+    path('data/<int:emp_id>/<Type>', DataSinglePutApiView.as_view()),
+    path('data/<Type>/<date:startDate>/<date:endDate>', DataAllApiView.as_view()),
+       
 ]
 

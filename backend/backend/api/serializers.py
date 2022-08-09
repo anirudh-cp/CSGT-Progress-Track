@@ -17,7 +17,7 @@ class journalserializer(serializers.ModelSerializer):
 		model=journal
 		fields='__all__'
 
-class book(serializers.ModelSerializer):
+class bookserializer(serializers.ModelSerializer):
 	class Meta:
 		model=book
 		fields='__all__'
@@ -30,6 +30,17 @@ class consultancyserializer(serializers.ModelSerializer):
 class patentserializer(serializers.ModelSerializer):
 	class Meta:
 		model=patent
+		fields='__all__'
+  
+class projectserializer(serializers.ModelSerializer):
+	class Meta:
+		model=project
+		fields='__all__'
+  
+  
+class industrialserializer(serializers.ModelSerializer):
+	class Meta:
+		model=industrial_interaction
 		fields='__all__'
 
 class accountserializer(serializers.ModelSerializer):
