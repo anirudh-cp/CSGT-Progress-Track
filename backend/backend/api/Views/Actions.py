@@ -16,7 +16,7 @@ import datetime
 sys.path.append('../..')
 
 
-# sample : api/actions/conference/consultancy/patent/journal/book_chapter/book_editor
+# sample : /api/actions/2020-01-01/2025-12-31/conference/journal/book/consultancy/patent/project/industrial
 
 
 class ActionsReportApiView(APIView):
@@ -37,30 +37,55 @@ class ActionsReportApiView(APIView):
         if 'conference' in data:
             queryData = (conference.objects.filter(start_date__gt=startDate, start_date__lte=endDate) |
                          conference.objects.filter(start_date__lte=startDate, end_date__gte=startDate))
-            dataPool['conference'] = queryData.values(
+            queryFields = queryData.values(
                 'emp_id', 'start_date', 'article_title', 'conference_name', 'end_date')
+            dataPool['conference'] = sorted(queryFields, key=lambda d: d['start_date'])
 
         if 'journal' in data:
             queryData = (journal.objects.filter(
                 year__gte=startDate.year, year__lte=endDate.year))
-            dataPool['journal'] = queryData.values(
+            queryFields = queryData.values(
                 'emp_id', 'year', 'article_title', 'journal_name')
+            dataPool['journal'] = sorted(queryFields, key=lambda d: d['year'])
 
         if 'book' in data:
             queryDataChapter = (book.objects.filter(
                 year__gte=startDate.year, year__lte=endDate.year, type='Book Chapter'))
             queryDataEditor = (book.objects.filter(
                 year__gte=startDate.year, year__lte=endDate.year, type='Book Editorial'))
-            dataPool['bookChapter'] = queryDataChapter.values(
+            
+            queryFieldsChapter = queryDataChapter.values(
                 'emp_id', 'year', 'book_title', 'chapter_title', 'publisher_name')
-            dataPool['bookEditor'] = queryDataEditor.values(
+            dataPool['bookChapter'] = sorted(queryFieldsChapter, key=lambda d: d['year'])
+            
+            queryFieldsEditor = queryDataEditor.values(
                 'emp_id', 'year', 'book_title', 'publisher_name')
+            dataPool['bookEditor'] = sorted(queryFieldsEditor, key=lambda d: d['year'])
 
         if 'consultancy' in data:
             queryData = (consultancy.objects.filter(start_date__gt=startDate, start_date__lte=endDate) |
                          consultancy.objects.filter(start_date__lte=startDate, end_date__gte=startDate))
-            dataPool['consultancy'] = queryData.values(
+            queryFields = queryData.values(
                 'emp_id', 'start_date', 'type', 'company_name', 'end_date', 'amount_sanctioned')
+            dataPool['consultancy'] = sorted(queryFields, key=lambda d: d['start_date'])
+
+        if 'patent' in data:
+            queryData = (patent.objects.filter(filed_date__gt=startDate, filed_date__lte=endDate))
+            queryFields = queryData.values(
+                'emp_id', 'filed_date', 'published_date', 'granted_date', 'title')
+            dataPool['patent'] = sorted(queryFields, key=lambda d: d['filed_date'])
+
+        if 'project' in data:
+            queryData = (project.objects.filter(start_date__gt=startDate, start_date__lte=endDate))
+            queryFields = queryData.values(
+                'emp_id', 'funding_agency', 'role', 'amount_sanctioned', 'title', 'start_date')
+            dataPool['project'] = sorted(queryFields, key=lambda d: d['start_date'])
+
+
+        if 'industrial' in data:
+            queryData = (industrial_interaction.objects.filter(date__gt=startDate, date__lte=endDate))
+            queryFields = queryData.values('emp_id', 'mou_signed', 'date')
+            dataPool['industrial'] = sorted(queryFields, key=lambda d: d['date'])
 
 
         # Get list of all employee IDs to find their names.
@@ -106,9 +131,36 @@ class ActionsReportApiView(APIView):
             for item in dataPool['consultancy']:
                 reportData.append((item['start_date'], f"{item['type']} with "
                                    f"{item['company_name']} for {(item['end_date'] - item['start_date']).days} days "
-                                   f"with ₹{item['amount_sanctioned']} amount sanctioned "
+                                   f"with Rs.{item['amount_sanctioned']} amount sanctioned "
                                    f"by {NameDict[item['emp_id']]} ({item['emp_id']})"))
             context['consultancy'] = reportData
+
+        if 'patent' in data:
+            reportData = []
+            for item in dataPool['patent']:
+                line = f"{item['title']} "
+                if item['published_date']:
+                    line += f" published on {item['published_date']} "
+                if item['granted_date']:
+                    line += f" granted on {item['granted_date']} "
+                line += f"by {NameDict[item['emp_id']]} ({item['emp_id']})"
+                reportData.append((f"Filed on {item['filed_date']}", line))
+            context['patent'] = reportData
+
+        if 'project' in data:
+            reportData = []
+            for item in dataPool['project']:
+                reportData.append((item['start_date'], f"{item['title']} funded by  "
+                                   f"{item['funding_agency']} for Rs.{item['amount_sanctioned']} "
+                                   f"by {NameDict[item['emp_id']]} ({item['emp_id']}) as {item['role']}"))
+            context['project'] = reportData
+
+        if 'industrial' in data:
+            reportData = []
+            for item in dataPool['industrial']:
+                reportData.append((item['date'], f"MOU signed status: {item['mou_signed']} "
+                                   f"by {NameDict[item['emp_id']]} ({item['emp_id']})"))
+            context['industrial'] = reportData
 
 
         template_path = 'format.html'
@@ -120,7 +172,7 @@ class ActionsReportApiView(APIView):
         html = template.render(context)
 
         # create a pdf
-        pisa_status = pisa.CreatePDF(html, dest=response)
+        pisa_status = pisa.CreatePDF(html.encode('UTF-8'), encoding="UTF-8", dest=response)
         # if error then show some funny view
         if pisa_status.err:
             return HttpResponse('We had some errors <pre>' + html + '</pre>')
