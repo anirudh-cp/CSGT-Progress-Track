@@ -24,6 +24,51 @@ class ActionsReportApiView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, startDate, endDate, data, *args, **kwargs):
+        
+        context = self.getContext(startDate, endDate, data)
+        
+        template_path = 'format.html'
+        # Create a Django response object, and specify content_type as pdf
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+        # find the template and render it.
+        template = get_template(template_path)
+        html = template.render(context)
+
+        # create a pdf
+        pisa_status = pisa.CreatePDF(html.encode('UTF-8'), encoding="UTF-8", dest=response)
+        # if error then show some funny view
+        if pisa_status.err:
+            return HttpResponse('We had some errors <pre>' + html + '</pre>')
+        return response
+        # return Response(' ', status.HTTP_200_OK)
+        # return FileResponse(buffer, as_attachment=True, filename="report.pdf")
+        
+    
+    def post(self, request, startDate, endDate, data, *args, **kwargs):
+        
+        employees = request.data['employees']
+        context = self.getContext(startDate, endDate, data, {'emp_id__in': employees})
+        
+        template_path = 'format.html'
+        # Create a Django response object, and specify content_type as pdf
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+        # find the template and render it.
+        template = get_template(template_path)
+        html = template.render(context)
+
+        # create a pdf
+        pisa_status = pisa.CreatePDF(html.encode('UTF-8'), encoding="UTF-8", dest=response)
+        # if error then show some funny view
+        if pisa_status.err:
+            return HttpResponse('We had some errors <pre>' + html + '</pre>')
+        return response
+        # return Response(' ', status.HTTP_200_OK)
+        # return FileResponse(buffer, as_attachment=True, filename="report.pdf")
+    
+    
+    def getContext(self, startDate, endDate, data, filters={}):
 
         data = data.split('/')
 
@@ -35,24 +80,24 @@ class ActionsReportApiView(APIView):
         }
 
         if 'conference' in data:
-            queryData = (conference.objects.filter(start_date__gt=startDate, start_date__lte=endDate) |
-                         conference.objects.filter(start_date__lte=startDate, end_date__gte=startDate))
+            queryData = (conference.objects.filter(start_date__gt=startDate, start_date__lte=endDate, **filters) |
+                         conference.objects.filter(start_date__lte=startDate, end_date__gte=startDate, **filters))
             queryFields = queryData.values(
                 'emp_id', 'start_date', 'article_title', 'conference_name', 'end_date')
             dataPool['conference'] = sorted(queryFields, key=lambda d: d['start_date'])
 
         if 'journal' in data:
             queryData = (journal.objects.filter(
-                year__gte=startDate.year, year__lte=endDate.year))
+                year__gte=startDate.year, year__lte=endDate.year, **filters))
             queryFields = queryData.values(
                 'emp_id', 'year', 'article_title', 'journal_name')
             dataPool['journal'] = sorted(queryFields, key=lambda d: d['year'])
 
         if 'book' in data:
             queryDataChapter = (book.objects.filter(
-                year__gte=startDate.year, year__lte=endDate.year, type='Book Chapter'))
+                year__gte=startDate.year, year__lte=endDate.year, type='Book Chapter', **filters))
             queryDataEditor = (book.objects.filter(
-                year__gte=startDate.year, year__lte=endDate.year, type='Book Editorial'))
+                year__gte=startDate.year, year__lte=endDate.year, type='Book Editorial', **filters))
             
             queryFieldsChapter = queryDataChapter.values(
                 'emp_id', 'year', 'book_title', 'chapter_title', 'publisher_name')
@@ -63,27 +108,27 @@ class ActionsReportApiView(APIView):
             dataPool['bookEditor'] = sorted(queryFieldsEditor, key=lambda d: d['year'])
 
         if 'consultancy' in data:
-            queryData = (consultancy.objects.filter(start_date__gt=startDate, start_date__lte=endDate) |
-                         consultancy.objects.filter(start_date__lte=startDate, end_date__gte=startDate))
+            queryData = (consultancy.objects.filter(start_date__gt=startDate, start_date__lte=endDate, **filters) |
+                         consultancy.objects.filter(start_date__lte=startDate, end_date__gte=startDate, **filters))
             queryFields = queryData.values(
                 'emp_id', 'start_date', 'type', 'company_name', 'end_date', 'amount_sanctioned')
             dataPool['consultancy'] = sorted(queryFields, key=lambda d: d['start_date'])
 
         if 'patent' in data:
-            queryData = (patent.objects.filter(filed_date__gt=startDate, filed_date__lte=endDate))
+            queryData = (patent.objects.filter(filed_date__gt=startDate, filed_date__lte=endDate, **filters))
             queryFields = queryData.values(
                 'emp_id', 'filed_date', 'published_date', 'granted_date', 'title')
             dataPool['patent'] = sorted(queryFields, key=lambda d: d['filed_date'])
 
         if 'project' in data:
-            queryData = (project.objects.filter(start_date__gt=startDate, start_date__lte=endDate))
+            queryData = (project.objects.filter(start_date__gt=startDate, start_date__lte=endDate, **filters))
             queryFields = queryData.values(
                 'emp_id', 'funding_agency', 'role', 'amount_sanctioned', 'title', 'start_date')
             dataPool['project'] = sorted(queryFields, key=lambda d: d['start_date'])
 
 
         if 'industrial' in data:
-            queryData = (industrial_interaction.objects.filter(date__gt=startDate, date__lte=endDate))
+            queryData = (industrial_interaction.objects.filter(date__gt=startDate, date__lte=endDate, **filters))
             queryFields = queryData.values('emp_id', 'mou_signed', 'date')
             dataPool['industrial'] = sorted(queryFields, key=lambda d: d['date'])
 
@@ -174,23 +219,8 @@ class ActionsReportApiView(APIView):
                               project.objects.filter(emp_id=key).count(),
                               industrial_interaction.objects.filter(emp_id=key).count()])
         context['employees'] = employees
-
-        template_path = 'format.html'
-        # Create a Django response object, and specify content_type as pdf
-        response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-        # find the template and render it.
-        template = get_template(template_path)
-        html = template.render(context)
-
-        # create a pdf
-        pisa_status = pisa.CreatePDF(html.encode('UTF-8'), encoding="UTF-8", dest=response)
-        # if error then show some funny view
-        if pisa_status.err:
-            return HttpResponse('We had some errors <pre>' + html + '</pre>')
-        return response
-        # return Response(' ', status.HTTP_200_OK)
-        # return FileResponse(buffer, as_attachment=True, filename="report.pdf")
+        
+        return context
 
 
 class ActionsUsersApiView(APIView):
