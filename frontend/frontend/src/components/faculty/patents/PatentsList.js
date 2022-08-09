@@ -21,8 +21,9 @@ const PatentsList = ({ data }) => {
           <tr key="head-record">
             <th scope="col">Title</th>
             <th scope="col">Type</th>
-            <th scope="col">Position</th>
-            <th scope="col">Date</th>
+            <th scope="col">Filed Date</th>
+            <th scope="col">Published Date</th>
+            <th scope="col">Granted Date</th>
             <th scope="col"></th>
           </tr>
         </MDBTableHead>
@@ -30,13 +31,13 @@ const PatentsList = ({ data }) => {
           {data.map((obj) => {
             return (
               <tr key={obj.id}>
-                <th scope="row"> {obj.patent_title} </th>
+                <th scope="row"> {obj.title} </th>
                 <th> {obj.type} </th>
                 <th> {obj.filed_date} </th>
                 <th> {obj.published_date} </th>
                 <th> {obj.granted_date} </th>
-                <td>
-                  <div className="d-grid gap-2 flex justify-content-md-end">
+                <td style={{"display": "flex", "justifyContent":"space-around"}}>
+                  <div>
                     <Modal
                       handleClick={handleClick}
                       show={show}

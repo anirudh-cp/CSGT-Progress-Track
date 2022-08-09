@@ -10,7 +10,7 @@ const ConferenceView = ({ record }) => {
           <MDBTableBody>
             <tr>
               <th scope="row"> Title </th>
-              <td> {record.title} </td>
+              <td> {record.article_title} </td>
             </tr>
             <tr>
               <th scope="row"> Conference </th>
@@ -54,7 +54,7 @@ const ConferenceView = ({ record }) => {
             </tr>
             <tr>
               <th scope="row"> Amount of Publication </th>
-              <td> {record.amount_of_Publication} </td>
+              <td> {record.amount_of_publication} </td>
             </tr>
             <tr>
               <th scope="row"> Support received status </th>

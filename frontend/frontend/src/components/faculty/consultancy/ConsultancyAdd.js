@@ -17,12 +17,13 @@ const ConsultancyAdd = () => {
   const api = new API();
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
+  const [fund, setFund] = useState("No")
   var strftime = require("strftime");
 
   const onSubmit = async (data) => {
     console.log(data);
-    data.consultancy_startdate = strftime("%Y-%m-%d", startDate);
-    data.consultancy_enddate = strftime("%Y-%m-%d", endDate);
+    data.start_date = strftime("%Y-%m-%d", startDate);
+    data.end_date = strftime("%Y-%m-%d", endDate);
     const response = await api.AddData(token, empID, "consultancy", data);
     alert(response);
   };
@@ -34,7 +35,7 @@ const ConsultancyAdd = () => {
     >
       <form
         className="form justify-content-center wrapper"
-        style={{ height: "100%" }}
+        style={{ height: "100%", width: "100%" }}
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="title">Add or Update Consultancy</div>
@@ -50,9 +51,7 @@ const ConsultancyAdd = () => {
               Type of Consultancy
             </option>
             <option value="Product development">Product development</option>
-            <option value="Research Collaboration">
-              Research Collaboration
-            </option>
+            <option value="Research Collaboration">Research Collaboration</option>
           </select>
         </div>
 
@@ -74,21 +73,40 @@ const ConsultancyAdd = () => {
           </label>
         </div>
 
+        <div className="input-container ic1">
+          <input
+            id="desc"
+            className="input"
+            type="text"
+            placeholder=" "
+            required
+            {...register("description")}
+          />
+          <div className="cut" />
+          <label htmlFor="desc" className="placeholder">
+            Description
+          </label>
+        </div>
+
         <div className="input-container ic1 dropdown">
           <select
-            id="indexing"
+            id="fstat"
             className="input dropdown"
             type="text"
             {...register("funding_status")}
+            value={fund}
+            onChange={e => {setFund(e.target.value)}}
           >
-            <option value="" disabled defaultValue="No">
-              Funding status
-            </option>
             <option value="Yes">Yes</option>
             <option value="No">No</option>
           </select>
+          <div className="cut" />
+          <label htmlFor="fstat" className="placeholder">
+            Funding Status
+          </label>
         </div>
 
+        <div style={{ display: (fund === "Yes" ? 'block' : 'none') }}>
         <div className="input-container ic1">
           <input
             id="amt"
@@ -99,7 +117,7 @@ const ConsultancyAdd = () => {
           />
           <div className="cut" />
           <label htmlFor="amt" className="placeholder">
-            Amount
+            Amount Registered
           </label>
         </div>
 
@@ -113,7 +131,7 @@ const ConsultancyAdd = () => {
           />
           <div className="cut" />
           <label htmlFor="amt" className="placeholder">
-            Amount
+            Amount Sanctioned
           </label>
         </div>
 
@@ -130,9 +148,10 @@ const ConsultancyAdd = () => {
             Invoice Number
           </label>
         </div>
+        </div>
 
-        <div className="mt-4 d-flex justify-content-start">
-          <span className="pr-3 pl-1 pt-2 text-dark">
+        <div className="mt-3 d-flex justify-content-start">
+          <span className="pr-5 pl-1 pt-2 text-dark">
             Consultancy Start Date:
           </span>
           <DatePicker

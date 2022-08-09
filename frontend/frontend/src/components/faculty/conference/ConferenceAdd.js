@@ -23,8 +23,8 @@ const ConferenceAdd = () => {
 
   const onSubmit = async (data) => {
     console.log(data);
-    data.Conference_startdate = strftime("%Y-%m-%d", startDate);
-    data.Conference_enddate = strftime("%Y-%m-%d", endDate);
+    data.start_date = strftime("%Y-%m-%d", startDate);
+    data.end_date = strftime("%Y-%m-%d", endDate);
     const response = await api.AddData(token, empID, "conference", data);
     alert(response);
   };
@@ -235,7 +235,7 @@ const ConferenceAdd = () => {
             className="input"
             type="text"
             placeholder=" "
-            {...register("amount_of_Publication")}
+            {...register("amount_of_publication")}
           />
           <div className="cut" />
           <label htmlFor="pubamt" className="placeholder">
@@ -250,12 +250,13 @@ const ConferenceAdd = () => {
             type="text"
             {...register("support")}
           >
-            <option value="" disabled defaultValue="No">
-              Support from VIT
-            </option>
             <option value="Yes">Yes</option>
             <option value="No">No</option>
           </select>
+          <div className="cut" />
+          <label htmlFor="support" className="placeholder">
+          Support from VIT
+          </label>
         </div>
         {/* ONLY IF OPEN ACCESS IS SELECTED */}
         {/* ONLY IF OPEN ACCESS IS SELECTED */}

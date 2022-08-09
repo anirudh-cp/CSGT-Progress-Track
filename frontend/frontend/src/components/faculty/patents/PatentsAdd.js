@@ -11,12 +11,18 @@ const PatentsAdd = () => {
 
   const { token, empID } = useUserStore();
   const api = new API();
-  const [startDate, setStartDate] = useState();
+  const [filedDate, setFiledDate] = useState();
+  const [publishedDate, setPublishedDate] = useState();
+  const [grantDate, setGrantDate] = useState();
+  const [status1, setStatus1] = useState("No");
+  const [status2, setStatus2] = useState("No");
   var strftime = require("strftime");
 
   const onSubmit = async (data) => {
     console.log(data);
-    data.patent_created_date = strftime("%Y-%m-%d", startDate);
+    data.filed_date = strftime("%Y-%m-%d", filedDate);
+    data.published_date = strftime("%Y-%m-%d", publishedDate);
+    data.granted_date = strftime("%Y-%m-%d", grantDate);
     const response = await api.AddPatents(token, empID, "patent", data);
     alert(response);
   };
@@ -40,11 +46,27 @@ const PatentsAdd = () => {
             type="text"
             placeholder=" "
             required
-            {...register("patent_title")}
+            {...register("title")}
           />
           <div className="cut" />
           <label htmlFor="title" className="placeholder">
             Title
+          </label>
+        </div>
+
+        <div className="input-container ic1 dropdown">
+          <select
+            id="type"
+            className="input dropdown"
+            type="text"
+            {...register("type")}
+          >
+            <option value="National">National</option>
+            <option value="International">International</option>
+          </select>
+          <div className="cut" />
+          <label htmlFor="types" className="placeholder">
+            Type of Patent
           </label>
         </div>
 
@@ -63,33 +85,57 @@ const PatentsAdd = () => {
           </label>
         </div>
 
-        {/* AUTHOR INFO MULTIPLE ROWS DYNAMIC ADJUSTMENT */}
-        {/* AUTHOR INFO MULTIPLE ROWS DYNAMIC ADJUSTMENT */}
+        <div className="mt-3 d-flex justify-content-start">
+          <span className="pr-5 pl-1 pt-2 text-dark">Patent Filed Date:</span>
+          <DatePicker onChange={setFiledDate} value={filedDate} className="pb-2 pt-2"/>
+        </div>
 
         <div className="input-container ic1 dropdown">
           <select
-            id="type"
+            id="status1"
             className="input dropdown"
             type="text"
-            {...register("type")}
+            value={status1}
+            onChange={e => {setStatus1(e.target.value)}}
           >
-            <option value="national" disabled defaultValue="national">
-              Type of collaboration
-            </option>
-            <option value="National">National</option>
-            <option value="International">International</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
           </select>
+          <div className="cut" />
+          <label htmlFor="status1" className="placeholder">
+            Patent Published?
+          </label>
         </div>
-        {/* AUTHOR INFO MULTIPLE ROWS DYNAMIC ADJUSTMENT */}
-        {/* AUTHOR INFO MULTIPLE ROWS DYNAMIC ADJUSTMENT */}
 
-        <div className="mt-4 d-flex justify-content-start">
-          <span className="pr-3 pl-1 pt-2 text-dark">Patent Created Date:</span>
-          <DatePicker
-            onChange={setStartDate}
-            value={startDate}
-            className="pb-2 pt-2"
-          />
+        <div style={{ display: (status1 === "Yes" ? 'block' : 'none') }}>
+        <div className="mt-3 d-flex justify-content-start">
+          <span className="pr-5 pl-1 pt-2 text-dark">Patent Published Date:</span>
+          <DatePicker onChange={setPublishedDate} value={publishedDate} className="pb-2 pt-2"/>
+        </div>
+        </div>
+        
+        <div className="input-container ic1 dropdown">
+          <select
+            id="stat2"
+            className="input dropdown"
+            type="text"
+            value={status2}
+            onChange={e => {setStatus2(e.target.value)}}
+          >
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+          <div className="cut" />
+          <label htmlFor="stat2" className="placeholder">
+            Patent Granted?
+          </label>
+        </div>
+        
+        <div style={{ display: ((status1 === "Yes" && status2 === "Yes") ? 'block' : 'none') }}>
+        <div className="mt-3 d-flex justify-content-start" >
+          <span className="pr-5 pl-1 pt-2 text-dark">Patent Granted Date:</span>
+          <DatePicker onChange={setGrantDate} value={grantDate} className="pb-2 pt-2"/>
+        </div>
         </div>
 
         <input type="submit" className="submit" value="Add Record" />
