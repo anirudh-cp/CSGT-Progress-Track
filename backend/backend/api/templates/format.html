@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Report</title>
     <style>
         @page {
@@ -17,29 +18,117 @@
             margin: 5px;
         }
 
-        [class~=subtile] {
+        h2 {
+            font-size: 18px;
+            margin: 10px 0xp 5px;
+        }
+
+        h3 {
+            font-size: 15px;
+            margin: 0px 0px 5px;
+        }
+
+        [class~="subtile"] {
             text-align: center;
             font-style: italic;
             font-size: 13px;
             margin: 0px;
         }
 
-        [class~=normal] {
-            font-size: 16px;
+        [class~="normal"] {
+            font-size: 15px;
             margin: 5px;
         }
     </style>
-    
 </head>
+
 <body>
     <h1>CSGT Progress Report</h1>
     <p class="subtile">
-        Generated on the {{ currentDate }}. Report on {{ params }} from {{ startDate }} to {{ endDate }}.
+        Generated on the {{ currentDate }}. Report on {{ params }} from {{
+        startDate }} to {{ endDate }}.
     </p>
-    <hr > 
-    <br >
-    {% for record in records %}
-        <p class="normal"> <i>{{ record.0 }}</i> : {{ record.1 }} </p>
-    {% endfor %}
+    <hr />
+    <br />
+
+    {% if conference|length > 0 %}
+    <h2>Conferences:</h2>
+    <ul>
+        {% for record in conference %}
+        <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %} 
+
+    {% if journal|length > 0 %}
+    <h2>Journals:</h2>
+    <ul>
+        {% for record in journal %}
+        <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if bookChapter|length > 0 or bookEditor|length > 0 %}
+    <h2>Books:</h2>
+    <ul>
+        
+        {% if bookChapter|length > 0 %}
+        <li><h3>Book Chapters:</h3></li>
+        <ul>
+            {% for record in bookChapter %}
+            <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if bookEditor|length > 0 %}
+        <li><h3>Book Editorials:</h3></li>
+        <ul>
+            {% for record in bookEditor %}
+            <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+    </ul>
+    {% endif %} 
+    
+    {% if consultancy|length > 0 %}
+    <h2>Consultancies:</h2>
+    <ul>
+        {% for record in consultancy %}
+        <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %} 
+    
+    {% if patent|length > 0 %}
+    <h2>Patents:</h2>
+    <ul>
+        {% for record in patent %}
+        <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %} 
+    
+    {% if project|length > 0 %}
+    <h2>Projects:</h2>
+    <ul>
+        {% for record in project %}
+        <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %} 
+    
+    {% if industrial|length > 0 %}
+    <h2>Industrial Interactions:</h2>
+    <ul>
+        {% for record in industrial %}
+        <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 </body>
+
 </html>

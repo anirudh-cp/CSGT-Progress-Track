@@ -1,3 +1,4 @@
+from tokenize import Name
 from api.serializers import *
 from api.models import *
 from rest_framework.views import APIView
@@ -15,7 +16,7 @@ import datetime
 sys.path.append('../..')
 
 
-# sample : api/actionsconference/consultancy/patent/journal/book_chapter/book_editor
+# sample : api/actions/conference/consultancy/patent/journal/book_chapter/book_editor
 
 
 class ActionsReportApiView(APIView):
@@ -25,104 +26,92 @@ class ActionsReportApiView(APIView):
     def get(self, request, startDate, endDate, data, *args, **kwargs):
 
         data = data.split('/')
-        dataPool = []
+
+        dataPool = {}
+        context = {
+            'currentDate': datetime.datetime.now(),
+            'startDate': startDate, 'endDate': endDate,
+            'params': ', '.join(x for x in data)
+        }
+
         if 'conference' in data:
-            queryData = (conference.objects.filter(Conference_startdate__gt=startDate,
-                                                   Conference_startdate__lte=endDate) |
-                         conference.objects.filter(Conference_startdate__lte=startDate,
-                                                   Conference_enddate__gte=startDate))
-            dataPool.extend(queryData.values('Emp_ID', 'Conference_name', titleS=F(
-                'title'), date=F('Conference_startdate')))
-            dataPool.extend(queryData.values('Emp_ID', 'Conference_name', titleE=F(
-                'title'), date=F('Conference_enddate')))
-
-        if 'consultancy' in data:
-            queryData = (consultancy.objects.filter(consultancy_startdate__gt=startDate,
-                                                            consultancy_startdate__lte=endDate) |
-                         consultancy.objects.filter(consultancy_startdate__lte=startDate,
-                                                            consultancy_enddate__gte=startDate))
-            dataPool.extend(queryData.values('Emp_ID', company_nameS=F(
-                'company_name'), date=F('consultancy_startdate')))
-            dataPool.extend(queryData.values('Emp_ID', company_nameE=F(
-                'company_name'), date=F('consultancy_enddate')))
-
-        if 'patent' in data:
-            queryData = patent.objects.filter(patent_created_date__gte=startDate,
-                                              patent_created_date__lte=endDate)
-            dataPool.extend(queryData.values(
-                'Emp_ID', 'patent_title', date=F('patent_created_date')))
+            queryData = (conference.objects.filter(start_date__gt=startDate, start_date__lte=endDate) |
+                         conference.objects.filter(start_date__lte=startDate, end_date__gte=startDate))
+            dataPool['conference'] = queryData.values(
+                'emp_id', 'start_date', 'article_title', 'conference_name', 'end_date')
 
         if 'journal' in data:
-            queryData = journal.objects.filter(
-                year__gte=startDate.year, year__lte=endDate.year)
-            temp = queryData.values(
-                'Emp_ID', 'title', 'Journal_name', date=F('year'))
-            for index, val in enumerate(temp):
-                temp[index]['date'] = datetime.date(val['date'], 1, 1)
-            dataPool.extend(temp)
+            queryData = (journal.objects.filter(
+                year__gte=startDate.year, year__lte=endDate.year))
+            dataPool['journal'] = queryData.values(
+                'emp_id', 'year', 'article_title', 'journal_name')
 
-        if 'book_chapter' in data:
-            queryData = book_chapter.objects.filter(
-                year__gte=startDate.year, year__lte=endDate.year)
-            temp = queryData.values(
-                'Emp_ID', 'title', 'book_title',  date=F('year'))
-            for index, val in enumerate(temp):
-                temp[index]['date'] = datetime.date(val['date'], 1, 1)
-            dataPool.extend(temp)
+        if 'book' in data:
+            queryDataChapter = (book.objects.filter(
+                year__gte=startDate.year, year__lte=endDate.year, type='Book Chapter'))
+            queryDataEditor = (book.objects.filter(
+                year__gte=startDate.year, year__lte=endDate.year, type='Book Editorial'))
+            dataPool['bookChapter'] = queryDataChapter.values(
+                'emp_id', 'year', 'book_title', 'chapter_title', 'publisher_name')
+            dataPool['bookEditor'] = queryDataEditor.values(
+                'emp_id', 'year', 'book_title', 'publisher_name')
 
-        if 'publisher_name' in data:
-            queryData = book_editor.objects.filter(
-                year__gte=startDate.year, year__lte=endDate.year)
-            temp = queryData.values(
-                'Emp_ID', 'title', 'publisher_name',  date=F('year'))
-            for index, val in enumerate(temp):
-                temp[index]['date'] = datetime.date(val['date'], 1, 1)
-            dataPool.extend(temp)
+        if 'consultancy' in data:
+            queryData = (consultancy.objects.filter(start_date__gt=startDate, start_date__lte=endDate) |
+                         consultancy.objects.filter(start_date__lte=startDate, end_date__gte=startDate))
+            dataPool['consultancy'] = queryData.values(
+                'emp_id', 'start_date', 'type', 'company_name', 'end_date', 'amount_sanctioned')
 
-        dataPool = sorted(dataPool, key=lambda d: d['date'])
 
-        Emp_IDs = list(set(d['Emp_ID'] for d in dataPool))
+        # Get list of all employee IDs to find their names.
+        Emp_IDs = list(set(item['emp_id']
+                       for type in dataPool.values() for item in type))
         NameDict = personal.objects.filter(
-            Emp_ID__in=Emp_IDs).values_list('Emp_ID', 'Name')
+            emp_id__in=Emp_IDs).values_list('emp_id', 'name')
         NameDict = dict(NameDict)
 
-        records = []
-        for record in dataPool:
-            line = f"{NameDict[record['Emp_ID']]} ({record['Emp_ID']}) "
+        # Create the text to be written into the document
+        if 'conference' in data:
+            reportData = []
+            for item in dataPool['conference']:
+                reportData.append((item['start_date'], f"{item['article_title']} in "
+                                   f"{item['conference_name']} for {(item['end_date'] - item['start_date']).days} days "
+                                   f"by {NameDict[item['emp_id']]} ({item['emp_id']})"))
+            context['conference'] = reportData
 
-            if 'titleS' in record:
-                line = line + \
-                    f"attends {record['Conference_name']} starting on {record['date']} for presenting paper {record['titleS']}."
-            elif 'titleE' in record:
-                line = line + \
-                    f"attends {record['Conference_name']} ending on {record['date']} for presenting paper {record['titleE']}."
-            elif 'company_nameS' in record:
-                line = line + \
-                    f"starts consulting with {record['company_nameS']}."
-            elif 'company_nameE' in record:
-                line = line + \
-                    f"ends consulting with {record['company_nameE']}."
-            elif 'patent_title' in record:
-                line = line + f"creates patent about {record['patent_title']}."
-            elif 'Journal_name' in record:
-                line = line + \
-                    f"publishes journal {record['title']} in {record['Journal_name']}."
-            elif 'book_title' in record:
-                line = line + \
-                    f"publishes a book chapter {record['title']} in {record['book_title']}."
-            elif 'book_editor' in record:
-                line = line + \
-                    f"publishes a book editorial {record['title']} with {record['publisher_name']} publications."
+        if 'journal' in data:
+            reportData = []
+            for item in dataPool['journal']:
+                reportData.append((item['year'], f"{item['article_title']} in "
+                                   f"{item['journal_name']} by {NameDict[item['emp_id']]} ({item['emp_id']})"))
+            context['journal'] = reportData
+            
+        if 'book' in data:
+            reportData = []
+            for item in dataPool['bookChapter']:
+                reportData.append((item['year'], f"{item['chapter_title']} in "
+                                   f"{item['book_title']} published by {item['publisher_name']} and authored by "
+                                   f"{NameDict[item['emp_id']]} ({item['emp_id']})"))
+            context['bookChapter'] = reportData
 
-            records.append([record['date'].strftime('%Y-%m-%d'), line])
-            line = ''
+            reportData = []
+            for item in dataPool['bookEditor']:
+                reportData.append((item['year'], f"{item['book_title']} published by "
+                                   f"{item['publisher_name']} and authored by "
+                                   f"{NameDict[item['emp_id']]} ({item['emp_id']})"))
+            context['bookEditor'] = reportData
+
+        if 'consultancy' in data:
+            reportData = []
+            for item in dataPool['consultancy']:
+                reportData.append((item['start_date'], f"{item['type']} with "
+                                   f"{item['company_name']} for {(item['end_date'] - item['start_date']).days} days "
+                                   f"with ₹{item['amount_sanctioned']} amount sanctioned "
+                                   f"by {NameDict[item['emp_id']]} ({item['emp_id']})"))
+            context['consultancy'] = reportData
+
 
         template_path = 'format.html'
-        context = {'currentDate': datetime.datetime.now(),
-                   'startDate': startDate, 'endDate': endDate,
-                   'params': ', '.join(x for x in data),
-                   'records': records
-                   }
         # Create a Django response object, and specify content_type as pdf
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="report.pdf"'
@@ -131,8 +120,7 @@ class ActionsReportApiView(APIView):
         html = template.render(context)
 
         # create a pdf
-        pisa_status = pisa.CreatePDF(
-            html, dest=response)
+        pisa_status = pisa.CreatePDF(html, dest=response)
         # if error then show some funny view
         if pisa_status.err:
             return HttpResponse('We had some errors <pre>' + html + '</pre>')
@@ -151,7 +139,7 @@ class ActionsUsersApiView(APIView):
         group = request.user.groups.values_list('name', flat=True)
         data = {}
         if not any(item in ('admin', 'director') for item in group):
-            return Response('Cannot change user permission unless director or admin.', 
+            return Response('Cannot change user permission unless director or admin.',
                             status=status.HTTP_401_UNAUTHORIZED)
 
         data = request.data
@@ -163,9 +151,9 @@ class ActionsUsersApiView(APIView):
 
         groups = list(queryData.groups.values_list('name', flat=True))
         if not any(item in ('admin', 'director') for item in groups):
-            return Response('Cannot change user permission as they are faculty', 
+            return Response('Cannot change user permission as they are faculty',
                             status=status.HTTP_401_UNAUTHORIZED)
-                
+
         queryData.groups.clear()
         group = Group.objects.get(name=data['group'])
         queryData.groups.add(group)
@@ -174,11 +162,10 @@ class ActionsUsersApiView(APIView):
         data = {'response': 'Successfully changed group',
                 'email': data['email'], 'group': data['group']}
         return Response(data, status=status.HTTP_200_OK)
-    
 
     def delete(self, request, *args, **kwargs):
         # Delete the user
-        
+
         group = request.user.groups.values_list('name', flat=True)
         data = {}
         if not any(item in ('admin', 'director') for item in group):
@@ -193,4 +180,3 @@ class ActionsUsersApiView(APIView):
             return Response('User deleted', status=status.HTTP_200_OK)
         except account.DoesNotExist:
             return Response('User does not exist', status=status.HTTP_404_NOT_FOUND)
-        

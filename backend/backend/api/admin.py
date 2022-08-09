@@ -5,10 +5,11 @@ from .models import *
 admin.site.register(personal)
 admin.site.register(conference)
 admin.site.register(journal)
-admin.site.register(book_chapter)
-admin.site.register(book_editor)
+admin.site.register(book)
 admin.site.register(consultancy)
 admin.site.register(patent)
+admin.site.register(industrial_interaction)
+admin.site.register(project)
 
 
 from django.contrib.auth.admin import UserAdmin
@@ -23,6 +24,12 @@ class account_admin(UserAdmin):
     filter_horizontal = ()
     list_filter = ()
     fieldsets = ()
+    add_fieldsets = (
+    (None, {
+        'classes': ('wide',),
+        'fields': ('email', 'password1', 'password2'),
+    }),
+)
 
 
 admin.site.register(account, account_admin)

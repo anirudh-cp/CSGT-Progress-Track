@@ -104,7 +104,7 @@ class conference(models.Model):
         ('SCI', 'SCI'),
         ('SCIE', 'SCIE'),
         ('SCOPUS', 'SCOPUS'),
-        ('Springer', 'Springer')
+        ('Springer', 'Springer'),
         ('Ei Compendex', 'Ei Compendex')
     ]
 
@@ -147,7 +147,7 @@ class journal(models.Model):
         ('SCI', 'SCI'),
         ('SCIE', 'SCIE'),
         ('SCOPUS', 'SCOPUS'),
-        ('Springer', 'Springer')
+        ('Springer', 'Springer'),
         ('Ei Compendex', 'Ei Compendex')
     ]
 
@@ -192,7 +192,7 @@ class book(models.Model):
         ('SCI', 'SCI'),
         ('SCIE', 'SCIE'),
         ('SCOPUS', 'SCOPUS'),
-        ('Springer', 'Springer')
+        ('Springer', 'Springer'),
         ('Ei Compendex', 'Ei Compendex')
     ]
 
@@ -222,7 +222,7 @@ class book(models.Model):
     emp_id = models.ForeignKey(personal, on_delete=models.CASCADE)
     book_title = models.CharField(max_length=100)
     chapter_title = models.CharField(max_length=100, null=True, blank=True)
-    type = models.CharField(max_length=20)
+    type = models.CharField(max_length=20, choices=TYPE)
     no_of_authors = models.IntegerField()
     type_of_publication = models.CharField(
         max_length=100, choices=TYPE_OF_PUBLICATION)
@@ -232,10 +232,10 @@ class book(models.Model):
     year = models.IntegerField()
     isbn = models.IntegerField()
     indexing = models.CharField(max_length=20, choices=INDEXING)
-    publisher_name = models.CharField(max_length=100, null=True, blank=True)
+    publisher_name = models.CharField(max_length=100)
     funder_name = models.CharField(max_length=100, null=True, blank=True)
     amount_of_publication = models.IntegerField(blank=True, null=True)
-    support = models.CharField(max_length=4, choices=SUPPORT, null=True)
+    support = models.CharField(max_length=4, choices=SUPPORT)
 
     def __str__(self):
         return self.book_title
@@ -291,7 +291,7 @@ class patent(models.Model):
     ]
 
     emp_id = models.ForeignKey(personal, on_delete=models.CASCADE)
-    patent_title = models.CharField(max_length=40)
+    title = models.CharField(max_length=40)
     type = models.CharField(max_length=20, choices=TYPE)
     no_of_authors = models.IntegerField()
     filed_date = models.DateField(default=datetime(1970, 1, 1))

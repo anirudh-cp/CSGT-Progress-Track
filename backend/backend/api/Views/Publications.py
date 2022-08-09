@@ -10,12 +10,11 @@ import sys
 from uritemplate import partial
 sys.path.append('../..')
 
-from api.models import conference, journal, book_chapter, book_editor
-from api.serializers import conferneceserializer, journalserializer, bookchapterserializer, bookeditorserializer
+from api.models import conference, journal
+from api.serializers import conferneceserializer, journalserializer
 
-model = {'conference': conference, 'journal':journal, 'book_chapters': book_chapter, 'book_editor': book_editor}
-serilaizerTypes = {'conference': conferneceserializer, 'journal':journalserializer, 
-                   'book_chapters': bookchapterserializer, 'book_editor': bookeditorserializer}
+model = {'conference': conference, 'journal':journal,}
+serilaizerTypes = {'conference': conferneceserializer, 'journal':journalserializer, }
 
 
 
