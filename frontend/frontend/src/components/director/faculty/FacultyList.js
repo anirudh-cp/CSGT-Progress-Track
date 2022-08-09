@@ -49,8 +49,8 @@ const FacultyList = ({ data }) => {
               <tr key={obj.id}>
                 <th scope="row"> {obj.Name} </th>
                 <th> {obj.emp_id} </th>
-                <th> {obj.Designation} </th>
-                <th> {obj.School} </th>
+                <th> {obj.designation} </th>
+                <th> {obj.school} </th>
                 <td>
                   <div className="d-grid gap-2 flex justify-content-md-end">
                     <Modal

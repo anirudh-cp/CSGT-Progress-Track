@@ -148,10 +148,6 @@ class API {
       path += "/consultancy";
     }
 
-    if (params.includes("Book Chapter")) {
-      path += "/book_chapter";
-    }
-
     if (params.includes("Book Editor")) {
       path += "/book_editor";
     }

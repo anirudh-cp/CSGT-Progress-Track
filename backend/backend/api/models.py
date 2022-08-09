@@ -186,63 +186,6 @@ class journal(models.Model):
         ]
 
 
-class book_chapter(models.Model):
-    INDEX = [
-        ('SCI', 'SCI'),
-        ('SCIE', 'SCIE'),
-        ('SCOPUS', 'SCOPUS'),
-    ]
-
-    TYPE = [
-        ('National', 'National'),
-        ('International', 'International'),
-        ('Internal', 'Internal'),
-
-    ]
-
-    jy = [
-        ('Yes', 'Yes'),
-        ('No', 'No'),
-    ]
-
-    TY = [
-        ('National', 'National'),
-        ('International', 'International'),
-
-    ]
-
-    title = models.CharField(max_length=100)
-    no_of_authors = models.IntegerField()
-    Designation = models.CharField(max_length=20)
-    Collaboration = models.CharField(max_length=20, choices=TYPE)
-    Indexing = models.CharField(max_length=20, choices=INDEX)
-    ISSN_ISBN_number = models.IntegerField()
-    year = models.IntegerField()
-    book_title = models.CharField(max_length=100)
-    publisher_name = models.CharField(max_length=30)
-    Type_of_publisher = models.CharField(max_length=30, choices=TY)
-    Vol_no = models.IntegerField(null=True, blank=True)
-    Issue_no = models.IntegerField(null=True, blank=True)
-    DOI = models.CharField(max_length=30, null=True, blank=True)
-    emp_id = models.ForeignKey(personal, null=True, on_delete=models.CASCADE)
-    Funder_name = models.CharField(
-        'Enter Funder name', max_length=100, null=True, blank=True)
-    Amount_of_Publication = models.IntegerField(
-        'Enter Amount of Publication', blank=True, null=True)
-    Support = models.CharField(
-        'Whether Support received from Vellore Institute of Technology?', max_length=4, choices=jy, null=True)
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=['emp_id', 'title'], name='unique_EmpID_title_bookChapter'
-            )
-        ]
-
-
 class book(models.Model):
 
     INDEXING = [
@@ -289,6 +232,7 @@ class book(models.Model):
     year = models.IntegerField()
     isbn = models.IntegerField()
     indexing = models.CharField(max_length=20, choices=INDEXING)
+    publisher_name = models.CharField(max_length=100, null=True, blank=True)
     funder_name = models.CharField(max_length=100, null=True, blank=True)
     amount_of_publication = models.IntegerField(blank=True, null=True)
     support = models.CharField(max_length=4, choices=SUPPORT, null=True)
@@ -347,7 +291,7 @@ class patent(models.Model):
     ]
 
     emp_id = models.ForeignKey(personal, on_delete=models.CASCADE)
-    title = models.CharField(max_length=40)
+    patent_title = models.CharField(max_length=40)
     type = models.CharField(max_length=20, choices=TYPE)
     no_of_authors = models.IntegerField()
     filed_date = models.DateField(default=datetime(1970, 1, 1))

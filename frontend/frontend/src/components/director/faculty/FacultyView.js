@@ -10,7 +10,7 @@ const FacultyView = ({ record }) => {
           <MDBTableBody>
             <tr>
               <th scope="row"> Name </th>
-              <td> {record.Name} </td>
+              <td> {record.name} </td>
             </tr>
             <tr>
               <th scope="row"> Emp ID </th>
@@ -18,31 +18,31 @@ const FacultyView = ({ record }) => {
             </tr>
             <tr>
               <th scope="row"> Designation </th>
-              <td> {record.Designation} </td>
+              <td> {record.designation} </td>
             </tr>
             <tr>
               <th scope="row"> School </th>
-              <td> {record.School} </td>
+              <td> {record.school} </td>
             </tr>
             <tr>
               <th scope="row"> Date of Joining </th>
-              <td> {record.DOJ} </td>
+              <td> {record.date_of_join} </td>
             </tr>
             <tr>
               <th scope="row"> Date of Birth </th>
-              <td> {record.DOB} </td>
+              <td> {record.date_of_birth} </td>
             </tr>
             <tr>
               <th scope="row"> Gender </th>
-              <td> {record.Gender} </td>
+              <td> {record.gender} </td>
             </tr>
             <tr>
               <th scope="row"> ORCID </th>
-              <td> {record.ORCID_ID} </td>
+              <td> {record.orcid} </td>
             </tr>
             <tr>
               <th scope="row"> Research Gate </th>
-              <td> {record.Researchgate} </td>
+              <td> {record.research_gate} </td>
             </tr>
             <tr>
               <th scope="row"> LinkedIn </th>
@@ -50,11 +50,11 @@ const FacultyView = ({ record }) => {
             </tr>
             <tr>
               <th scope="row"> Google Scholar </th>
-              <td> {record.Google_scholar_name} </td>
+              <td> {record.google_scholar} </td>
             </tr>
             <tr>
               <th scope="row"> Personal Page </th>
-              <td> {record.Personal_page} </td>
+              <td> {record.personal_page} </td>
             </tr>
           </MDBTableBody>
         </MDBTable>

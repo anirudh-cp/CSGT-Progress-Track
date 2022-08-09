@@ -25,10 +25,10 @@ export default function Profile({ record }) {
                 width={150}
               />
               <div className="mt-3">
-                <h4> {record.Name} </h4>
+                <h4> {record.name} </h4>
                 <p className="text-muted font-size-sm">
                   {" "}
-                  {record.Designation}{" "}
+                  {record.designation}{" "}
                 </p>
               </div>
             </div>
@@ -40,7 +40,7 @@ export default function Profile({ record }) {
                   <MDBIcon fas icon="globe" className="ICON-MDB" />
                   Website
                 </h6>
-                <span className="textField"> {record.Personal_page} </span>
+                <span className="textField"> {record.personal_page} </span>
               </li>
               <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                 <h6 className="mb-0">
@@ -54,16 +54,13 @@ export default function Profile({ record }) {
                   <MDBIcon fab icon="researchgate" className="ICON-MDB" />
                   Research Gate
                 </h6>
-                <span className="textField"> {record.Researchgate} </span>
+                <span className="textField"> {record.research_gate} </span>
               </li>
               <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                 <h6 className="mb-0">
                   <MDBIcon fab icon="google" className="ICON-MDB" />G Scholar
                 </h6>
-                <span className="textField">
-                  {" "}
-                  {record.Google_scholar_name}{" "}
-                </span>
+                <span className="textField"> {record.google_scholar} </span>
               </li>
             </ul>
           </div>
@@ -74,7 +71,7 @@ export default function Profile({ record }) {
               <div className="col-sm-3">
                 <h6 className="mb-0">Full Name</h6>
               </div>
-              <div className="col-sm-9 textField"> {record.Name} </div>
+              <div className="col-sm-9 textField"> {record.name} </div>
             </div>
             <hr />
 
@@ -82,7 +79,7 @@ export default function Profile({ record }) {
               <div className="col-sm-3">
                 <h6 className="mb-0">Designation</h6>
               </div>
-              <div className="col-sm-9 textField">{record.Designation}</div>
+              <div className="col-sm-9 textField">{record.designation}</div>
             </div>
             <hr />
 
@@ -90,7 +87,7 @@ export default function Profile({ record }) {
               <div className="col-sm-3">
                 <h6 className="mb-0">ORCID</h6>
               </div>
-              <div className="col-sm-9 textField">{record.ORCID_ID}</div>
+              <div className="col-sm-9 textField">{record.orcid}</div>
             </div>
             <hr />
 
@@ -98,7 +95,7 @@ export default function Profile({ record }) {
               <div className="col-sm-3">
                 <h6 className="mb-0">Gender</h6>
               </div>
-              <div className="col-sm-9 textField">{record.Gender}</div>
+              <div className="col-sm-9 textField">{record.gender}</div>
             </div>
             <hr />
 
@@ -114,7 +111,7 @@ export default function Profile({ record }) {
               <div className="col-sm-3">
                 <h6 className="mb-0">School</h6>
               </div>
-              <div className="col-sm-9 textField"> {record.School} </div>
+              <div className="col-sm-9 textField"> {record.school} </div>
             </div>
             <hr />
 
@@ -122,7 +119,7 @@ export default function Profile({ record }) {
               <div className="col-sm-3">
                 <h6 className="mb-0">Join Date</h6>
               </div>
-              <div className="col-sm-9 textField"> {record.DOJ} </div>
+              <div className="col-sm-9 textField"> {record.date_of_join} </div>
             </div>
             <hr />
 
@@ -130,7 +127,7 @@ export default function Profile({ record }) {
               <div className="col-sm-3">
                 <h6 className="mb-0">DOB</h6>
               </div>
-              <div className="col-sm-9 textField"> {record.DOB} </div>
+              <div className="col-sm-9 textField"> {record.date_of_birth} </div>
             </div>
             <hr />
           </div>
