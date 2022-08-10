@@ -9,6 +9,7 @@ import Consultancy from "./consultancy/Consultancy";
 import Book from "./book/Book";
 import Patent from "./patents/Patents";
 import Project from "./projects/Projects"
+import Industrial from "./industrial/Industrial"
 
 import Filter from "./Filter";
 
@@ -43,6 +44,7 @@ export default function FacultyHome() {
                     <Tab>Books</Tab>
                     <Tab>Patent</Tab>
                     <Tab>Project</Tab>
+                    <Tab>Industrial</Tab>
                 </TabList>
 
                 <Filter setKey={setKey} tabIndex={tabIndex} />
@@ -71,6 +73,9 @@ export default function FacultyHome() {
                 </TabPanel>
                 <TabPanel>
                     <Project key={key} />
+                </TabPanel>
+                <TabPanel>
+                    <Industrial key={key} />
                 </TabPanel>
                   
             </Tabs>

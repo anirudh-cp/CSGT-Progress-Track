@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import API from '../../../API/APIService'
-import PatentsList from "./PatentsList";
+import IndustrialList from "./IndustrialList";
 import Loading from "../../common/Loading";
 import EmptyResults from "../../common/EmptyResults"
 
@@ -9,7 +9,7 @@ import useUserStore from "../../../API/Stores/UserStore";
 import useFilterStore from "../../../API/Stores/FilterStore";
 
 
-export default function Patents() {
+export default function Industrial() {
 
     const APIObject = new API();
     const [data, setData] = useState([]);
@@ -21,7 +21,7 @@ export default function Patents() {
     const GetAPI = async () => {
         setLoad(true);
         console.log(strftime("%Y-%m-%d", filterStartDate), strftime("%Y-%m-%d", filterEndDate));
-        const response = await APIObject.getData(token, empID, "patent",
+        const response = await APIObject.getData(token, empID, "industrial",
         strftime("%Y-%m-%d", filterStartDate), strftime("%Y-%m-%d", filterEndDate)).then(response => {
             setData(response);
         }).catch(error => console.log(error));
@@ -36,7 +36,7 @@ export default function Patents() {
     return (
         <div>
             {load? <Loading />: ( 
-                (data.length===0)  ? <EmptyResults /> :<PatentsList data={data} />
+                (data.length===0)  ? <EmptyResults /> :<IndustrialList data={data} />
                 ) 
             }
         </div>

@@ -2,10 +2,9 @@ import { MDBTable, MDBTableHead, MDBTableBody } from "mdb-react-ui-kit";
 
 import { useState } from "react";
 import Modal from "../../common/Modal";
-import PatentsView from "./PatentsView";
-import API from "../../../API/APIService";
+import IndustrialView from "./IndustrialView";
 
-const PatentsList = ({ data }) => {
+const IndustrialList = ({ data }) => {
   const [show, setShow] = useState(false);
   const [currentRecord, setCurrentRecord] = useState([]);
 
@@ -20,10 +19,7 @@ const PatentsList = ({ data }) => {
         <MDBTableHead>
           <tr key="head-record">
             <th scope="col">Title</th>
-            <th scope="col">Type</th>
-            <th scope="col">Filed Date</th>
-            <th scope="col">Published Date</th>
-            <th scope="col">Granted Date</th>
+            <th scope="col">Date</th>
             <th scope="col"></th>
           </tr>
         </MDBTableHead>
@@ -32,16 +28,13 @@ const PatentsList = ({ data }) => {
             return (
               <tr key={obj.id}>
                 <th scope="row"> {obj.title} </th>
-                <th> {obj.type} </th>
-                <th> {obj.filed_date} </th>
-                <th> {obj.published_date} </th>
-                <th> {obj.granted_date} </th>
+                <th> {obj.date} </th>
                 <td style={{"display": "flex", "justifyContent":"space-around"}}>
                   <div>
                     <Modal
                       handleClick={handleClick}
                       show={show}
-                      childElement={<PatentsView record={currentRecord} />}
+                      childElement={<IndustrialView record={currentRecord} />}
                     ></Modal>
                     <button
                       className="ripple ripple-surface ripple-surface-light btn btn-dark btn-sm mx-2"
@@ -64,4 +57,4 @@ const PatentsList = ({ data }) => {
   );
 };
 
-export default PatentsList;
+export default IndustrialList;
