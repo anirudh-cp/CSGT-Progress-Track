@@ -106,6 +106,25 @@ class ActionsReportApiView(APIView):
             queryFieldsEditor = queryDataEditor.values(
                 'emp_id', 'year', 'book_title', 'publisher_name')
             dataPool['bookEditor'] = sorted(queryFieldsEditor, key=lambda d: d['year'])
+            
+        if 'event' in data:
+            queryDataOrg = (event.objects.filter(start_date__gt=startDate, start_date__lte=endDate, 
+                                                 type="Organized", **filters) |
+                            event.objects.filter(start_date__lte=startDate, end_date__gte=startDate, 
+                                                 type="Organized", **filters))
+            
+            queryDataAtd = (event.objects.filter(start_date__gt=startDate, start_date__lte=endDate, 
+                                                 type="Attended", **filters) |
+                            event.objects.filter(start_date__lte=startDate, end_date__gte=startDate, 
+                                                 type="Attended", **filters))
+            
+            queryFieldsOrg = queryDataOrg.values(
+                'emp_id', 'start_date', 'end_date', 'title', 'event')
+            dataPool['eventOrg'] = sorted(queryFieldsOrg, key=lambda d: d['start_date'])
+            
+            queryFieldsAtd = queryDataAtd.values(
+                'emp_id', 'start_date', 'end_date', 'title', 'event')
+            dataPool['eventAtd'] = sorted(queryFieldsAtd, key=lambda d: d['start_date'])
 
         if 'consultancy' in data:
             queryData = (consultancy.objects.filter(start_date__gt=startDate, start_date__lte=endDate, **filters) |
@@ -169,7 +188,24 @@ class ActionsReportApiView(APIView):
                                    f"{item['publisher_name']} and authored by "
                                    f"{NameDict[item['emp_id']]} ({item['emp_id']})"))
             context['bookEditor'] = reportData
-
+        
+        if 'event' in data:
+            reportData = []
+            for item in dataPool['eventOrg']:
+                reportData.append((item['start_date'], f"{item['title']} "
+                                   f" ({item['event']}) organized "
+                                   f"for {(item['end_date'] - item['start_date']).days} days "
+                                   f"by {NameDict[item['emp_id']]} ({item['emp_id']})"))
+            context['eventOrg'] = reportData
+            
+            reportData = []
+            for item in dataPool['eventAtd']:
+                reportData.append((item['start_date'], f"{item['title']} "
+                                   f" ({item['event']}) attended "
+                                   f"for {(item['end_date'] - item['start_date']).days} days "
+                                   f"by {NameDict[item['emp_id']]} ({item['emp_id']})"))
+            context['eventAtd'] = reportData
+            
         if 'consultancy' in data:
             reportData = []
             for item in dataPool['consultancy']:
@@ -213,6 +249,7 @@ class ActionsReportApiView(APIView):
                               conference.objects.filter(emp_id=key).count(),
                               journal.objects.filter(emp_id=key).count(),
                               book.objects.filter(emp_id=key).count(),
+                              event.objects.filter(emp_id=key).count(),
                               consultancy.objects.filter(emp_id=key).count(),
                               patent.objects.filter(emp_id=key).count(),
                               project.objects.filter(emp_id=key).count(),

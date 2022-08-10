@@ -75,12 +75,13 @@
         <tr class="normal">
             <th>Emp ID</th>
             <th>Name</th>
-            <th>Cf</th>
+            <th>Cnf</th>
             <th>J</th>
             <th>B</th>
-            <th>Cn</th>
+            <th>E</th>
+            <th>Cns</th>
             <th>Pt</th>
-            <th>Pt</th>
+            <th>Prj</th>
             <th>I</th>
         </tr>
 
@@ -95,6 +96,7 @@
             <td>{{ record.6 }}</td>
             <td>{{ record.7 }}</td>
             <td>{{ record.8 }}</td>
+            <td>{{ record.9 }}</td>
         </tr>
         {% endfor %}
     </table>
@@ -111,6 +113,8 @@
     </ul>
     {% endif %} 
 
+    <hr><br><br>
+
     {% if journal|length > 0 %}
     <h2>Journals:</h2>
     <ul>
@@ -119,6 +123,8 @@
         {% endfor %}
     </ul>
     {% endif %}
+
+    <hr><br><br>
 
     {% if bookChapter|length > 0 or bookEditor|length > 0 %}
     <h2>Books:</h2>
@@ -144,6 +150,35 @@
 
     </ul>
     {% endif %} 
+
+    <hr><br><br>
+    
+    {% if eventOrg|length > 0 or eventAtd|length > 0 %}
+    <h2>Events:</h2>
+    <ul>
+        
+        {% if eventOrg|length > 0 %}
+        <li><h3>Events Organized:</h3></li>
+        <ul>
+            {% for record in eventOrg %}
+            <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if eventAtd|length > 0 %}
+        <li><h3>Events Attended:</h3></li>
+        <ul>
+            {% for record in eventAtd %}
+            <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+    </ul>
+    {% endif %} 
+
+    <hr><br><br>
     
     {% if consultancy|length > 0 %}
     <h2>Consultancies:</h2>
@@ -153,6 +188,8 @@
         {% endfor %}
     </ul>
     {% endif %} 
+
+    <hr><br><br>
     
     {% if patent|length > 0 %}
     <h2>Patents:</h2>
@@ -162,6 +199,8 @@
         {% endfor %}
     </ul>
     {% endif %} 
+
+    <hr><br><br>
     
     {% if project|length > 0 %}
     <h2>Projects:</h2>
@@ -172,6 +211,8 @@
     </ul>
     {% endif %} 
     
+    <hr><br><br>
+
     {% if industrial|length > 0 %}
     <h2>Industrial Interactions:</h2>
     <ul>

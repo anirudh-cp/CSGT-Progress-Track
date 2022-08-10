@@ -37,12 +37,16 @@ class projectserializer(serializers.ModelSerializer):
 		model=project
 		fields='__all__'
   
-  
 class industrialserializer(serializers.ModelSerializer):
 	class Meta:
 		model=industrial_interaction
 		fields='__all__'
 
+class eventserializer(serializers.ModelSerializer):
+	class Meta:
+		model=event
+		fields='__all__'
+  
 class accountserializer(serializers.ModelSerializer):
     class Meta:
         model=account

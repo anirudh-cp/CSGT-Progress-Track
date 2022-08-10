@@ -351,3 +351,54 @@ class industrial_interaction(models.Model):
 
     def __str__(self):
         return self.description
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['emp_id', 'title'], name='unique-emp_id-title-industrial'
+            )
+        ]
+
+
+class event(models.Model):
+
+    YES_NO = [('Yes', 'Yes'), ('No', 'No'), ]
+
+    TYPE = [('Organized', 'Organized'),
+            ('Attended', 'Attended')]
+    
+    EVENT = [('FDP', 'FDP'), ('Workshop', 'Workshop'), 
+             ('Conference', 'Conference'), ('Seminar', 'Seminar'),
+             ('Webinar', 'Webinar'), ('VAP', 'VAP'), 
+             ('Guest Lecture', 'Guest Lecture')]
+    
+    COLLABORATION = [
+        ('National', 'National'),
+        ('International', 'International'),
+        ('Internal', 'Internal'),
+
+    ]
+    
+    emp_id = models.ForeignKey(personal, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    event = models.CharField(max_length=30, choices=EVENT)
+    type = models.CharField(max_length=20, choices=TYPE)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    no_of_participants = models.IntegerField(blank=True, null=True)
+    reg_fee = models.IntegerField()
+    collaboration = models.CharField(max_length=20, choices=COLLABORATION)
+    sponspored = models.CharField(max_length=5, choices=YES_NO)
+    amount_from_vit = models.CharField(max_length=5, choices=YES_NO, blank=True, null=True)
+    
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['emp_id', 'title'], name='unique-emp_id-title-event'
+            )
+        ]
+
+

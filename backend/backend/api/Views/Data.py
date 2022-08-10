@@ -15,12 +15,12 @@ sys.path.append('../..')
 
 model = {'conference': conference, 'journal': journal, 'book': book,
          'consultancy': consultancy, 'patent': patent, 'project': project,
-         'industrial': industrial_interaction}
+         'industrial': industrial_interaction, 'event': event}
 
 serilaizerTypes = {'conference': conferneceserializer, 'journal': journalserializer,
                    'book': bookserializer, 'consultancy': consultancyserializer,
                    'patent': patentserializer, 'project': projectserializer,
-                   'industrial': industrialserializer}
+                   'industrial': industrialserializer, 'event':eventserializer}
 
 
 class DataSingleGetApiView(APIView):
@@ -32,7 +32,7 @@ class DataSingleGetApiView(APIView):
         ''' List text for given requested user. '''
 
         queryData = []
-        if Type == 'conference' or Type == 'consultancy':
+        if Type == 'conference' or Type == 'consultancy' or Type == "event":
             queryData = (model[Type].objects.filter(emp_id=emp_id, start_date__gt=startDate, start_date__lte=endDate) |
                          model[Type].objects.filter(emp_id=emp_id, start_date__lte=startDate, end_date__gte=startDate))
         elif Type == 'journal' or Type == 'book':
@@ -74,6 +74,8 @@ class DataSinglePutApiView(APIView):
             elif Type == 'consultancy':
                 queryData = model[Type].objects.filter(emp_id=emp_id, company_name=data['company_name'], 
                                                     start_date=data['start_date'])
+            elif Type == "event":
+                queryData = (model[Type].objects.filter(emp_id=emp_id, title=data['title']))
             else:
                 return Response("Wrong resource", status=status.HTTP_400_BAD_REQUEST)
         except Exception:
@@ -106,7 +108,7 @@ class DataAllApiView(APIView):
         ''' Get all records. '''
 
         queryData = []
-        if Type == 'conference' or Type == 'consultancy':
+        if Type == 'conference' or Type == 'consultancy' or Type == "event":
             queryData = (model[Type].objects.filter(start_date__gt=startDate, start_date__lte=endDate) |
                          model[Type].objects.filter(start_date__lte=startDate, end_date__gte=startDate))
         elif Type == 'journal' or Type == 'book':

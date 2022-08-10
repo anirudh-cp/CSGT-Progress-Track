@@ -10,6 +10,7 @@ admin.site.register(consultancy)
 admin.site.register(patent)
 admin.site.register(industrial_interaction)
 admin.site.register(project)
+admin.site.register(event)
 
 
 from django.contrib.auth.admin import UserAdmin
