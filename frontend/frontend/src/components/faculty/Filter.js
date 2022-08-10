@@ -8,6 +8,7 @@ import ConferenceAdd from "./conference/ConferenceAdd";
 import ConsultancyAdd from "./consultancy/ConsultancyAdd";
 import PatentsAdd from "./patents/PatentsAdd";
 import BookAdd from "./book/BookAdd";
+import ProjectsAdd from "./projects/ProjectsAdd"
 
 
 const Filter = ({ setKey, tabIndex }) => {
@@ -49,6 +50,9 @@ const Filter = ({ setKey, tabIndex }) => {
         }
         else if (tabIndex === 5) {
             setChild(<PatentsAdd />)
+        }
+        else if (tabIndex === 6) {
+            setChild(<ProjectsAdd />)
         }
 
     }

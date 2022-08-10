@@ -58,7 +58,7 @@ const BookView = ({ record }) => {
             </tr>
             <tr>
               <th scope="row"> Amount of Publication </th>
-              <td> {record.amount_of_Publication} </td>
+              <td> {record.amount_of_publication} </td>
             </tr>
             <tr>
               <th scope="row"> Support received status </th>

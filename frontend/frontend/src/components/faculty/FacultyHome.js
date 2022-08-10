@@ -8,6 +8,8 @@ import Event from "./events/Event";
 import Consultancy from "./consultancy/Consultancy";
 import Book from "./book/Book";
 import Patent from "./patents/Patents";
+import Project from "./projects/Projects"
+
 import Filter from "./Filter";
 
 import useUserStore from "../../API/Stores/UserStore";
@@ -24,8 +26,8 @@ export default function FacultyHome() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(group !== "faculty" || token === '')
-            navigate('/');
+        // if(group !== "faculty" || token === '')
+        //    navigate('/');
     }, [])
     
     
@@ -40,6 +42,7 @@ export default function FacultyHome() {
                     <Tab>Consultancy</Tab>
                     <Tab>Books</Tab>
                     <Tab>Patent</Tab>
+                    <Tab>Project</Tab>
                 </TabList>
 
                 <Filter setKey={setKey} tabIndex={tabIndex} />
@@ -66,6 +69,10 @@ export default function FacultyHome() {
                 <TabPanel>
                     <Patent key={key} />
                 </TabPanel>
+                <TabPanel>
+                    <Project key={key} />
+                </TabPanel>
+                  
             </Tabs>
         </div>
     );
