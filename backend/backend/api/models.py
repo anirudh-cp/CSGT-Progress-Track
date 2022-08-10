@@ -388,7 +388,7 @@ class event(models.Model):
     no_of_participants = models.IntegerField(blank=True, null=True)
     reg_fee = models.IntegerField()
     collaboration = models.CharField(max_length=20, choices=COLLABORATION)
-    sponspored = models.CharField(max_length=5, choices=YES_NO)
+    sponsored = models.CharField(max_length=5, choices=YES_NO)
     amount_from_vit = models.CharField(max_length=5, choices=YES_NO, blank=True, null=True)
     
     def __str__(self):

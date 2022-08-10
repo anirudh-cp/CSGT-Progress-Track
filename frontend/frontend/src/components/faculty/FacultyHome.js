@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import All from "./all/All";
 import Journal from "./journal/Journal";
 import Conference from "./conference/Conference";
-import Event from "./events/Event";
+import Events from "./events/Events";
 import Consultancy from "./consultancy/Consultancy";
 import Book from "./book/Book";
 import Patent from "./patents/Patents";
@@ -60,7 +60,7 @@ export default function FacultyHome() {
                     <Conference key={key} />
                 </TabPanel>
                 <TabPanel>
-                    <Event key={key}/>
+                    <Events key={key}/>
                 </TabPanel>
                 <TabPanel>
                     <Consultancy key={key}/>
