@@ -18,11 +18,11 @@ class FacultySingleApiView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     # 1. List single
-    def get(self, request, Emp_ID, *args, **kwargs):
+    def get(self, request, emp_id, *args, **kwargs):
         ''' List text for given requested user. '''
         
-        if personal.objects.filter(Emp_ID=Emp_ID).exists():
-            data = personal.objects.filter(Emp_ID=Emp_ID)
+        if personal.objects.filter(emp_id=emp_id).exists():
+            data = personal.objects.filter(emp_id=emp_id)
             serializer = personalserializer(data, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
             
@@ -30,13 +30,13 @@ class FacultySingleApiView(APIView):
         
 
     # 2. Create/Update
-    def put(self, request, Emp_ID, *args, **kwargs):
+    def put(self, request, emp_id, *args, **kwargs):
         ''' Create/Update the record with given data. '''
         
         data = request.data
         print(data)
-        if personal.objects.filter(Emp_ID=Emp_ID).exists():
-            record = personal.objects.get(Emp_ID=Emp_ID)
+        if personal.objects.filter(emp_id=emp_id).exists():
+            record = personal.objects.get(emp_id=emp_id)
             serializer = personalserializer(record, data=data, partial=True)
             if serializer.is_valid():
                 serializer.save()
@@ -52,11 +52,11 @@ class FacultySingleApiView(APIView):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     
-    def delete(self, request, Emp_ID, *args, **kwargs):
+    def delete(self, request, emp_id, *args, **kwargs):
         """ Delete the record specified. """
         
-        if personal.objects.filter(Emp_ID=Emp_ID).exists():
-            personal.objects.filter(Emp_ID=Emp_ID).delete()
+        if personal.objects.filter(emp_id=emp_id).exists():
+            personal.objects.filter(emp_id=emp_id).delete()
             return Response("", status=status.HTTP_200_OK)
             
         return Response("", status=status.HTTP_404_NOT_FOUND)

@@ -51,12 +51,12 @@ def registration_view(request):
 
 
 def validate_email(email):
-    account = None
     try:
-        account = account.objects.get(email=email)
+        accountObj = account.objects.get(email=email)
     except account.DoesNotExist:
         return None
-    if account != None:
+    
+    if accountObj != None:
         return email
 
 

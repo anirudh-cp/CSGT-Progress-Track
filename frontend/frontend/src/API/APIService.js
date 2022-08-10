@@ -89,7 +89,7 @@ class API {
     }
 
 
-    async getReport(token, startDate, endDate, params) {
+    async getReport(token, startDate, endDate, params, methodType, bodyData) {
         // TODO: Implement a dictionary to map the params to the path.
 
         let path = "";
@@ -102,14 +102,14 @@ class API {
         }
 
         if (params.includes("Event")) {
-            // path += '/event'
+            path += '/event'
         }
 
         if (params.includes("Consultancy")) {
             path += "/consultancy";
         }
 
-        if (params.includes("Book")) {
+        if (params.includes("Books")) {
             path += "/book";
         }
 
@@ -117,23 +117,38 @@ class API {
             path += "/patent";
         }
 
-        if (params.includes("Project")) {
+        if (params.includes("Projects")) {
             path += "/project";
         }
 
-        if (params.includes("Industrial")) {
+        if (params.includes("Industrial Interactions")) {
             path += "/industrial";
         }
 
-        const response = await fetch(
-            "http://127.0.0.1:8000/api/actions/" + startDate + "/" + endDate + path,
-            {
-                method: "get",
+        let information = {}
+        if (methodType === "get") {
+            information = {
+                method: methodType,
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Token ${token}`,
                 },
             }
+        }
+        else if (methodType === "post")
+        {
+            information = {
+                method: methodType,
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Token ${token}`,
+                },
+                body: JSON.stringify({"employees": bodyData})
+            }
+        }
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/api/actions/" + startDate + "/" + endDate + path, information
         )
             .then((response) => response.blob())
             .then((blob) => {

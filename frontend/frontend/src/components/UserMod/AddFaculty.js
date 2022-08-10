@@ -13,8 +13,8 @@ export default function App() {
   const api = new API();
 
   const onSubmit = async (data) => {
-    data.DOJ = strftime("%Y-%m-%d", DOJ);
-    data.DOB = strftime("%Y-%m-%d", DOB);
+    data.date_of_join = strftime("%Y-%m-%d", DOJ);
+    data.date_of_birth = strftime("%Y-%m-%d", DOB);
     // console.log(data)
     const response = await api.AddFaculty(token, data);
     alert(response);
@@ -50,7 +50,7 @@ export default function App() {
             type="text"
             placeholder=" "
             required
-            {...register("Name")}
+            {...register("name")}
           />
           <div className="cut" />
           <label htmlFor="name" className="placeholder">
@@ -65,7 +65,7 @@ export default function App() {
             type="text"
             placeholder=" "
             required
-            {...register("Designation")}
+            {...register("designation")}
           />
           <div className="cut" />
           <label htmlFor="desig" className="placeholder">
@@ -95,7 +95,7 @@ export default function App() {
             type="text"
             placeholder=" "
             required
-            {...register("School")}
+            {...register("school")}
           />
           <div className="cut" />
           <label htmlFor="school" className="placeholder">
@@ -113,10 +113,23 @@ export default function App() {
           <DatePicker onChange={setDOB} value={DOB} className=" pt-2" />
         </div>
 
-        <select {...register("Gender")} className="input-container ic1">
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-        </select>
+        <div className="input-container ic1 dropdown">
+          <select
+            id="type"
+            className="input dropdown"
+            type="text"
+            {...register("gender")}
+          >
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Internal">Other</option>
+            <option value="Prefer not to say">Prefer not to say</option>
+          </select>
+          <div className="cut" />
+          <label htmlFor="type" className="placeholder">
+            Gender
+          </label>
+        </div>
 
         <div className="input-container ic1">
           <input
@@ -124,7 +137,7 @@ export default function App() {
             className="input"
             type="text"
             placeholder=" "
-            {...register("ORCID_ID")}
+            {...register("orcid")}
           />
           <div className="cut" />
           <label htmlFor="ORCID_ID" className="placeholder">
@@ -138,7 +151,7 @@ export default function App() {
             className="input"
             type="text"
             placeholder=" "
-            {...register("Researchgate")}
+            {...register("research_gate")}
           />
           <div className="cut" />
           <label htmlFor="rgate" className="placeholder">
@@ -166,7 +179,7 @@ export default function App() {
             className="input"
             type="text"
             placeholder=" "
-            {...register("Google_scholar_name")}
+            {...register("google_scholar")}
           />
           <div className="cut" />
           <label htmlFor="gscholar" className="placeholder">
@@ -180,7 +193,7 @@ export default function App() {
             className="input"
             type="text"
             placeholder=" "
-            {...register("Personal_page")}
+            {...register("personal_page")}
           />
           <div className="cut" />
           <label htmlFor="personal" className="placeholder">

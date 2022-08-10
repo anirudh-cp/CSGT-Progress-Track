@@ -111,9 +111,8 @@
         <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
         {% endfor %}
     </ul>
-    {% endif %} 
-
     <hr><br><br>
+    {% endif %} 
 
     {% if journal|length > 0 %}
     <h2>Journals:</h2>
@@ -122,9 +121,9 @@
         <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
         {% endfor %}
     </ul>
+    <hr><br><br>
     {% endif %}
 
-    <hr><br><br>
 
     {% if bookChapter|length > 0 or bookEditor|length > 0 %}
     <h2>Books:</h2>
@@ -149,9 +148,8 @@
         {% endif %}
 
     </ul>
-    {% endif %} 
-
     <hr><br><br>
+    {% endif %} 
     
     {% if eventOrg|length > 0 or eventAtd|length > 0 %}
     <h2>Events:</h2>
@@ -176,10 +174,9 @@
         {% endif %}
 
     </ul>
+    <hr><br><br>
     {% endif %} 
 
-    <hr><br><br>
-    
     {% if consultancy|length > 0 %}
     <h2>Consultancies:</h2>
     <ul>
@@ -187,10 +184,9 @@
         <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
         {% endfor %}
     </ul>
+    <hr><br><br>
     {% endif %} 
 
-    <hr><br><br>
-    
     {% if patent|length > 0 %}
     <h2>Patents:</h2>
     <ul>
@@ -198,9 +194,8 @@
         <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
         {% endfor %}
     </ul>
-    {% endif %} 
-
     <hr><br><br>
+    {% endif %} 
     
     {% if project|length > 0 %}
     <h2>Projects:</h2>
@@ -209,9 +204,8 @@
         <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
         {% endfor %}
     </ul>
-    {% endif %} 
-    
     <hr><br><br>
+    {% endif %} 
 
     {% if industrial|length > 0 %}
     <h2>Industrial Interactions:</h2>
@@ -220,9 +214,8 @@
         <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
         {% endfor %}
     </ul>
-    {% endif %}
-
     <hr>
+    {% endif %}
 
 </body>
 

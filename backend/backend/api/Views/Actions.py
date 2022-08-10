@@ -305,8 +305,8 @@ class ActionsUsersApiView(APIView):
 
         data = request.data
         try:
-            account = account.objects.get(email=data['email'])
-            account.delete()
+            accountObj = account.objects.get(email=data['email'])
+            accountObj.delete()
             return Response('User deleted', status=status.HTTP_200_OK)
         except account.DoesNotExist:
             return Response('User does not exist', status=status.HTTP_404_NOT_FOUND)

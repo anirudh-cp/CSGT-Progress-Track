@@ -4,7 +4,7 @@ import { MDBCol, MDBRow } from "mdb-react-ui-kit";
 
 const DatePickerTab = ({ startDate, endDate, setStartDate, setEndDate }) => {
     return (
-        <MDBRow className="d-flex justify-content-between pt-3 pb-3" style={{margin: "10px"}}>
+        <MDBRow className="d-flex justify-content-around pt-3 pb-3" style={{margin: "10px"}}>
 
             <MDBCol size="col-md-3">
                 <span className="pr-3 text-dark">Start Date:</span>
