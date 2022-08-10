@@ -9,7 +9,7 @@ import Loading from './Loading';
 import {useRef} from "react"
 
 
-export default function Dropdown() {
+export default function Dropdown({ name }) {
 
     const [show, setShow] = useState(false)
     const [showMenu, setShowMenu] = useState(false);
@@ -51,9 +51,10 @@ export default function Dropdown() {
     return (
         <div className="dropdown" ref={refMenu}>
             <button color="light" size="md"
-                className=" dropButton ripple ripple-surface ripple-surface-dark btn btn-outline-light btn-md dropdown-toggle"
+                className=" dropButton ripple ripple-surface ripple-surface-dark btn btn-outline-light 
+                p-2 btn-md dropdown-toggle" style={{fontSize: "13px", minWidth:"5vw"}}
                 onClick={ () => { setShowMenu(!showMenu); }}>
-                Profile
+                { name }
             </button>
             <div className={outer} >
 

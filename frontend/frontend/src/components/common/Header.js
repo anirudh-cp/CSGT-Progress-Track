@@ -1,6 +1,7 @@
 import { MDBNavbar, MDBContainer, MDBNavbarBrand, MDBDropdown, MDBDropdownMenu, MDBDropdownToggle, MDBDropdownItem, MDBDropdownLink } from "mdb-react-ui-kit";
 import useUserStore from "../../API/Stores/UserStore";
 
+
 import Dropdown from "./Dropdown";
 
 const Header = () => {
@@ -14,11 +15,14 @@ const Header = () => {
                 <MDBContainer fluid>
 
                     <MDBNavbarBrand style={{ color: "white" }}>
-                        {name != "" && name != undefined ? "Welcome " + name : ""}
+                        {
+                        //    name != "" && name != undefined ? "Welcome " + name : ""
+                        }
+                        <img src="./Images/vit_white.png" height="57px"></img>
                     </MDBNavbarBrand>
 
                     {name != "" && name != undefined &&
-                        <Dropdown />
+                        <Dropdown name={ name } />
                     }
                 </MDBContainer>
             </MDBNavbar>
@@ -27,7 +31,7 @@ const Header = () => {
             {/* HEADING TEXT */}
             <div className="m-4">
                 <p className="text-center h2 p-3" style={{ fontWeight: "bold" }}>
-                    VIT C: Centre for Smart Grid Technologies
+                    VIT Chennai: Centre for Smart Grid Technologies
                 </p>
             </div>
 
