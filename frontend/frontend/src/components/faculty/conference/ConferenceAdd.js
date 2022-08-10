@@ -48,7 +48,7 @@ const ConferenceAdd = () => {
             type="text"
             placeholder=" "
             required
-            {...register("title")}
+            {...register("article_title")}
           />
           <div className="cut" />
           <label htmlFor="title" className="placeholder">

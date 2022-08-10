@@ -25,7 +25,7 @@ const EventsAdd = () => {
     console.log(data);
     data.start_date = strftime("%Y-%m-%d", startDate);
     data.end_date = strftime("%Y-%m-%d", endDate);
-    const response = await api.AddData(token, empID, "conference", data);
+    const response = await api.AddData(token, empID, "event", data);
     alert(response);
   };
 

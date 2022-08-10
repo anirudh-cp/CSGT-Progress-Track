@@ -35,12 +35,27 @@ const BookAdd = () => {
 
         <div className="input-container ic1">
           <input
+            id="jname"
+            className="input"
+            type="text"
+            placeholder=" "
+            required
+            {...register("book_title")}
+          />
+          <div className="cut" />
+          <label htmlFor="jname" className="placeholder">
+            Book Title
+          </label>
+        </div>
+
+        <div className="input-container ic1">
+          <input
             id="title"
             className="input"
             type="text"
             placeholder=" "
             required
-            {...register("title")}
+            {...register("chapter_title")}
           />
           <div className="cut" />
           <label htmlFor="title" className="placeholder">
@@ -66,27 +81,12 @@ const BookAdd = () => {
         {/* AUTHOR INFO MULTIPLE ROWS DYNAMIC ADJUSTMENT */}
         {/* AUTHOR INFO MULTIPLE ROWS DYNAMIC ADJUSTMENT */}
 
-        <div className="input-container ic1">
-          <input
-            id="desig"
-            className="input"
-            type="text"
-            placeholder=" "
-            required
-            {...register("Designation")}
-          />
-          <div className="cut" />
-          <label htmlFor="desig" className="placeholder">
-            Author Designation
-          </label>
-        </div>
-
         <div className="input-container ic1 dropdown">
           <select
             id="type"
             className="input dropdown"
             type="text"
-            {...register("Collaboration")}
+            {...register("collaboration")}
           >
             <option value="national" disabled defaultValue="national">
               Type of collaboration
@@ -99,36 +99,6 @@ const BookAdd = () => {
         {/* AUTHOR INFO MULTIPLE ROWS DYNAMIC ADJUSTMENT */}
         {/* AUTHOR INFO MULTIPLE ROWS DYNAMIC ADJUSTMENT */}
 
-        <div className="input-container ic1 dropdown">
-          <select
-            id="position"
-            className="input dropdown"
-            type="text"
-            {...register("Author_pos")}
-          >
-            <option value="" disabled defaultValue="1">
-              Author Position
-            </option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-          </select>
-        </div>
-
-        <div className="input-container ic1">
-          <input
-            id="jname"
-            className="input"
-            type="text"
-            placeholder=" "
-            required
-            {...register("book_title")}
-          />
-          <div className="cut" />
-          <label htmlFor="jname" className="placeholder">
-            Book Title
-          </label>
-        </div>
 
         <div className="input-container ic1 dropdown">
           <select
@@ -153,7 +123,7 @@ const BookAdd = () => {
             type="number"
             placeholder=" "
             required
-            {...register("ISSN_ISBN_number")}
+            {...register("isbn")}
           />
           <div className="cut" />
           <label htmlFor="issn" className="placeholder">
@@ -196,7 +166,7 @@ const BookAdd = () => {
             id="type"
             className="input dropdown"
             type="text"
-            {...register("Type_of_publisher")}
+            {...register("type_of_publisher")}
           >
             <option value="national" disabled defaultValue="national">
               Type of Publisher
@@ -212,7 +182,7 @@ const BookAdd = () => {
             className="input"
             type="number"
             placeholder=" "
-            {...register("Vol_no")}
+            {...register("volume_no")}
           />
           <div className="cut" />
           <label htmlFor="vnum" className="placeholder">
@@ -226,7 +196,7 @@ const BookAdd = () => {
             className="input"
             type="number"
             placeholder=" "
-            {...register("Issue_no")}
+            {...register("issue_no")}
           />
           <div className="cut" />
           <label htmlFor="inum" className="placeholder">
@@ -240,7 +210,7 @@ const BookAdd = () => {
             className="input"
             type="text"
             placeholder=" "
-            {...register("DOI")}
+            {...register("digital_obj_id")}
           />
           <div className="cut" />
           <label htmlFor="doi" className="placeholder">
@@ -253,7 +223,7 @@ const BookAdd = () => {
             id="indexing"
             className="input dropdown"
             type="text"
-            {...register("Type_of_publication")}
+            {...register("type_of_publication")}
           >
             <option value="" disabled defaultValue="Open Access">
               Type of Publication
@@ -271,7 +241,7 @@ const BookAdd = () => {
             className="input"
             type="text"
             placeholder=" "
-            {...register("Funder_name")}
+            {...register("funder_name")}
           />
           <div className="cut" />
           <label htmlFor="fname" className="placeholder">
@@ -285,7 +255,7 @@ const BookAdd = () => {
             className="input"
             type="text"
             placeholder=" "
-            {...register("Amount_of_Publication")}
+            {...register("amount_of_publication")}
           />
           <div className="cut" />
           <label htmlFor="pubamt" className="placeholder">
@@ -298,7 +268,7 @@ const BookAdd = () => {
             id="indexing"
             className="input dropdown"
             type="text"
-            {...register("Support")}
+            {...register("support")}
           >
             <option value="" disabled defaultValue="No">
               Support from VIT
