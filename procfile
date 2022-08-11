@@ -1,1 +1,1 @@
-web: gunicorn cgst.wsgi --log-file -
+web: gunicorn cgst-host.wsgi --log-file -
