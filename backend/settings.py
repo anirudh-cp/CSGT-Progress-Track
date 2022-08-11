@@ -92,6 +92,7 @@ DATABASES = {
         'ENGINE': 'djongo',
         'CLIENT': {
             'host': "mongodb+srv://root:rootpass0@cluster0.utdgw.mongodb.net/?retryWrites=true&w=majority",
+            'authMechanism': 'SCRAM-SHA-1',
             # 'host':"mongodb+srv://dbkritin:kritin@cluster0.labbs9t.mongodb.net/?retryWrites=true&w=majority",
         },
     }
@@ -155,3 +156,6 @@ CORS_ALLOWED_ORIGINS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication', ],
 }
+
+import django_heroku
+django_heroku.settings(locals(), databases=False),
