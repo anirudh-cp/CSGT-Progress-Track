@@ -1,8 +1,0 @@
-@import url("base.css");
-
-
-  .wrapper{ 
-    overflow-y:scroll; 
-    position:relative;
-    height: 350px;
-}
