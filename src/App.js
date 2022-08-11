@@ -30,7 +30,7 @@ function App() {
           <Route exact path='/faculty' element={<FacultyHome />}></Route>
           <Route exact path='/director' element={<DirHome />}></Route>
           {/* <Route exact path='/forms' element={<JournalForm />}></Route> */}
-          {/* <Route path="*" element={<NoPage />}></Route> */}
+          <Route path="*" element={<NoPage />}></Route>
         </Routes>
       </Router>
 
