@@ -12,7 +12,7 @@ class Login {
     setName,
     setEmpID
   ) {
-    const response = await fetch("http://127.0.0.1:8000/api/account/login", {
+    const response = await fetch("/api/account/login", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
