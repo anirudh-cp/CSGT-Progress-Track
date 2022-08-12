@@ -1,8 +1,8 @@
 import { MDBNavbar, MDBContainer, MDBNavbarBrand, MDBDropdown, MDBDropdownMenu, MDBDropdownToggle, MDBDropdownItem, MDBDropdownLink } from "mdb-react-ui-kit";
 import useUserStore from "../../API/Stores/UserStore";
-
-
 import Dropdown from "./Dropdown";
+
+import img from "../../assets/vit_white.png"
 
 const Header = () => {
 
@@ -18,7 +18,7 @@ const Header = () => {
                         {
                         //    name != "" && name != undefined ? "Welcome " + name : ""
                         }
-                        <img src="./Images/vit_white.png" height="57px"></img>
+                        <img src={img} height="57px"></img>
                     </MDBNavbarBrand>
 
                     {name != "" && name != undefined &&

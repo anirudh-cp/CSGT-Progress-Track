@@ -2,7 +2,7 @@ class API {
 
     async getData(token, empID, type, startDate, endDate) {
         const response = await fetch(
-            "http://127.0.0.1:8000/api/data/" + empID + "/" + type + "/" + startDate + "/" + endDate,
+            "/api/data/" + empID + "/" + type + "/" + startDate + "/" + endDate,
             {
                 method: "get",
                 headers: {
@@ -30,7 +30,7 @@ class API {
     async AddData(token, empID, type, data) {
         data.emp_id = empID;
         const response = await fetch(
-            "http://127.0.0.1:8000/api/data/" + empID + "/" + type,
+            "/api/data/" + empID + "/" + type,
             {
                 method: "put",
                 headers: {
@@ -148,7 +148,7 @@ class API {
         }
 
         const response = await fetch(
-            "http://127.0.0.1:8000/api/actions/" + startDate + "/" + endDate + path, information
+            "/api/actions/" + startDate + "/" + endDate + path, information
         )
             .then((response) => response.blob())
             .then((blob) => {
@@ -174,7 +174,7 @@ class API {
     }
 
     async getAllFacultyData(token) {
-        const response = await fetch("http://127.0.0.1:8000/api/faculty", {
+        const response = await fetch("/api/faculty", {
             method: "get",
             headers: {
                 "Content-Type": "application/json",
@@ -198,7 +198,7 @@ class API {
     }
 
     async getFacultyData(token, empID) {
-        const response = await fetch("http://127.0.0.1:8000/api/faculty/" + empID, {
+        const response = await fetch("/api/faculty/" + empID, {
             method: "get",
             headers: {
                 "Content-Type": "application/json",
@@ -222,7 +222,7 @@ class API {
     }
 
     async DeleteUser(token, email) {
-        const response = await fetch("http://127.0.0.1:8000/api/actions/users", {
+        const response = await fetch("/api/actions/users", {
             method: "delete",
             headers: {
                 "Content-Type": "application/json",
@@ -246,7 +246,7 @@ class API {
     }
 
     async ChangeGroup(token, email, group) {
-        const response = await fetch("http://127.0.0.1:8000/api/actions/users", {
+        const response = await fetch("/api/actions/users", {
             method: "post",
             headers: {
                 "Content-Type": "application/json",
@@ -274,7 +274,7 @@ class API {
     }
 
     async AddUser(token, email, password, password2, destinationGroup) {
-        const response = await fetch("http://127.0.0.1:8000/api/account/register", {
+        const response = await fetch("/api/account/register", {
             method: "post",
             headers: {
                 "Content-Type": "application/json",
@@ -308,7 +308,7 @@ class API {
         }
 
         const response = await fetch(
-            "http://127.0.0.1:8000/api/faculty/" + data.emp_id,
+            "/api/faculty/" + data.emp_id,
             {
                 method: "put",
                 headers: {
