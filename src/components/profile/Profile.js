@@ -22,7 +22,7 @@ export default function Profile({ record }) {
                         <div className="d-flex flex-column align-items-center text-center">
                             <img
                                 src=""
-                                onError={"Image not found!"}
+                                alt="Image not found"
                                 className="rounded-circle"
                                 width={150}
                             />
