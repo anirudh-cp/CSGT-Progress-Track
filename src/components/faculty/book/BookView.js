@@ -9,6 +9,11 @@ const BookView = ({ record }) => {
         <MDBTable striped>
           <MDBTableBody>
             <tr>
+              <th scope="row"> Type </th>
+              <td> {record.type} </td>
+            </tr>
+
+            <tr>
               <th scope="row"> Chapter title </th>
               <td> {record.chapter_title} </td>
             </tr>

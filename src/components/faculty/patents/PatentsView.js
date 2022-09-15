@@ -10,7 +10,7 @@ const PatentsView = ({ record }) => {
           <MDBTableBody>
             <tr>
               <th scope="row"> Title </th>
-              <td> {record.patent_title} </td>
+              <td> {record.title} </td>
             </tr>
             <tr>
               <th scope="row"> Type of Consultancy </th>

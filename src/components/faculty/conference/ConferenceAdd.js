@@ -8,9 +8,11 @@ import React, { useState } from "react";
 const ConferenceAdd = () => {
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      DOI: "",
-      Amount_of_Publication: 0,
-      Support: "No",
+      digital_obj_id: "",
+      amount_of_publication: 0,
+      support: "No",
+      no_of_attendees: 0,
+
     },
   });
 

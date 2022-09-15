@@ -7,12 +7,12 @@ import useUserStore from "../../../API/Stores/UserStore";
 const JournalAdd = () => {
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      Impact_factor: 0,
-      Vol_no: 0,
-      Issue_no: 0,
-      DOI: "",
-      Amount_of_Publication: 0,
-      Support: "No",
+      impact_factor: 0,
+      volume_no: 0,
+      issue_no: 0,
+      digital_obj_id: "",
+      amount_of_publication: 0,
+      support: "No",
     },
   });
 
