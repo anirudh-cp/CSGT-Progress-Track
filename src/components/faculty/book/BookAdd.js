@@ -5,19 +5,22 @@ import useUserStore from "../../../API/Stores/UserStore";
 const BookAdd = () => {
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      Vol_no: 0,
-      Issue_no: 0,
-      DOI: "",
-      Amount_of_Publication: 0,
-      Support: "No",
+      volume_no: 0,
+      issue_no: 0,
+      digital_obj_id: "",
+      amount_of_publication: 0,
+      support: "No",
+      type_of_publication: "Open Access",
+      indexing: "SCI",
+      type: "Book Chapter"
     },
   });
-  const { token, emp_id } = useUserStore();
+  const { token, empID } = useUserStore();
   const api = new API();
 
   const onSubmit = async (data) => {
     console.log(data);
-    const response = await api.AddData(token, emp_id, "book", data);
+    const response = await api.AddData(token, empID, "book", data);
     alert(response);
   };
 
@@ -32,6 +35,22 @@ const BookAdd = () => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="title">Add or Update Book Chapters</div>
+
+        <div className="input-container ic1 dropdown">
+          <select
+            id="type"
+            className="input dropdown"
+            type="text"
+            {...register("type")}
+          >
+            <option value="Book Chapter">Book Chapter</option>
+            <option value="Book Editorial">Book Editorial</option>
+          </select>
+          <div className="cut" />
+            <label htmlFor="typeCnf" className="placeholder">
+              Type
+            </label>
+        </div>
 
         <div className="input-container ic1">
           <input
@@ -88,13 +107,14 @@ const BookAdd = () => {
             type="text"
             {...register("collaboration")}
           >
-            <option value="national" disabled defaultValue="national">
-              Type of collaboration
-            </option>
             <option value="National">National</option>
             <option value="International">International</option>
             <option value="Internal">Internal</option>
           </select>
+          <div className="cut" />
+            <label htmlFor="typeCnf" className="placeholder">
+              Type of collaboration
+            </label>
         </div>
         {/* AUTHOR INFO MULTIPLE ROWS DYNAMIC ADJUSTMENT */}
         {/* AUTHOR INFO MULTIPLE ROWS DYNAMIC ADJUSTMENT */}
@@ -105,15 +125,15 @@ const BookAdd = () => {
             id="indexing"
             className="input dropdown"
             type="text"
-            {...register("Indexing")}
+            {...register("indexing")}
           >
-            <option value="" disabled defaultValue="SCI">
-              Indexing
-            </option>
             <option value="SCI">SCI</option>
             <option value="SCIE">SCIE</option>
             <option value="SCOPUS">SCOPUS</option>
           </select>
+          <label htmlFor="typeCnf" className="placeholder">
+              Indexing
+            </label>
         </div>
 
         <div className="input-container ic1">

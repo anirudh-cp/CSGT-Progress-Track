@@ -8,9 +8,13 @@ import React, { useState } from "react";
 const EventsAdd = () => {
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      DOI: "",
-      Amount_of_Publication: 0,
-      Support: "No",
+      digital_obj_id: "",
+      amount_of_publication: 0,
+      support: "No",
+      event: "FDP",
+      type: "Organized",
+      no_of_participants: 0,
+      sponsored: "No"
     },
   });
 
@@ -81,7 +85,7 @@ const EventsAdd = () => {
             id="typeCnf"
             className="input dropdown"
             type="text"
-            {...register("type")}
+            {...register("event")}
           >
             <option value="FDP">FDP</option>
             <option value="Workshop">Workshop</option>

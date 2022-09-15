@@ -23,7 +23,7 @@ const PatentsAdd = () => {
     data.filed_date = strftime("%Y-%m-%d", filedDate);
     data.published_date = strftime("%Y-%m-%d", publishedDate);
     data.granted_date = strftime("%Y-%m-%d", grantDate);
-    const response = await api.AddPatents(token, empID, "patent", data);
+    const response = await api.AddData(token, empID, "patent", data);
     alert(response);
   };
 

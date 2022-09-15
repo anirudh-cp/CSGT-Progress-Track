@@ -1,3 +1,20 @@
+IMPORTANT:
+----------
+The below commands have been run to remove certain deployment files from the development branch.
+Refer the link below to understand how they were removed and the means of viewing the list of files like this.
+
+https://stackoverflow.com/questions/1139762/ignore-files-that-have-already-been-committed-to-a-git-repository/11366713#11366713
+
+git update-index --assume-unchanged .env.development
+git update-index --assume-unchanged package.json    
+git update-index --assume-unchanged package-lock.json
+git update-index --assume-unchanged Procfile         
+git update-index --assume-unchanged runtime.txt
+
+Deleted files: .env.development, Procfile, runtime.txt
+Changed files: package.json, package-lock.json
+
+
 
   // "scripts": {
   //   "start": "react-scripts start",

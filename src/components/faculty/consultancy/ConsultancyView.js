@@ -26,14 +26,14 @@ const ConsultancyView = ({ record }) => {
             </tr>
             <tr>
               <th scope="row"> Funding allocation status </th>
-              <td> {record.funding} </td>
+              <td> {record.funding_status} </td>
             </tr>
             <tr>
-              <th scope="row"> Amount of funding allocated </th>
+              <th scope="row"> Amount of funding registered </th>
               <td> {record.amount_registered} </td>
             </tr>
             <tr>
-              <th scope="row"> Amount of funding allocated </th>
+              <th scope="row"> Amount of funding sanctioned </th>
               <td> {record.amount_sanctioned} </td>
             </tr>
             <tr>

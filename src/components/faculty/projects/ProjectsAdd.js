@@ -17,7 +17,7 @@ const PatentsAdd = () => {
   const onSubmit = async (data) => {
     console.log(data);
     data.start_date = strftime("%Y-%m-%d", startDate);
-    const response = await api.AddPatents(token, empID, "project", data);
+    const response = await api.AddData(token, empID, "project", data);
     alert(response);
   };
 

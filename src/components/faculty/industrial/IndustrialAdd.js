@@ -11,13 +11,13 @@ const IndustrialAdd = () => {
 
   const { token, empID } = useUserStore();
   const api = new API();
-  const [startDate, setStartDate] = useState();
+  const [startDate, setStartDate] = useState(null);
   var strftime = require("strftime");
 
   const onSubmit = async (data) => {
     console.log(data);
     data.date = strftime("%Y-%m-%d", startDate);
-    const response = await api.AddPatents(token, empID, "industrial", data);
+    const response = await api.AddData(token, empID, "industrial", data);
     alert(response);
   };
 

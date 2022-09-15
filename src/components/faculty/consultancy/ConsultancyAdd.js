@@ -7,9 +7,10 @@ import React, { useState } from "react";
 const ConsultancyAdd = () => {
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      Amount: 0,
+      amount_registered: 0,
+      amount_sanctioned: 0,
       invoice_number: 0,
-      Funding: "No",
+      funding_status: "No",
     },
   });
 
