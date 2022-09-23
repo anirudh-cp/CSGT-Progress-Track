@@ -39,7 +39,7 @@ const Filter = ({ setKey, tabIndex }) => {
     const handleAdd = () => {
         setShowAdd(!showAdd);
         if (tabIndex === 0) {
-            setChild(<JournalAdd />);
+            setChild(<JournalAdd record={undefined} key={new Date()}/>);
         }
         else if (tabIndex === 1) {
             setChild(<ConferenceAdd />);

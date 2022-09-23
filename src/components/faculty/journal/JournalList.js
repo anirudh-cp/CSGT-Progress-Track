@@ -1,18 +1,30 @@
-import { MDBTable, MDBTableHead, MDBTableBody } from "mdb-react-ui-kit";
+import { MDBTable, MDBTableHead, MDBTableBody, MDBIcon } from "mdb-react-ui-kit";
 
-import { useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import Modal from "../../common/Modal";
+import JournalAdd from "./JournalAdd";
 import JournalView from "./JournalView";
 
 
 const JournalList = ({ data }) => {
+
   const [show, setShow] = useState(false);
+  const [showAdd, setShowAdd] = useState(false);
+  const [key, setKey] = useState(0);
+
   const [currentRecord, setCurrentRecord] = useState([]);
 
-  const handleClick = (obj) => {
+  const handleClickSelect = (obj) => {
     setCurrentRecord(obj);
     setShow(!show);
   };
+
+
+  const handleClickEdit = (obj) => {
+    setCurrentRecord(obj);
+    setKey(key + 1);
+    setShowAdd(true);
+  }
 
   return (
     <div key="journal-key">
@@ -28,30 +40,39 @@ const JournalList = ({ data }) => {
         <MDBTableBody>
           {data.map((obj) => {
             return (
-              <tr key={obj.id}>
-                <th scope="row"> {obj.article_title} </th>
-                <th> {obj.journal_name} </th>
-                <th> {obj.year} </th>
-                <td style={{"display": "flex", "justifyContent":"space-around"}}>
-                  <div>
+              <Fragment key={obj.id}>
+
+                <tr onClick={(event) => { event.stopPropagation(); handleClickSelect(obj); }} style={{ cursor: "pointer" }}>
+                  <th scope="row"> {obj.article_title} </th>
+                  <td> {obj.journal_name} </td>
+                  <td> {obj.year} </td>
+
+                  <td >
+
+
                     <Modal
-                      handleClick={handleClick}
+                      handleClick={() => { setShow(false); setShowAdd(false); }}
                       show={show}
                       childElement={<JournalView record={currentRecord} />}
                     ></Modal>
+
+                    <Modal handleClick={(event) => { setShowAdd(false); event.stopPropagation(); }} show={showAdd}
+                      childElement={<JournalAdd key={key} record={currentRecord} />}></Modal>
+
                     <button
                       className="ripple ripple-surface ripple-surface-light btn btn-dark btn-sm mx-2"
                       size="sm"
                       color="dark"
-                      onClick={() => {
-                        handleClick(obj);
-                      }}
-                    >
-                      View
+                      onClick={(event) => { event.stopPropagation(); handleClickEdit(obj); }}>
+                      <MDBIcon fas icon="pen" />
                     </button>
-                  </div>
-                </td>
-              </tr>
+                    
+                  </td>
+
+
+                </tr>
+
+              </Fragment>
             );
           })}
         </MDBTableBody>

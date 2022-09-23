@@ -2,7 +2,12 @@
 
 
   .wrapper{ 
-    overflow-y:scroll; 
-    position:relative;
-    height: 350px;
+    overflow-y:auto; 
+    height: 80%;
+    margin-top: 10px;
 }
+
+
+td {
+  margin: 0px;  
+  }
