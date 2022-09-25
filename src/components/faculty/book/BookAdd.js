@@ -2,24 +2,21 @@ import { useForm } from "react-hook-form";
 import API from "../../../API/APIService";
 import useUserStore from "../../../API/Stores/UserStore";
 
-const BookAdd = () => {
-  const { register, handleSubmit } = useForm({
-    defaultValues: {
-      volume_no: 0,
-      issue_no: 0,
-      digital_obj_id: "",
-      amount_of_publication: 0,
-      support: "No",
-      type_of_publication: "Open Access",
-      indexing: "SCI",
-      type: "Book Chapter"
-    },
-  });
+const BookAdd = ({ record }) => {
+  const { register, handleSubmit } = useForm();
   const { token, empID } = useUserStore();
   const api = new API();
 
   const onSubmit = async (data) => {
     console.log(data);
+
+    if (data.volume_no === "")
+      data.volume_no = 0
+    if (data.issue_no === "")
+      data.issue_no = 0
+    if (data.amount_of_publication === "")
+      data.amount_of_publication = 0
+
     const response = await api.AddData(token, empID, "book", data);
     alert(response);
   };
@@ -42,14 +39,15 @@ const BookAdd = () => {
             className="input dropdown"
             type="text"
             {...register("type")}
+            defaultValue={record !== undefined ? record.type : ""}
           >
             <option value="Book Chapter">Book Chapter</option>
             <option value="Book Editorial">Book Editorial</option>
           </select>
           <div className="cut" />
-            <label htmlFor="typeCnf" className="placeholder">
-              Type
-            </label>
+          <label htmlFor="typeCnf" className="placeholder">
+            Type
+          </label>
         </div>
 
         <div className="input-container ic1">
@@ -60,6 +58,8 @@ const BookAdd = () => {
             placeholder=" "
             required
             {...register("book_title")}
+            readOnly={record !== undefined ? true : false}
+            defaultValue={record !== undefined ? record.book_title : ""}
           />
           <div className="cut" />
           <label htmlFor="jname" className="placeholder">
@@ -75,6 +75,7 @@ const BookAdd = () => {
             placeholder=" "
             required
             {...register("chapter_title")}
+            defaultValue={record !== undefined ? record.chapter_title : ""}
           />
           <div className="cut" />
           <label htmlFor="title" className="placeholder">
@@ -90,6 +91,7 @@ const BookAdd = () => {
             placeholder=" "
             required
             {...register("no_of_authors")}
+            defaultValue={record !== undefined ? record.no_of_authors : ""}
           />
           <div className="cut" />
           <label htmlFor="auths" className="placeholder">
@@ -106,15 +108,16 @@ const BookAdd = () => {
             className="input dropdown"
             type="text"
             {...register("collaboration")}
+            defaultValue={record !== undefined ? record.collaboration : ""}
           >
             <option value="National">National</option>
             <option value="International">International</option>
             <option value="Internal">Internal</option>
           </select>
           <div className="cut" />
-            <label htmlFor="typeCnf" className="placeholder">
-              Type of collaboration
-            </label>
+          <label htmlFor="typeCnf" className="placeholder">
+            Type of collaboration
+          </label>
         </div>
         {/* AUTHOR INFO MULTIPLE ROWS DYNAMIC ADJUSTMENT */}
         {/* AUTHOR INFO MULTIPLE ROWS DYNAMIC ADJUSTMENT */}
@@ -126,14 +129,16 @@ const BookAdd = () => {
             className="input dropdown"
             type="text"
             {...register("indexing")}
+            defaultValue={record !== undefined ? record.indexing : ""}
           >
             <option value="SCI">SCI</option>
             <option value="SCIE">SCIE</option>
             <option value="SCOPUS">SCOPUS</option>
           </select>
-          <label htmlFor="typeCnf" className="placeholder">
-              Indexing
-            </label>
+          <div className="cut" />
+          <label htmlFor="type" className="placeholder">
+            Indexing
+          </label>
         </div>
 
         <div className="input-container ic1">
@@ -144,6 +149,7 @@ const BookAdd = () => {
             placeholder=" "
             required
             {...register("isbn")}
+            defaultValue={record !== undefined ? record.isbn : ""}
           />
           <div className="cut" />
           <label htmlFor="issn" className="placeholder">
@@ -159,6 +165,7 @@ const BookAdd = () => {
             placeholder=" "
             required
             {...register("year")}
+            defaultValue={record !== undefined ? record.year : ""}
           />
           <div className="cut" />
           <label htmlFor="year" className="placeholder">
@@ -174,6 +181,7 @@ const BookAdd = () => {
             placeholder=" "
             required
             {...register("publisher_name")}
+            defaultValue={record !== undefined ? record.publisher_name : ""}
           />
           <div className="cut" />
           <label htmlFor="pname" className="placeholder">
@@ -187,13 +195,15 @@ const BookAdd = () => {
             className="input dropdown"
             type="text"
             {...register("type_of_publisher")}
+            defaultValue={record !== undefined ? record.type_of_publisher : ""}
           >
-            <option value="national" disabled defaultValue="national">
-              Type of Publisher
-            </option>
             <option value="National">National</option>
             <option value="International">International</option>
           </select>
+          <div className="cut" />
+          <label htmlFor="type" className="placeholder">
+            Type of Publisher
+          </label>
         </div>
 
         <div className="input-container ic1">
@@ -203,6 +213,7 @@ const BookAdd = () => {
             type="number"
             placeholder=" "
             {...register("volume_no")}
+            defaultValue={record !== undefined ? record.volume_no : ""}
           />
           <div className="cut" />
           <label htmlFor="vnum" className="placeholder">
@@ -217,6 +228,7 @@ const BookAdd = () => {
             type="number"
             placeholder=" "
             {...register("issue_no")}
+            defaultValue={record !== undefined ? record.issue_no : ""}
           />
           <div className="cut" />
           <label htmlFor="inum" className="placeholder">
@@ -231,6 +243,7 @@ const BookAdd = () => {
             type="text"
             placeholder=" "
             {...register("digital_obj_id")}
+            defaultValue={record !== undefined ? record.digital_obj_id : ""}
           />
           <div className="cut" />
           <label htmlFor="doi" className="placeholder">
@@ -244,13 +257,15 @@ const BookAdd = () => {
             className="input dropdown"
             type="text"
             {...register("type_of_publication")}
+            defaultValue={record !== undefined ? record.type_of_publication : ""}
           >
-            <option value="" disabled defaultValue="Open Access">
-              Type of Publication
-            </option>
             <option value="Open Access">Open Access</option>
             <option value="Subscription">Subscription</option>
           </select>
+          <div className="cut" />
+          <label htmlFor="type" className="placeholder">
+            Type of Publication
+          </label>
         </div>
 
         {/* ONLY IF OPEN ACCESS IS SELECTED */}
@@ -262,6 +277,7 @@ const BookAdd = () => {
             type="text"
             placeholder=" "
             {...register("funder_name")}
+            defaultValue={record !== undefined ? record.funder_name : ""}
           />
           <div className="cut" />
           <label htmlFor="fname" className="placeholder">
@@ -276,6 +292,7 @@ const BookAdd = () => {
             type="text"
             placeholder=" "
             {...register("amount_of_publication")}
+            defaultValue={record !== undefined ? record.amount_of_publication : ""}
           />
           <div className="cut" />
           <label htmlFor="pubamt" className="placeholder">
@@ -289,18 +306,37 @@ const BookAdd = () => {
             className="input dropdown"
             type="text"
             {...register("support")}
+            defaultValue={record !== undefined ? record.support : ""}
           >
-            <option value="" disabled defaultValue="No">
-              Support from VIT
-            </option>
             <option value="Yes">Yes</option>
             <option value="No">No</option>
           </select>
+          <div className="cut" />
+          <label htmlFor="type" className="placeholder">
+            Support
+          </label>
         </div>
         {/* ONLY IF OPEN ACCESS IS SELECTED */}
         {/* ONLY IF OPEN ACCESS IS SELECTED */}
+        
+        <div className="input-container ic1">
+          <input
+            id="upload"
+            className="input"
+            type="text"
+            placeholder=" "
+            {...register("upload_link")}
+            defaultValue={record !== undefined ? record.upload_link : ""}
+          />
+          <div className="cut" />
+          <label htmlFor="title" className="placeholder">
+            Upload Link for Proof
+          </label>
+        </div>
 
-        <input type="submit" className="submit" value="Add Record" />
+        {record === undefined ?
+          <input type="submit" className="submit" value="Add Record" /> :
+          <input type="submit" className="submit" value="Update Record" />}
       </form>
     </div>
   );
