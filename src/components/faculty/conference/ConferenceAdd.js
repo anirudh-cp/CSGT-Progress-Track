@@ -5,16 +5,8 @@ import useUserStore from "../../../API/Stores/UserStore";
 import DatePicker from "react-date-picker/dist/entry.nostyle";
 import React, { useState } from "react";
 
-const ConferenceAdd = () => {
-  const { register, handleSubmit } = useForm({
-    defaultValues: {
-      digital_obj_id: "",
-      amount_of_publication: 0,
-      support: "No",
-      no_of_attendees: 0,
-
-    },
-  });
+const ConferenceAdd = ({ record }) => {
+  const { register, handleSubmit } = useForm();
 
   const { token, empID } = useUserStore();
   const api = new API();
@@ -25,6 +17,12 @@ const ConferenceAdd = () => {
 
   const onSubmit = async (data) => {
     console.log(data);
+
+    if (data.no_of_attendees === "")
+      data.no_of_attendees = 0
+    if (data.amount_of_publication === "")
+      data.amount_of_publication = 0
+
     data.start_date = strftime("%Y-%m-%d", startDate);
     data.end_date = strftime("%Y-%m-%d", endDate);
     const response = await api.AddData(token, empID, "conference", data);
@@ -41,7 +39,9 @@ const ConferenceAdd = () => {
         style={{ height: "100%", width: "100%" }}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="title">Add or Update Conference</div>
+        {record === undefined ? <div className="title">Add Conference</div>
+          : <div className="title">Update Conference</div>
+        }
 
         <div className="input-container ic1">
           <input
@@ -51,6 +51,8 @@ const ConferenceAdd = () => {
             placeholder=" "
             required
             {...register("article_title")}
+            readOnly={record !== undefined ? true : false}
+            defaultValue={record !== undefined ? record.article_title : ""}
           />
           <div className="cut" />
           <label htmlFor="title" className="placeholder">
@@ -66,6 +68,7 @@ const ConferenceAdd = () => {
             placeholder=" "
             required
             {...register("no_of_authors")}
+            defaultValue={record !== undefined ? record.no_of_authors : ""}
           />
           <div className="cut" />
           <label htmlFor="auths" className="placeholder">
@@ -81,6 +84,7 @@ const ConferenceAdd = () => {
             placeholder=" "
             required
             {...register("conference_name")}
+            defaultValue={record !== undefined ? record.conference_name : ""}
           />
           <div className="cut" />
           <label htmlFor="jname" className="placeholder">
@@ -96,6 +100,7 @@ const ConferenceAdd = () => {
             placeholder=" "
             required
             {...register("place")}
+            defaultValue={record !== undefined ? record.place : ""}
           />
           <div className="cut" />
           <label htmlFor="jname" className="placeholder">
@@ -103,21 +108,40 @@ const ConferenceAdd = () => {
           </label>
         </div>
 
-        <div className="mt-3 d-flex justify-content-start">
-          <span className="pr-5 pl-1 pt-2 text-dark">
-            Conference Start Date:
-          </span>
-          <DatePicker
-            onChange={setStartDate}
-            value={startDate}
-            className="pb-2 pt-2"
+        
+        <div className="input-container ic1">
+          <input
+            id="jname"
+            className="input"
+            type="date"
+            placeholder=" "
+            required
+            {...register("start_date")}
+            defaultValue={record !== undefined ? record.start_date : ""}
           />
+          <div className="cut" />
+          <label htmlFor="jname" className="placeholder">
+            Start Date
+          </label>
         </div>
 
-        <div className="mt-3 d-flex justify-content-start">
-          <span className="pr-5 pl-1 pt-2 text-dark">Conference End Date:</span>
-          <DatePicker onChange={setEndDate} value={endDate} className=" pt-2" />
+
+        <div className="input-container ic1">
+          <input
+            id="jname"
+            className="input"
+            type="date"
+            placeholder=" "
+            required
+            {...register("end_date")}
+            defaultValue={record !== undefined ? record.end_date : ""}
+          />
+          <div className="cut" />
+          <label htmlFor="jname" className="placeholder">
+            End Date
+          </label>
         </div>
+
 
         <div className="input-container ic1 dropdown">
           <select
@@ -125,6 +149,7 @@ const ConferenceAdd = () => {
             className="input dropdown"
             type="text"
             {...register("type")}
+            defaultValue={record !== undefined ? record.type : ""}
           >
             <option value="National">National</option>
             <option value="International">International</option>
@@ -141,6 +166,7 @@ const ConferenceAdd = () => {
             className="input dropdown"
             type="text"
             {...register("indexing")}
+            defaultValue={record !== undefined ? record.indexing : ""}
           >
             <option value="SCI">SCI</option>
             <option value="SCIE">SCIE</option>
@@ -162,6 +188,7 @@ const ConferenceAdd = () => {
             {...register("conducting")}
             value={attend}
             onChange={e => {setAttend(e.target.value)}}
+            defaultValue={record !== undefined ? record.conducting : ""}
           >
             <option value="Conducting">Conducting</option>
             <option value="Attending">Attending</option>
@@ -179,6 +206,7 @@ const ConferenceAdd = () => {
             type="text"
             placeholder=" "
             {...register("no_of_attendees")}
+            defaultValue={record !== undefined ? record.no_of_attendees : ""}
           />
           <div className="cut" />
           <label htmlFor="noAttend" className="placeholder">
@@ -192,6 +220,7 @@ const ConferenceAdd = () => {
             className="input dropdown"
             type="text"
             {...register("published_as")}
+            defaultValue={record !== undefined ? record.published_as : ""}
           >
             <option value="Research Paper">Research Paper</option>
           </select>
@@ -208,6 +237,7 @@ const ConferenceAdd = () => {
             type="text"
             placeholder=" "
             {...register("digital_object_id")}
+            defaultValue={record !== undefined ? record.digital_object_id : ""}
           />
           <div className="cut" />
           <label htmlFor="doi" className="placeholder">
@@ -224,6 +254,7 @@ const ConferenceAdd = () => {
             type="text"
             placeholder=" "
             {...register("funder_name")}
+            defaultValue={record !== undefined ? record.funder_name : ""}
           />
           <div className="cut" />
           <label htmlFor="fname" className="placeholder">
@@ -238,6 +269,7 @@ const ConferenceAdd = () => {
             type="text"
             placeholder=" "
             {...register("amount_of_publication")}
+            defaultValue={record !== undefined ? record.amount_of_publication : ""}
           />
           <div className="cut" />
           <label htmlFor="pubamt" className="placeholder">
@@ -251,6 +283,7 @@ const ConferenceAdd = () => {
             className="input dropdown"
             type="text"
             {...register("support")}
+            defaultValue={record !== undefined ? record.support : ""}
           >
             <option value="Yes">Yes</option>
             <option value="No">No</option>
@@ -263,7 +296,24 @@ const ConferenceAdd = () => {
         {/* ONLY IF OPEN ACCESS IS SELECTED */}
         {/* ONLY IF OPEN ACCESS IS SELECTED */}
 
-        <input type="submit" className="submit" value="Add Record" />
+        <div className="input-container ic1">
+          <input
+            id="upload"
+            className="input"
+            type="text"
+            placeholder=" "
+            {...register("upload_link")}
+            defaultValue={record !== undefined ? record.upload_link : ""}
+          />
+          <div className="cut" />
+          <label htmlFor="title" className="placeholder">
+            Upload Link for Proof
+          </label>
+        </div>
+
+        {record === undefined ?
+          <input type="submit" className="submit" value="Add Record" /> :
+          <input type="submit" className="submit" value="Update Record" />}
       </form>
     </div>
   );

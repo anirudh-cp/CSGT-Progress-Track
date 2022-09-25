@@ -291,7 +291,6 @@ const JournalAdd = ({ record }) => {
             className="input"
             type="text"
             placeholder=" "
-            required
             {...register("upload_link")}
             defaultValue={record !== undefined ? record.upload_link : ""}
           />
