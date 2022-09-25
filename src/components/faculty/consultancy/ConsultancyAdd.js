@@ -208,7 +208,10 @@ const ConsultancyAdd = ({ record }) => {
         </div>
       
 
-        <input type="submit" className="submit" value="Add Record" />
+        {record === undefined ?
+          <input type="submit" className="submit" value="Add Record" /> :
+          <input type="submit" className="submit" value="Update Record" />}
+
       </form>
     </div>
   );

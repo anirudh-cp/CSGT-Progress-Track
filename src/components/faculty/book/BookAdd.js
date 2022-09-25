@@ -31,7 +31,10 @@ const BookAdd = ({ record }) => {
         style={{ height: "100%", width: "100%" }}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="title">Add or Update Book Chapters</div>
+
+         {record === undefined ? <div className="title">Add Book </div>
+          : <div className="title">Update Book</div>
+        }
 
         <div className="input-container ic1 dropdown">
           <select

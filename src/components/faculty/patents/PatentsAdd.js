@@ -4,25 +4,24 @@ import API from "../../../API/APIService";
 import useUserStore from "../../../API/Stores/UserStore";
 import { useState } from "react";
 
-const PatentsAdd = () => {
-  const { register, handleSubmit } = useForm({
-    defaultValues: {},
-  });
+const PatentsAdd = ({ record }) => {
+  const { register, handleSubmit } = useForm();
 
   const { token, empID } = useUserStore();
   const api = new API();
-  const [filedDate, setFiledDate] = useState();
-  const [publishedDate, setPublishedDate] = useState();
-  const [grantDate, setGrantDate] = useState();
   const [status1, setStatus1] = useState("No");
   const [status2, setStatus2] = useState("No");
   var strftime = require("strftime");
 
   const onSubmit = async (data) => {
     console.log(data);
-    data.filed_date = strftime("%Y-%m-%d", filedDate);
-    data.published_date = strftime("%Y-%m-%d", publishedDate);
-    data.granted_date = strftime("%Y-%m-%d", grantDate);
+
+    if (data.published_date === "")
+      data.published_date = "1970-01-01";
+
+    if (data.granted_date === "")
+      data.granted_date = "1970-01-01";
+
     const response = await api.AddData(token, empID, "patent", data);
     alert(response);
   };
@@ -34,11 +33,12 @@ const PatentsAdd = () => {
     >
       <form
         className="form justify-content-center wrapper"
-        style={{ height: "100%", width: "100%" }}
+        style={{ height: "100%", width: "100%", textAlign: "center" }}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="title">Add or Update Patents</div>
-
+        {record === undefined ? <div className="title">Add Patent</div>
+          : <div className="title">Update Patent</div>
+        }
         <div className="input-container ic1">
           <input
             id="title"
@@ -47,6 +47,9 @@ const PatentsAdd = () => {
             placeholder=" "
             required
             {...register("title")}
+            readOnly={record !== undefined ? true : false}
+            defaultValue={record !== undefined ? record.title : ""}
+
           />
           <div className="cut" />
           <label htmlFor="title" className="placeholder">
@@ -60,6 +63,8 @@ const PatentsAdd = () => {
             className="input dropdown"
             type="text"
             {...register("type")}
+            defaultValue={record !== undefined ? record.type : ""}
+
           >
             <option value="National">National</option>
             <option value="International">International</option>
@@ -78,6 +83,8 @@ const PatentsAdd = () => {
             placeholder=" "
             required
             {...register("no_of_authors")}
+            defaultValue={record !== undefined ? record.no_of_authors : ""}
+
           />
           <div className="cut" />
           <label htmlFor="auths" className="placeholder">
@@ -85,9 +92,19 @@ const PatentsAdd = () => {
           </label>
         </div>
 
-        <div className="mt-3 d-flex justify-content-start">
-          <span className="pr-5 pl-1 pt-2 text-dark">Patent Filed Date:</span>
-          <DatePicker onChange={setFiledDate} value={filedDate} className="pb-2 pt-2"/>
+        <div className="input-container ic1">
+          <input
+            id="amt"
+            className="input"
+            type="date"
+            placeholder=" "
+            {...register("filed_date")}
+            defaultValue={record !== undefined ? record.filed_date : ""}
+          />
+          <div className="cut" />
+          <label htmlFor="amt" className="placeholder">
+            Filed Date
+          </label>
         </div>
 
         <div className="input-container ic1 dropdown">
@@ -108,9 +125,19 @@ const PatentsAdd = () => {
         </div>
 
         <div style={{ display: (status1 === "Yes" ? 'block' : 'none') }}>
-        <div className="mt-3 d-flex justify-content-start">
-          <span className="pr-5 pl-1 pt-2 text-dark">Patent Published Date:</span>
-          <DatePicker onChange={setPublishedDate} value={publishedDate} className="pb-2 pt-2"/>
+        <div className="input-container ic1">
+          <input
+            id="amt"
+            className="input"
+            type="date"
+            placeholder=" "
+            {...register("published_date")}
+            defaultValue={record !== undefined ? record.published_date : ""}
+          />
+          <div className="cut" />
+          <label htmlFor="amt" className="placeholder">
+            Published Date
+          </label>
         </div>
         </div>
         
@@ -132,13 +159,41 @@ const PatentsAdd = () => {
         </div>
         
         <div style={{ display: ((status1 === "Yes" && status2 === "Yes") ? 'block' : 'none') }}>
-        <div className="mt-3 d-flex justify-content-start" >
-          <span className="pr-5 pl-1 pt-2 text-dark">Patent Granted Date:</span>
-          <DatePicker onChange={setGrantDate} value={grantDate} className="pb-2 pt-2"/>
+        <div className="input-container ic1">
+          <input
+            id="amt"
+            className="input"
+            type="date"
+            placeholder=" "
+            {...register("granted_date")}
+            defaultValue={record !== undefined ? record.granted_date : ""}
+          />
+          <div className="cut" />
+          <label htmlFor="amt" className="placeholder">
+            Granted Date
+          </label>
         </div>
         </div>
 
-        <input type="submit" className="submit" value="Add Record" />
+        <div className="input-container ic1">
+          <input
+            id="upload"
+            className="input"
+            type="text"
+            placeholder=" "
+            {...register("upload_link")}
+            defaultValue={record !== undefined ? record.end_date : ""}
+          />
+          <div className="cut" />
+          <label htmlFor="amt" className="placeholder">
+            Upload Link for Proof
+          </label>
+        </div>
+      
+
+        {record === undefined ?
+          <input type="submit" className="submit" value="Add Record" /> :
+          <input type="submit" className="submit" value="Update Record" />}
       </form>
     </div>
   );
