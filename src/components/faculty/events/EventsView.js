@@ -1,6 +1,18 @@
 import { MDBTable, MDBTableBody } from "mdb-react-ui-kit";
 
 const EventsView = ({ record }) => {
+
+  const handleClickDelete = () => {
+    let choice = window.confirm("Delete record? This action is unreversible");
+    if(choice === true) {
+      alert("Record is deleted, apply filter to view changes.")
+    }
+    else {
+      alert("Delete operation cancellled.");
+    }
+
+  }
+
   return (
     <div style={{ height: "60vh" }}>
       <h2>Additional Information</h2>
@@ -50,6 +62,15 @@ const EventsView = ({ record }) => {
             </tr>
           </MDBTableBody>
         </MDBTable>
+
+        <button
+          className="ripple ripple-surface ripple-surface-light btn btn-dark btn-sm mx-2"
+          size="sm"
+          color="dark"
+          onClick={handleClickDelete}>
+          Delete Record
+        </button>
+
       </div>
     </div>
   );

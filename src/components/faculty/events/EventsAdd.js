@@ -5,30 +5,22 @@ import useUserStore from "../../../API/Stores/UserStore";
 import DatePicker from "react-date-picker/dist/entry.nostyle";
 import React, { useState } from "react";
 
-const EventsAdd = () => {
-  const { register, handleSubmit } = useForm({
-    defaultValues: {
-      digital_obj_id: "",
-      amount_of_publication: 0,
-      support: "No",
-      event: "FDP",
-      type: "Organized",
-      no_of_participants: 0,
-      sponsored: "No"
-    },
-  });
+const EventsAdd = ({ record }) => {
+  const { register, handleSubmit } = useForm();
 
   const { token, empID } = useUserStore();
   const api = new API();
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
   const [attend, setAttend] = useState("Conducting");
   var strftime = require("strftime");
 
   const onSubmit = async (data) => {
     console.log(data);
-    data.start_date = strftime("%Y-%m-%d", startDate);
-    data.end_date = strftime("%Y-%m-%d", endDate);
+    
+    if (data.amount_of_publication === "")
+      data.amount_of_publication = 0
+    if (data.no_of_participants === "")
+      data.no_of_participants = 0
+
     const response = await api.AddData(token, empID, "event", data);
     alert(response);
   };
@@ -40,10 +32,12 @@ const EventsAdd = () => {
     >
       <form
         className="form justify-content-center wrapper"
-        style={{ height: "100%", width: "100%" }}
+        style={{ height: "100%", width: "100%", textAlign: "center"}} 
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="title">Add or Update Events</div>
+        {record === undefined ? <div className="title">Add Events</div>
+          : <div className="title">Update Events</div>
+        }
 
         <div className="input-container ic1 dropdown">
           <select
@@ -55,6 +49,7 @@ const EventsAdd = () => {
             onChange={(e) => {
               setAttend(e.target.value);
             }}
+            defaultValue={record !== undefined ? record.type : ""}
           >
             <option value="Organized">Organized</option>
             <option value="Attended">Attended</option>
@@ -73,6 +68,8 @@ const EventsAdd = () => {
             placeholder=" "
             required
             {...register("title")}
+            defaultValue={record !== undefined ? record.title : ""}
+            readOnly={record !== undefined ? true : false}
           />
           <div className="cut" />
           <label htmlFor="title" className="placeholder">
@@ -86,6 +83,7 @@ const EventsAdd = () => {
             className="input dropdown"
             type="text"
             {...register("event")}
+            defaultValue={record !== undefined ? record.event : ""}
           >
             <option value="FDP">FDP</option>
             <option value="Workshop">Workshop</option>
@@ -112,20 +110,35 @@ const EventsAdd = () => {
           </label>
         </div>
 
-        <div className="mt-3 d-flex justify-content-start">
-          <span className="pr-5 pl-1 pt-2 text-dark">
-            Conference Start Date:
-          </span>
-          <DatePicker
-            onChange={setStartDate}
-            value={startDate}
-            className="pb-2 pt-2"
-          />
-        </div>
 
-        <div className="mt-3 d-flex justify-content-start">
-          <span className="pr-5 pl-1 pt-2 text-dark">Conference End Date:</span>
-          <DatePicker onChange={setEndDate} value={endDate} className=" pt-2" />
+        <div className="input-container ic1">
+          <input
+            id="amt"
+            className="input"
+            type="date"
+            placeholder=" "
+            {...register("start_date")}
+            defaultValue={record !== undefined ? record.start_date : ""}
+          />
+          <div className="cut" />
+          <label htmlFor="amt" className="placeholder">
+            Start Date
+          </label>
+        </div>
+        
+        <div className="input-container ic1">
+          <input
+            id="amt"
+            className="input"
+            type="date"
+            placeholder=" "
+            {...register("end_date")}
+            defaultValue={record !== undefined ? record.end_date : ""}
+          />
+          <div className="cut" />
+          <label htmlFor="amt" className="placeholder">
+            End Date
+          </label>
         </div>
 
         <div className="input-container ic1">
@@ -136,6 +149,7 @@ const EventsAdd = () => {
             placeholder=" "
             required
             {...register("reg_fee")}
+            defaultValue={record !== undefined ? record.reg_fee : ""}
           />
           <div className="cut" />
           <label htmlFor="auths" className="placeholder">
@@ -149,6 +163,7 @@ const EventsAdd = () => {
             className="input dropdown"
             type="text"
             {...register("collaboration")}
+            defaultValue={record !== undefined ? record.collaboration : ""}
           >
             <option value="National">National</option>
             <option value="International">International</option>
@@ -165,7 +180,8 @@ const EventsAdd = () => {
             id="indexing"
             className="input dropdown"
             type="text"
-            {...register("sponspored")}
+            {...register("sponsored")}
+            defaultValue={record !== undefined ? record.sponsored : ""}
           >
             <option value="Yes">Yes</option>
             <option value="No">No</option>
@@ -186,6 +202,7 @@ const EventsAdd = () => {
             type="text"
             placeholder=" "
             {...register("no_of_participants")}
+            defaultValue={record !== undefined ? record.no_of_participants : ""}
           />
           <div className="cut" />
           <label htmlFor="noAttend" className="placeholder">
@@ -203,6 +220,7 @@ const EventsAdd = () => {
               className="input dropdown"
               type="text"
               {...register("amount_from_vit")}
+              defaultValue={record !== undefined ? record.amount_from_vit : ""}
             >
               <option value="Yes">Yes</option>
               <option value="No">No</option>
@@ -214,7 +232,27 @@ const EventsAdd = () => {
           </div>
         </div>
 
-        <input type="submit" className="submit" value="Add Record" />
+
+        <div className="input-container ic1">
+          <input
+            id="upload"
+            className="input"
+            type="text"
+            placeholder=" "
+            {...register("upload_link")}
+            defaultValue={record !== undefined ? record.upload_link : ""}
+          />
+          <div className="cut" />
+          <label htmlFor="title" className="placeholder">
+            Upload Link for Proof
+          </label>
+        </div>
+
+        {record === undefined ?
+          <input type="submit" className="submit" value="Add Record" /> :
+          <input type="submit" className="submit" value="Update Record" />}
+
+
       </form>
     </div>
   );
