@@ -1,6 +1,6 @@
 import { MDBTable, MDBTableHead, MDBTableBody, MDBIcon } from "mdb-react-ui-kit";
 
-import { Fragment, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Modal from "../../common/Modal";
 import JournalAdd from "./JournalAdd";
 import JournalView from "./JournalView";
@@ -19,12 +19,12 @@ const JournalList = ({ data }) => {
     setShow(!show);
   };
 
-
   const handleClickEdit = (obj) => {
     setCurrentRecord(obj);
     setKey(key + 1);
     setShowAdd(true);
   }
+
 
   return (
     <div key="journal-key">
@@ -40,15 +40,12 @@ const JournalList = ({ data }) => {
         <MDBTableBody>
           {data.map((obj) => {
             return (
-              <Fragment key={obj.id}>
-
-                <tr onClick={(event) => { event.stopPropagation(); handleClickSelect(obj); }} style={{ cursor: "pointer" }}>
+                <tr key={obj.id} onClick={(event) => { event.stopPropagation(); handleClickSelect(obj); }} style={{ cursor: "pointer" }}>
                   <th scope="row"> {obj.article_title} </th>
-                  <td> {obj.journal_name} </td>
-                  <td> {obj.year} </td>
+                  <th> {obj.journal_name} </th>
+                  <th> {obj.year} </th>
 
-                  <td >
-
+                  <th >
 
                     <Modal
                       handleClick={() => { setShow(false); setShowAdd(false); }}
@@ -66,13 +63,8 @@ const JournalList = ({ data }) => {
                       onClick={(event) => { event.stopPropagation(); handleClickEdit(obj); }}>
                       <MDBIcon fas icon="pen" />
                     </button>
-                    
-                  </td>
-
-
+                  </th>
                 </tr>
-
-              </Fragment>
             );
           })}
         </MDBTableBody>

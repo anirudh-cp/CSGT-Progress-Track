@@ -48,7 +48,7 @@ const Filter = ({ setKey, tabIndex }) => {
             setChild(<EventsAdd />)
         }
         else if (tabIndex === 3) {
-            setChild(<ConsultancyAdd />)
+            setChild(<ConsultancyAdd record={undefined} key={new Date()}/>)
         }
         else if (tabIndex === 4) {
             setChild(<BookAdd />)

@@ -10,16 +10,7 @@ const JournalAdd = ({ record }) => {
   const { token, empID } = useUserStore();
   const [pubType, setPubType] = useState("Open Access")
   const api = new API();
-
-
-  useEffect(() => {
-    console.log(record);
-
-    return () => {
-
-    }
-  }, [])
-
+  
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -57,6 +48,7 @@ const JournalAdd = ({ record }) => {
             className="input"
             type="text"
             required
+            placeholder=" "
             readOnly={record !== undefined ? true : false}
             {...register("article_title")}
             defaultValue={record !== undefined ? record.article_title : ""}
@@ -72,7 +64,7 @@ const JournalAdd = ({ record }) => {
             id="auths"
             className="input"
             type="number"
-
+            placeholder=" "
             required
             {...register("no_of_authors")}
             defaultValue={record !== undefined ? record.no_of_authors : 0}
@@ -111,8 +103,8 @@ const JournalAdd = ({ record }) => {
             id="jname"
             className="input"
             type="text"
-
             required
+            placeholder=" "
             {...register("journal_name")}
             defaultValue={record !== undefined ? record.journal_name : ""}
           />
@@ -150,7 +142,7 @@ const JournalAdd = ({ record }) => {
             className="input"
             type="number"
             step="0.01"
-
+            placeholder=" "
             {...register("impact_factor")}
             defaultValue={record !== undefined ? record.impact_factor : 0}
           />
@@ -165,7 +157,7 @@ const JournalAdd = ({ record }) => {
             id="year"
             className="input"
             type="number"
-
+            placeholder=" "
             required
             {...register("year")}
             defaultValue={record !== undefined ? record.year : ""}
@@ -181,8 +173,8 @@ const JournalAdd = ({ record }) => {
             id="vnum"
             className="input"
             type="number"
-
             {...register("volume_no")}
+            placeholder=" "
             defaultValue={record !== undefined ? record.volume_no : ""}
           />
           <div className="cut" />
@@ -196,7 +188,7 @@ const JournalAdd = ({ record }) => {
             id="inum"
             className="input"
             type="number"
-
+            placeholder=" "
             {...register("issue_no")}
             defaultValue={record !== undefined ? record.issue_no : ""}
           />
@@ -211,7 +203,7 @@ const JournalAdd = ({ record }) => {
             id="doi"
             className="input"
             type="text"
-
+            placeholder=" "
             {...register("digital_obj_id")}
             defaultValue={record !== undefined ? record.digital_obj_id : ""}
           />
@@ -246,7 +238,7 @@ const JournalAdd = ({ record }) => {
               id="fname"
               className="input"
               type="text"
-
+              placeholder=" "
               {...register("funder_name")}
               defaultValue={record !== undefined ? record.funder_name : ""}
             />
@@ -261,6 +253,7 @@ const JournalAdd = ({ record }) => {
               id="pubamt"
               className="input"
               type="text"
+              placeholder=" "
               {...register("amount_of_publication")}
               defaultValue={record !== undefined ? record.amount_of_publication : ""}
             />
@@ -297,8 +290,8 @@ const JournalAdd = ({ record }) => {
             id="upload"
             className="input"
             type="text"
+            placeholder=" "
             required
-            readOnly={record !== undefined ? true : false}
             {...register("upload_link")}
             defaultValue={record !== undefined ? record.upload_link : ""}
           />
