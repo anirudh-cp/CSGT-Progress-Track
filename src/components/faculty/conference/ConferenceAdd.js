@@ -10,8 +10,6 @@ const ConferenceAdd = ({ record }) => {
 
   const { token, empID } = useUserStore();
   const api = new API();
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
   const [attend, setAttend] = useState("Conducting")
   var strftime = require("strftime");
 
@@ -23,8 +21,6 @@ const ConferenceAdd = ({ record }) => {
     if (data.amount_of_publication === "")
       data.amount_of_publication = 0
 
-    data.start_date = strftime("%Y-%m-%d", startDate);
-    data.end_date = strftime("%Y-%m-%d", endDate);
     const response = await api.AddData(token, empID, "conference", data);
     alert(response);
   };
