@@ -4,7 +4,7 @@ import API from "../../../API/APIService";
 import useUserStore from "../../../API/Stores/UserStore";
 import { useState } from "react";
 
-const IndustrialAdd = () => {
+const IndustrialAdd = ({ record }) => {
   const { register, handleSubmit } = useForm({
     defaultValues: {},
   });
@@ -16,7 +16,6 @@ const IndustrialAdd = () => {
 
   const onSubmit = async (data) => {
     console.log(data);
-    data.date = strftime("%Y-%m-%d", startDate);
     const response = await api.AddData(token, empID, "industrial", data);
     alert(response);
   };
@@ -28,10 +27,12 @@ const IndustrialAdd = () => {
     >
       <form
         className="form justify-content-center wrapper"
-        style={{ height: "100%", width: "100%" }}
+        style={{ height: "100%", width: "100%", textAlign: "center" }}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="title">Add or Update Project</div>
+        {record === undefined ? <div className="title">Add Industrial</div>
+          : <div className="title">Update Industrial</div>
+        }
 
         <div className="input-container ic1">
           <input
@@ -40,7 +41,10 @@ const IndustrialAdd = () => {
             type="text"
             placeholder=" "
             required
+            readOnly={record !== undefined ? true : false}
             {...register("title")}
+            defaultValue={record !== undefined ? record.title : ""}
+
           />
           <div className="cut" />
           <label htmlFor="title" className="placeholder">
@@ -56,6 +60,8 @@ const IndustrialAdd = () => {
             placeholder=" "
             required
             {...register("description")}
+            defaultValue={record !== undefined ? record.description : ""}
+
           />
           <div className="cut" />
           <label htmlFor="title" className="placeholder">
@@ -69,6 +75,7 @@ const IndustrialAdd = () => {
             className="input dropdown"
             type="text"
             {...register("mou_signed")}
+            defaultValue={record !== undefined ? record.mou_signed : ""}
           >
             <option value="Yes">Yes</option>
             <option value="No">No</option>
@@ -79,12 +86,41 @@ const IndustrialAdd = () => {
           </label>
         </div>
 
-        <div className="mt-3 d-flex justify-content-start">
-          <span className="pr-5 pl-1 pt-2 text-dark">Date:</span>
-          <DatePicker onChange={setStartDate} value={startDate} className="pb-2 pt-2"/>
+                
+        <div className="input-container ic1">
+          <input
+            id="jname"
+            className="input"
+            type="date"
+            placeholder=" "
+            required
+            {...register("date")}
+            defaultValue={record !== undefined ? record.date : ""}
+          />
+          <div className="cut" />
+          <label htmlFor="jname" className="placeholder">
+            Date
+          </label>
         </div>
-        
-        <input type="submit" className="submit" value="Add Record" />
+
+        <div className="input-container ic1">
+          <input
+            id="upload"
+            className="input"
+            type="text"
+            placeholder=" "
+            {...register("upload_link")}
+            defaultValue={record !== undefined ? record.upload_link : ""}
+          />
+          <div className="cut" />
+          <label htmlFor="title" className="placeholder">
+            Upload Link for Proof
+          </label>
+        </div>
+
+        {record === undefined ?
+          <input type="submit" className="submit" value="Add Record" /> :
+          <input type="submit" className="submit" value="Update Record" />}
       </form>
     </div>
   );
