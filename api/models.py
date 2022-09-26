@@ -130,6 +130,7 @@ class conference(models.Model):
     funder_name = models.CharField(max_length=100, null=True, blank=True)
     amount_of_publication = models.IntegerField(blank=True, null=True)
     support = models.CharField(max_length=4, choices=SUPPORT, null=True)
+    upload_link = models.URLField(max_length=350, blank=True, null=True)
 
     def __str__(self):
         return self.article_title
@@ -181,6 +182,7 @@ class journal(models.Model):
     funder_name = models.CharField(max_length=100, null=True, blank=True)
     amount_of_publication = models.IntegerField(blank=True, null=True)
     support = models.CharField(max_length=4, choices=SUPPORT, null=True)
+    upload_link = models.URLField(max_length=350, blank=True, null=True)
 
     def __str__(self):
         return self.article_title
@@ -243,6 +245,7 @@ class book(models.Model):
     funder_name = models.CharField(max_length=100, null=True, blank=True)
     amount_of_publication = models.IntegerField(blank=True, null=True)
     support = models.CharField(max_length=4, choices=SUPPORT)
+    upload_link = models.URLField(max_length=350, blank=True, null=True)
 
     def __str__(self):
         return self.book_title
@@ -277,6 +280,7 @@ class consultancy(models.Model):
     invoice_number = models.IntegerField(blank=True, null=True)
     start_date = models.DateField()
     end_date = models.DateField()
+    upload_link = models.URLField(max_length=350, blank=True, null=True)
 
     def __str__(self):
         return self.company_name
@@ -304,6 +308,7 @@ class patent(models.Model):
     filed_date = models.DateField(default=datetime(1970, 1, 1))
     published_date = models.DateField(default=datetime(1970, 1, 1))
     granted_date = models.DateField(default=datetime(1970, 1, 1))
+    upload_link = models.URLField(max_length=350, blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -327,6 +332,7 @@ class project(models.Model):
     amount_registered = models.IntegerField(blank=True, null=True)
     amount_sanctioned = models.IntegerField(blank=True, null=True)
     start_date = models.DateField(default=datetime(1970, 1, 1))
+    upload_link = models.URLField(max_length=350, blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -348,6 +354,7 @@ class industrial_interaction(models.Model):
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=256, null=True, blank=True)
     date = models.DateField(default=datetime(1970, 1, 1))
+    upload_link = models.URLField(max_length=350, blank=True, null=True)
 
     def __str__(self):
         return self.description
@@ -390,6 +397,7 @@ class event(models.Model):
     collaboration = models.CharField(max_length=20, choices=COLLABORATION)
     sponsored = models.CharField(max_length=5, choices=YES_NO)
     amount_from_vit = models.CharField(max_length=5, choices=YES_NO, blank=True, null=True)
+    upload_link = models.URLField(max_length=350, blank=True, null=True)
     
     def __str__(self):
         return self.title
