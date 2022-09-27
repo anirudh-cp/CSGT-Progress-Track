@@ -156,7 +156,6 @@ class journal(models.Model):
         ('National', 'National'),
         ('International', 'International'),
         ('Internal', 'Internal'),
-
     ]
 
     TYPE_OF_PUBLICATION = [
@@ -358,7 +357,7 @@ class industrial_interaction(models.Model):
 
     def __str__(self):
         return self.description
-    
+
     class Meta:
         constraints = [
             models.UniqueConstraint(
@@ -373,19 +372,19 @@ class event(models.Model):
 
     TYPE = [('Organized', 'Organized'),
             ('Attended', 'Attended')]
-    
-    EVENT = [('FDP', 'FDP'), ('Workshop', 'Workshop'), 
+
+    EVENT = [('FDP', 'FDP'), ('Workshop', 'Workshop'),
              ('Conference', 'Conference'), ('Seminar', 'Seminar'),
-             ('Webinar', 'Webinar'), ('VAP', 'VAP'), 
+             ('Webinar', 'Webinar'), ('VAP', 'VAP'),
              ('Guest Lecture', 'Guest Lecture')]
-    
+
     COLLABORATION = [
         ('National', 'National'),
         ('International', 'International'),
         ('Internal', 'Internal'),
 
     ]
-    
+
     emp_id = models.ForeignKey(personal, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     event = models.CharField(max_length=30, choices=EVENT)
@@ -396,9 +395,10 @@ class event(models.Model):
     reg_fee = models.IntegerField()
     collaboration = models.CharField(max_length=20, choices=COLLABORATION)
     sponsored = models.CharField(max_length=5, choices=YES_NO)
-    amount_from_vit = models.CharField(max_length=5, choices=YES_NO, blank=True, null=True)
+    amount_from_vit = models.CharField(
+        max_length=5, choices=YES_NO, blank=True, null=True)
     upload_link = models.URLField(max_length=350, blank=True, null=True)
-    
+
     def __str__(self):
         return self.title
 
@@ -408,5 +408,3 @@ class event(models.Model):
                 fields=['emp_id', 'title'], name='unique-emp_id-title-event'
             )
         ]
-
-
