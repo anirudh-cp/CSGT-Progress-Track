@@ -53,6 +53,7 @@ for i in results['search-results']['entry']:
     #       '\ncollaboration: ' + collaboration)
 
     data = {
+        'emp_id': index,
         'article_title': article_title,
         'no_of_authors': 0,
         'journal_name': journal_name,
