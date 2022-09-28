@@ -23,6 +23,6 @@ urlpatterns = [
     path('data/<int:emp_id>/<Type>/<date:startDate>/<date:endDate>', DataSingleGetApiView.as_view()),
     path('data/<int:emp_id>/<Type>', DataSinglePutApiView.as_view()),
     path('data/<Type>/<date:startDate>/<date:endDate>', DataAllApiView.as_view()),
-       
+    path('data/<Type>/<int:record_id>', DataSingleDeleteApiView.as_view()),      
 ]
 

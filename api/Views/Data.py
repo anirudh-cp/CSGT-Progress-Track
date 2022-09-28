@@ -33,16 +33,16 @@ class DataSingleGetApiView(APIView):
 
         queryData = []
         if Type == 'conference' or Type == 'consultancy' or Type == "event":
-            queryData = (model[Type].objects.filter(emp_id=emp_id, start_date__gt=startDate, start_date__lte=endDate) |
+            queryData = (model[Type].objects.filter(emp_id=emp_id, start_date__gte=startDate, start_date__lte=endDate) |
                          model[Type].objects.filter(emp_id=emp_id, start_date__lte=startDate, end_date__gte=startDate))
         elif Type == 'journal' or Type == 'book':
             queryData = model[Type].objects.filter(emp_id=emp_id, year__gte=startDate.year, year__lte=endDate.year)
         elif Type == 'patent':
-            queryData = model[Type].objects.filter(emp_id=emp_id, filed_date__gt=startDate, filed_date__lte=endDate)
+            queryData = model[Type].objects.filter(emp_id=emp_id, filed_date__gte=startDate, filed_date__lte=endDate)
         elif Type == 'project':
-            queryData = model[Type].objects.filter(emp_id=emp_id, start_date__gt=startDate, start_date__lte=endDate)
+            queryData = model[Type].objects.filter(emp_id=emp_id, start_date__gte=startDate, start_date__lte=endDate)
         elif Type == 'industrial':
-            queryData = model[Type].objects.filter(emp_id=emp_id, date__gt=startDate, date__lte=endDate)
+            queryData = model[Type].objects.filter(emp_id=emp_id, date__gte=startDate, date__lte=endDate)
         else:
             return Response("Wrong resource", status=status.HTTP_400_BAD_REQUEST)
 
@@ -109,16 +109,16 @@ class DataAllApiView(APIView):
 
         queryData = []
         if Type == 'conference' or Type == 'consultancy' or Type == "event":
-            queryData = (model[Type].objects.filter(start_date__gt=startDate, start_date__lte=endDate) |
+            queryData = (model[Type].objects.filter(start_date__gte=startDate, start_date__lte=endDate) |
                          model[Type].objects.filter(start_date__lte=startDate, end_date__gte=startDate))
         elif Type == 'journal' or Type == 'book':
             queryData = model[Type].objects.filter(year__gte=startDate.year, year__lte=endDate.year)
         elif Type == 'patent':
-            queryData = model[Type].objects.filter(filed_date__gt=startDate, filed_date__lte=endDate)
+            queryData = model[Type].objects.filter(filed_date__gte=startDate, filed_date__lte=endDate)
         elif Type == 'project':
-            queryData = model[Type].objects.filter(start_date__gt=startDate, start_date__lte=endDate)
+            queryData = model[Type].objects.filter(start_date__gte=startDate, start_date__lte=endDate)
         elif Type == 'industrial':
-            queryData = model[Type].objects.filter(date__gt=startDate, date__lte=endDate)
+            queryData = model[Type].objects.filter(date__gte=startDate, date__lte=endDate)
         else:
             return Response("Wrong resource", status=status.HTTP_400_BAD_REQUEST)
 
@@ -127,4 +127,19 @@ class DataAllApiView(APIView):
             serializer = serilaizerTypes[Type](queryData, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
+        return Response("", status=status.HTTP_404_NOT_FOUND)
+
+
+class DataSingleDeleteApiView(APIView):
+    # add permission to check if user is authenticated
+    permission_classes = [permissions.IsAuthenticated]
+    
+    
+    def delete(self, request, Type, record_id, *args, **kwargs):
+        ''' Delete a specific record in a model. '''
+        
+        if model[Type].objects.filter(id=record_id).exists():
+            model[Type].objects.filter(id=record_id).delete()
+            return Response("", status=status.HTTP_200_OK)
+            
         return Response("", status=status.HTTP_404_NOT_FOUND)
