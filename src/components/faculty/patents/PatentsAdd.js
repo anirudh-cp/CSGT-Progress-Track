@@ -2,12 +2,16 @@ import DatePicker from "react-date-picker/dist/entry.nostyle";
 import { useForm } from "react-hook-form";
 import API from "../../../API/APIService";
 import useUserStore from "../../../API/Stores/UserStore";
+import useFilterStore from "../../../API/Stores/FilterStore";
 import { useState } from "react";
+
 
 const PatentsAdd = ({ record }) => {
   const { register, handleSubmit } = useForm();
 
   const { token, empID } = useUserStore();
+  const { setUpdateKey } = useFilterStore();
+
   const api = new API();
   const [status1, setStatus1] = useState("No");
   const [status2, setStatus2] = useState("No");
@@ -24,6 +28,8 @@ const PatentsAdd = ({ record }) => {
 
     const response = await api.AddData(token, empID, "patent", data);
     alert(response);
+    
+    setUpdateKey(new Date());
   };
 
   return (
