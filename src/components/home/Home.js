@@ -7,6 +7,9 @@ import useUserStore from '../../API/Stores/UserStore';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
+import bg_img from "../../assets/login_bg.png"
+import center_logo from "../../assets/center_logo.png"
+
 
 export default function Home() {
 
@@ -41,13 +44,13 @@ export default function Home() {
         <div className="d-flex justify-content-center"
             style={{
                 height: "calc(100vh - 67px)", display: "flex", flexDirection: "column",
-                backgroundImage: "url(/Images/login_bg.png)", backgroundPosition: "center",
+                backgroundImage: `url(${bg_img})`, backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "cover"
             }} >
             <div className="form-home justify-content-center" style={{ height: "fit-content", margin: "auto", textAlign: "center" }}>
                 {/* <div className="title-home">Log In</div> */}
-                <img src="/Images/center_logo.png" width={"80%"} style={{marginBottom: "10px"}}></img>
+                <img src={center_logo} width={"80%"} style={{marginBottom: "10px"}}></img>
                 
 
                 <form onSubmit={onsubmit} autoComplete="off">
