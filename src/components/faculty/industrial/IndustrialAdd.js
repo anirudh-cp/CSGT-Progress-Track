@@ -2,6 +2,7 @@ import DatePicker from "react-date-picker/dist/entry.nostyle";
 import { useForm } from "react-hook-form";
 import API from "../../../API/APIService";
 import useUserStore from "../../../API/Stores/UserStore";
+import useFilterStore from "../../../API/Stores/FilterStore";
 import { useState } from "react";
 
 const IndustrialAdd = ({ record }) => {
@@ -10,6 +11,8 @@ const IndustrialAdd = ({ record }) => {
   });
 
   const { token, empID } = useUserStore();
+  const { setUpdateKey } = useFilterStore();
+
   const api = new API();
   const [startDate, setStartDate] = useState(null);
   var strftime = require("strftime");
@@ -18,6 +21,7 @@ const IndustrialAdd = ({ record }) => {
     console.log(data);
     const response = await api.AddData(token, empID, "industrial", data);
     alert(response);
+    setUpdateKey(new Date());
   };
 
   return (
