@@ -74,6 +74,10 @@ const EventsView = ({ record }) => {
               <th scope="row"> Amount Received from VIT </th>
               <td> {record.amount_from_vit} </td>
             </tr>
+            <tr>
+              <th scope="row"> Upload Link for Proof </th>
+              <td> {record.upload_link} </td>
+            </tr>
           </MDBTableBody>
         </MDBTable>
 

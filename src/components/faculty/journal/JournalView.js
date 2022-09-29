@@ -87,6 +87,10 @@ const JournalView = ({ record }) => {
               <th scope="row"> Support received status </th>
               <td> {record.support} </td>
             </tr>
+            <tr>
+              <th scope="row"> Upload Link for Proof </th>
+              <td> {record.upload_link} </td>
+            </tr>
           </MDBTableBody>
         </MDBTable>
 

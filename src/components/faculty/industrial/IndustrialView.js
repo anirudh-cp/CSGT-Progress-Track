@@ -50,6 +50,10 @@ const PatentsView = ({ record }) => {
               <th scope="row"> MOU Signed Status </th>
               <td> {record.mou_signed} </td>
             </tr>
+            <tr>
+              <th scope="row"> Upload Link for Proof </th>
+              <td> {record.upload_link} </td>
+            </tr>
             </MDBTableBody>
         </MDBTable>
 

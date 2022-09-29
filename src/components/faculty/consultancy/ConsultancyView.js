@@ -67,6 +67,10 @@ const ConsultancyView = ({ record }) => {
               <th scope="row"> Invoice Number </th>
               <td> {record.invoice_number} </td>
             </tr>
+            <tr>
+              <th scope="row"> Upload Link for Proof </th>
+              <td> {record.upload_link} </td>
+            </tr>
           </MDBTableBody>
         </MDBTable>
 

@@ -58,6 +58,10 @@ const ProjectsView = ({ record }) => {
               <th scope="row"> Amount Sanctioned </th>
               <td> {record.amount_sanctioned} </td>
             </tr>
+            <tr>
+              <th scope="row"> Upload Link for Proof </th>
+              <td> {record.upload_link} </td>
+            </tr>
           </MDBTableBody>
         </MDBTable>
 
