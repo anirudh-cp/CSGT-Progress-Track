@@ -2,6 +2,7 @@ import DatePicker from "react-date-picker/dist/entry.nostyle";
 import { useForm } from "react-hook-form";
 import API from "../../../API/APIService";
 import useUserStore from "../../../API/Stores/UserStore";
+import useFilterStore from "../../../API/Stores/FilterStore";
 import { useState } from "react";
 
 const PatentsAdd = ({ record }) => {
@@ -10,6 +11,8 @@ const PatentsAdd = ({ record }) => {
   });
 
   const { token, empID } = useUserStore();
+  const { setUpdateKey } = useFilterStore();
+
   const api = new API();
   const [startDate, setStartDate] = useState();
   var strftime = require("strftime");
@@ -19,6 +22,8 @@ const PatentsAdd = ({ record }) => {
     data.start_date = strftime("%Y-%m-%d", startDate);
     const response = await api.AddData(token, empID, "project", data);
     alert(response);
+    
+    setUpdateKey(new Date());
   };
 
   return (
