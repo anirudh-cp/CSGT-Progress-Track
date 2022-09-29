@@ -2,12 +2,15 @@ import DatePicker from "react-date-picker/dist/entry.nostyle";
 import { useForm } from "react-hook-form";
 import API from "../../../API/APIService";
 import useUserStore from "../../../API/Stores/UserStore";
+import useFilterStore from "../../../API/Stores/FilterStore";
 import React, { useState } from "react";
+
 
 const ConsultancyAdd = ({ record }) => {
   const { register, handleSubmit } = useForm();
 
   const { token, empID } = useUserStore();
+  const { setUpdateKey } = useFilterStore(); 
   const api = new API();
   const [fund, setFund] = useState("No")
   var strftime = require("strftime");
@@ -26,6 +29,7 @@ const ConsultancyAdd = ({ record }) => {
 
     const response = await api.AddData(token, empID, "consultancy", data);
     alert(response);
+    setUpdateKey(new Date());
   };
 
   return (

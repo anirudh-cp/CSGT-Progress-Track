@@ -1,11 +1,25 @@
 import { MDBTable, MDBTableBody } from "mdb-react-ui-kit";
+import API from "../../../API/APIService";
+import { useState } from "react";
+import useUserStore from "../../../API/Stores/UserStore";
+import useFilterStore from "../../../API/Stores/FilterStore";
+
 
 const ConsultancyView = ({ record }) => {
-
-  const handleClickDelete = () => {
+  
+  const APIObject = new API();
+  const { token } = useUserStore();
+  const { setUpdateKey } = useFilterStore(); 
+  const [load, setLoad] = useState(true);
+    
+  const handleClickDelete = async () => {
     let choice = window.confirm("Delete record? This action is unreversible");
     if(choice === true) {
-      alert("Record is deleted, apply filter to view changes.")
+      setLoad(true);
+      const response = await APIObject.DeleteData(token, record.id, "consultancy");
+      alert(response);
+      setLoad(false);
+      setUpdateKey(new Date());
     }
     else {
       alert("Delete operation cancellled.");
