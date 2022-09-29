@@ -3,10 +3,11 @@ import { useState } from "react";
 import Modal from './Modal';
 import API from '../../API/APIService';
 import useUserStore from '../../API/Stores/UserStore';
+import useFilterStore from '../../API/Stores/FilterStore';
 import Profile from './../profile/Profile'
 import Loading from './Loading';
 
-import {useRef} from "react"
+import { useRef, useEffect } from "react"
 
 
 export default function Dropdown({ name }) {
@@ -17,10 +18,16 @@ export default function Dropdown({ name }) {
     
     const APIObject = new API();
     const { token, empID, group } = useUserStore();
+    const { facultyUpdateKey } = useFilterStore();
     const [data, setData] = useState([]);
     const [load, setLoad] = useState(true);
 
     const outer = showMenu ? "dropdown-content d-block" : "dropdown-content d-none";
+
+    useEffect(() => {
+      GetAPI();
+    }, [facultyUpdateKey])
+    
 
 
     const GetAPI = async () => {

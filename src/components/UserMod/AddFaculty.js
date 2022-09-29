@@ -3,30 +3,36 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import API from "../../API/APIService";
 import useUserStore from "../../API/Stores/UserStore";
+import useFilterStore from "../../API/Stores/FilterStore";
 
-export default function App() {
+
+export default function App({ record }) {
   const { register, handleSubmit } = useForm();
-  const [DOJ, setDOJ] = useState(new Date());
-  const [DOB, setDOB] = useState(new Date());
+  const { setFacultyUpdateKey } = useFilterStore();
   const { token } = useUserStore();
   var strftime = require("strftime");
   const api = new API();
 
   const onSubmit = async (data) => {
-    data.date_of_join = strftime("%Y-%m-%d", DOJ);
-    data.date_of_birth = strftime("%Y-%m-%d", DOB);
     // console.log(data)
     const response = await api.AddFaculty(token, data);
     alert(response);
+    setFacultyUpdateKey(new Date());
   };
 
   return (
-    <div className="d-flex justify-content-center">
+    <div className="d-flex justify-content-center"
+      style={record !== undefined ? { height: "80vh" } : {}}>
+
       <form
-        className="form justify-content-center"
+        className={record !== undefined ? "form justify-content-center wrapper" : "form justify-content-center"}
         onSubmit={handleSubmit(onSubmit)}
+        style={{ height: "100%", width: "100%", textAlign: "center" }}
       >
-        <div className="title">Add or Update Member Details</div>
+
+        {record === undefined ? <div className="title">Add Faculty</div>
+          : <div className="title">Update Faculty</div>
+        }
 
         <div className="input-container ic1">
           <input
@@ -36,10 +42,29 @@ export default function App() {
             placeholder=" "
             required
             {...register("user")}
+            readOnly={record !== undefined ? true : false}
+            defaultValue={record !== undefined ? record.user : ""}
           />
           <div className="cut" />
           <label htmlFor="email" className="placeholder">
             Email
+          </label>
+        </div>
+
+        <div className="input-container ic1">
+          <input
+            id="emp"
+            className="input"
+            type="text"
+            placeholder=" "
+            required
+            {...register("emp_id")}
+            readOnly={record !== undefined ? true : false}
+            defaultValue={record !== undefined ? record.emp_id : ""}
+          />
+          <div className="cut" />
+          <label htmlFor="emp" className="placeholder">
+            EID
           </label>
         </div>
 
@@ -51,6 +76,7 @@ export default function App() {
             placeholder=" "
             required
             {...register("name")}
+            defaultValue={record !== undefined ? record.name : ""}
           />
           <div className="cut" />
           <label htmlFor="name" className="placeholder">
@@ -66,25 +92,11 @@ export default function App() {
             placeholder=" "
             required
             {...register("designation")}
+            defaultValue={record !== undefined ? record.designation : ""}
           />
           <div className="cut" />
           <label htmlFor="desig" className="placeholder">
             Designation
-          </label>
-        </div>
-
-        <div className="input-container ic1">
-          <input
-            id="emp"
-            className="input"
-            type="text"
-            placeholder=" "
-            required
-            {...register("emp_id")}
-          />
-          <div className="cut" />
-          <label htmlFor="emp" className="placeholder">
-            EID
           </label>
         </div>
 
@@ -96,6 +108,7 @@ export default function App() {
             placeholder=" "
             required
             {...register("school")}
+            defaultValue={record !== undefined ? record.school : ""}
           />
           <div className="cut" />
           <label htmlFor="school" className="placeholder">
@@ -103,14 +116,36 @@ export default function App() {
           </label>
         </div>
 
-        <div className="mt-4 d-flex justify-content-start">
-          <span className="pr-3 pl-1 pt-2 text-dark">Join Date:</span>
-          <DatePicker onChange={setDOJ} value={DOJ} className="pb-2 pt-2" />
+        <div className="input-container ic1">
+          <input
+            id="jname"
+            className="input"
+            type="date"
+            placeholder=" "
+            required
+            {...register("date_of_join")}
+            defaultValue={record !== undefined ? record.date_of_join : ""}
+          />
+          <div className="cut" />
+          <label htmlFor="jname" className="placeholder">
+            Date of Join
+          </label>
         </div>
 
-        <div className="mt-3 d-flex justify-content-start">
-          <span className="pr-5 pl-1 pt-2 text-dark">DOB:</span>
-          <DatePicker onChange={setDOB} value={DOB} className=" pt-2" />
+        <div className="input-container ic1">
+          <input
+            id="jname"
+            className="input"
+            type="date"
+            placeholder=" "
+            required
+            {...register("date_of_birth")}
+            defaultValue={record !== undefined ? record.date_of_join : ""}
+          />
+          <div className="cut" />
+          <label htmlFor="jname" className="placeholder">
+            Date of Birth
+          </label>
         </div>
 
         <div className="input-container ic1 dropdown">
@@ -119,6 +154,7 @@ export default function App() {
             className="input dropdown"
             type="text"
             {...register("gender")}
+            defaultValue={record !== undefined ? record.gender : ""}
           >
             <option value="Male">Male</option>
             <option value="Female">Female</option>
@@ -138,6 +174,7 @@ export default function App() {
             type="text"
             placeholder=" "
             {...register("orcid")}
+            defaultValue={record !== undefined ? record.orcid : ""}
           />
           <div className="cut" />
           <label htmlFor="ORCID_ID" className="placeholder">
@@ -152,6 +189,7 @@ export default function App() {
             type="text"
             placeholder=" "
             {...register("research_gate")}
+            defaultValue={record !== undefined ? record.research_gate : ""}
           />
           <div className="cut" />
           <label htmlFor="rgate" className="placeholder">
@@ -166,6 +204,7 @@ export default function App() {
             type="text"
             placeholder=" "
             {...register("linkedin")}
+            defaultValue={record !== undefined ? record.linkedin : ""}
           />
           <div className="cut" />
           <label htmlFor="link" className="placeholder">
@@ -180,6 +219,7 @@ export default function App() {
             type="text"
             placeholder=" "
             {...register("google_scholar")}
+            defaultValue={record !== undefined ? record.google_scholar : ""}
           />
           <div className="cut" />
           <label htmlFor="gscholar" className="placeholder">
@@ -194,6 +234,7 @@ export default function App() {
             type="text"
             placeholder=" "
             {...register("personal_page")}
+            defaultValue={record !== undefined ? record.personal_page : ""}
           />
           <div className="cut" />
           <label htmlFor="personal" className="placeholder">
@@ -201,7 +242,10 @@ export default function App() {
           </label>
         </div>
 
-        <input type="submit" className="submit" value="Add" />
+
+        {record === undefined ?
+          <input type="submit" className="submit" value="Add Record" /> :
+          <input type="submit" className="submit" value="Update Record" />}
       </form>
     </div>
   );

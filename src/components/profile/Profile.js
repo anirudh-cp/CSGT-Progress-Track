@@ -4,6 +4,7 @@ import "./../../assets/profile.css";
 import { useEffect, useState } from "react";
 import ProgressReport from './../director/progress/ProgressReport'
 import Modal from "../common/Modal";
+import AddFaculty from "./../UserMod/AddFaculty";
 
 
 export default function Profile({ record }) {
@@ -13,6 +14,7 @@ export default function Profile({ record }) {
     }, []);
 
     const [showProg, setShowProg] = useState(false);
+    const [showEdit, setShowEdit] = useState(false);
 
     return (
         <div className="main-body">
@@ -133,10 +135,27 @@ export default function Profile({ record }) {
                         </div>
                         <hr />
 
-                        <div className="row">
+                        <div className="row" style={{display: "flex", justifyContent: "space-between"}}>
+                            
                             <Modal handleClick={() => { setShowProg(!showProg) }} show={showProg}
                                 childElement={<ProgressReport employees={[record.emp_id]} />}>
                             </Modal>
+
+                            <Modal handleClick={() => { setShowEdit(!showEdit) }} show={showEdit}
+                                childElement={<AddFaculty record={record} />}>
+                            </Modal>
+
+                            <button
+                                className="ripple ripple-surface ripple-surface-light btn btn-sm btn-outline-dark mx-2"
+                                size="sm"
+                                color="dark"
+                                outline
+                                onClick={() => {
+                                    setShowEdit(!showEdit)
+                                }}>
+                                Edit Account Details
+                            </button>
+
                             <button
                                 className="ripple ripple-surface ripple-surface-light btn btn-dark btn-sm mx-2"
                                 size="sm"
