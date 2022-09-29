@@ -70,7 +70,7 @@
 }
 
 .input:not(:placeholder-shown) ~ .placeholder_home {
-  color: #808097;
+  color: black;
 }
 
 .input:focus ~ .placeholder_home {
