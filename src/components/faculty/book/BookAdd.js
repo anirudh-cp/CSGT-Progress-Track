@@ -1,9 +1,13 @@
 import { useForm } from "react-hook-form";
 import API from "../../../API/APIService";
 import useUserStore from "../../../API/Stores/UserStore";
+import useFilterStore from "../../../API/Stores/FilterStore";
+
 
 const BookAdd = ({ record }) => {
   const { register, handleSubmit } = useForm();
+  const { setUpdateKey } = useFilterStore();
+
   const { token, empID } = useUserStore();
   const api = new API();
 
@@ -19,6 +23,8 @@ const BookAdd = ({ record }) => {
 
     const response = await api.AddData(token, empID, "book", data);
     alert(response);
+    
+    setUpdateKey(new Date());
   };
 
   return (
