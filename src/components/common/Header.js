@@ -16,30 +16,33 @@ const Header = () => {
 
                     <MDBNavbarBrand style={{ color: "white" }}>
                         {
-                        //    name != "" && name != undefined ? "Welcome " + name : ""
+                            //    name != "" && name != undefined ? "Welcome " + name : ""
                         }
                         <img src={img} height="57px"></img>
                     </MDBNavbarBrand>
 
                     {name != "" && name != undefined &&
-                        <Dropdown name={ name } />
+                        <Dropdown name={name} />
                     }
                 </MDBContainer>
             </MDBNavbar>
+            
+            {name != "" && name != undefined &&
+                <>
+                    {/* HEADING TEXT */}
+                    <div className="m-4">
+                        <p className="text-center h2 p-3" style={{ fontWeight: "bold" }}>
+                            VIT Chennai: Centre for Smart Grid Technologies
+                        </p>
+                    </div>
 
-
-            {/* HEADING TEXT */}
-            <div className="m-4">
-                <p className="text-center h2 p-3" style={{ fontWeight: "bold" }}>
-                    VIT Chennai: Centre for Smart Grid Technologies
-                </p>
-            </div>
-
-            {/* LINE SEPARATOR */}
-            <hr
-                className=" mb-5 flex"
-                style={{background: "#007BFF", color: "#007BFF", borderColor: "#007BFF", height: "1px" }}
-            />
+                    {/* LINE SEPARATOR */}
+                    <hr
+                        className=" mb-5 flex"
+                        style={{ background: "#007BFF", color: "#007BFF", borderColor: "#007BFF", height: "1px" }}
+                    />
+                </>
+            }
         </header>
 
     );
