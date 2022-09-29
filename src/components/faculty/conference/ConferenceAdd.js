@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import API from "../../../API/APIService";
 import useUserStore from "../../../API/Stores/UserStore";
+import useFilterStore from "../../../API/Stores/FilterStore";
 
 import DatePicker from "react-date-picker/dist/entry.nostyle";
 import React, { useState } from "react";
@@ -9,6 +10,8 @@ const ConferenceAdd = ({ record }) => {
   const { register, handleSubmit } = useForm();
 
   const { token, empID } = useUserStore();
+  const { setUpdateKey } = useFilterStore();
+
   const api = new API();
   const [attend, setAttend] = useState("Conducting")
   var strftime = require("strftime");
@@ -23,6 +26,8 @@ const ConferenceAdd = ({ record }) => {
 
     const response = await api.AddData(token, empID, "conference", data);
     alert(response);
+
+    setUpdateKey(new Date());
   };
 
   return (
