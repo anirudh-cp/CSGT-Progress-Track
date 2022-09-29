@@ -42,25 +42,25 @@ const Filter = ({ setKey, tabIndex }) => {
             setChild(<JournalAdd record={undefined} key={new Date()}/>);
         }
         else if (tabIndex === 1) {
-            setChild(<ConferenceAdd />);
+            setChild(<ConferenceAdd record={undefined} key={new Date()}/>);
         }
         else if (tabIndex === 2) {
-            setChild(<EventsAdd />)
+            setChild(<EventsAdd record={undefined} key={new Date()}/>)
         }
         else if (tabIndex === 3) {
             setChild(<ConsultancyAdd record={undefined} key={new Date()}/>)
         }
         else if (tabIndex === 4) {
-            setChild(<BookAdd />)
+            setChild(<BookAdd record={undefined} key={new Date()}/>)
         }
         else if (tabIndex === 5) {
-            setChild(<PatentsAdd />)
+            setChild(<PatentsAdd record={undefined} key={new Date()}/>)
         }
         else if (tabIndex === 6) {
-            setChild(<ProjectsAdd />)
+            setChild(<ProjectsAdd record={undefined} key={new Date()}/>)
         }
         else if (tabIndex === 7) {
-            setChild(<IndustrialAdd />)
+            setChild(<IndustrialAdd record={undefined} key={new Date()}/>)
         }
 
     }

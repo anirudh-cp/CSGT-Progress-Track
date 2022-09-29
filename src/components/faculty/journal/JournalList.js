@@ -40,13 +40,12 @@ const JournalList = ({ data }) => {
         <MDBTableBody>
           {data.map((obj) => {
             return (
-                <tr key={obj.id} onClick={(event) => { event.stopPropagation(); handleClickSelect(obj); }} style={{ cursor: "pointer" }}>
-                  <th scope="row"> {obj.article_title} </th>
-                  <th> {obj.journal_name} </th>
-                  <th> {obj.year} </th>
+              <tr key={obj.id} onClick={(event) => { event.stopPropagation(); handleClickSelect(obj); }} style={{ cursor: "pointer" }}>
+                <th scope="row"> {obj.article_title} </th>
+                <th> {obj.journal_name} </th>
+                <th> {obj.year} </th>
 
-                  <th >
-
+                <th >
                     <Modal
                       handleClick={() => { setShow(false); setShowAdd(false); }}
                       show={show}
@@ -63,8 +62,8 @@ const JournalList = ({ data }) => {
                       onClick={(event) => { event.stopPropagation(); handleClickEdit(obj); }}>
                       <MDBIcon fas icon="pen" />
                     </button>
-                  </th>
-                </tr>
+                </th>
+              </tr>
             );
           })}
         </MDBTableBody>

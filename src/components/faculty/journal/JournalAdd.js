@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import API from "../../../API/APIService";
 import useUserStore from "../../../API/Stores/UserStore";
+import useFilterStore from "../../../API/Stores/FilterStore";
 
 
 const JournalAdd = ({ record }) => {
   const { register, handleSubmit } = useForm();
+  const { setUpdateKey } = useFilterStore();
 
   const { token, empID } = useUserStore();
   const [pubType, setPubType] = useState("Open Access")
@@ -24,6 +26,8 @@ const JournalAdd = ({ record }) => {
 
     const response = await api.AddData(token, empID, "journal", data);
     alert(response);
+
+    setUpdateKey(new Date());
   };
 
   return (

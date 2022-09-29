@@ -14,6 +14,7 @@ import Industrial from "./industrial/Industrial"
 import Filter from "./Filter";
 
 import useUserStore from "../../API/Stores/UserStore";
+import useFilterStore from "../../API/Stores/FilterStore";
 import { useNavigate } from 'react-router-dom';  
 
 import "../../assets/faculty.css";
@@ -21,9 +22,10 @@ import "../../assets/faculty.css";
 
 export default function FacultyHome() {
 
-    const [key, setKey] = useState(new Date());
+    const { setUpdateKey, updateKey } = useFilterStore();
     const [tabIndex, setTabIndex] = useState(0);
     const { group, token } = useUserStore();
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -47,35 +49,35 @@ export default function FacultyHome() {
                     <Tab>Industrial</Tab>
                 </TabList>
 
-                <Filter setKey={setKey} tabIndex={tabIndex} />
+                <Filter setKey={setUpdateKey} tabIndex={tabIndex} />
 
                 {/* <TabPanel>
                     <All />
                 </TabPanel>
                  */}
                 <TabPanel>
-                    <Journal key={key} />
+                    <Journal key={updateKey} />
                 </TabPanel>
                 <TabPanel>
-                    <Conference key={key} />
+                    <Conference key={updateKey} />
                 </TabPanel>
                 <TabPanel>
-                    <Events key={key}/>
+                    <Events key={updateKey}/>
                 </TabPanel>
                 <TabPanel>
-                    <Consultancy key={key}/>
+                    <Consultancy key={updateKey}/>
                 </TabPanel>
                 <TabPanel>
-                    <Book key={key}/>
+                    <Book key={updateKey}/>
                 </TabPanel>
                 <TabPanel>
-                    <Patent key={key} />
+                    <Patent key={updateKey} />
                 </TabPanel>
                 <TabPanel>
-                    <Project key={key} />
+                    <Project key={updateKey} />
                 </TabPanel>
                 <TabPanel>
-                    <Industrial key={key} />
+                    <Industrial key={updateKey} />
                 </TabPanel>
                   
             </Tabs>

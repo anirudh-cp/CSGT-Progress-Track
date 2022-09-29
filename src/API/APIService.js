@@ -57,6 +57,32 @@ class API {
         }
     }
 
+
+    async DeleteData(token, record_id, type) {
+        const response = await fetch(
+            "/api/data/"  + type + "/" + record_id,
+            {
+                method: "delete",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Token ${token}`,
+                },
+            }
+        ).catch((error) => {
+            // Your error is here!
+            console.log(error);
+            alert("Cannot connect to server. Please try again later.");
+        });
+
+        if (response.status === 200) {
+            return "Record has been deleted successfully.";
+        }
+        else {
+            return "Record not found to delete, operation failed.";
+        }
+    }
+
+
     returnDuration(end, start) {
         var strftime = require("strftime");
         // Return the duration between two dates.
