@@ -1,12 +1,14 @@
 import { useForm } from "react-hook-form";
 import API from "../../../API/APIService";
 import useUserStore from "../../../API/Stores/UserStore";
+import useFilterStore from "../../../API/Stores/FilterStore";
 
 import DatePicker from "react-date-picker/dist/entry.nostyle";
 import React, { useState } from "react";
 
 const EventsAdd = ({ record }) => {
   const { register, handleSubmit } = useForm();
+  const { setUpdateKey } = useFilterStore();
 
   const { token, empID } = useUserStore();
   const api = new API();
@@ -23,6 +25,8 @@ const EventsAdd = ({ record }) => {
 
     const response = await api.AddData(token, empID, "event", data);
     alert(response);
+    
+    setUpdateKey(new Date());
   };
 
   return (
