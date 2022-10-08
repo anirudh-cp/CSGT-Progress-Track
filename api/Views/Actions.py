@@ -27,7 +27,7 @@ class ActionsReportApiView(APIView):
         
         context = self.getContext(startDate, endDate, data)
         
-        template_path = 'test.html'
+        template_path = 'format.html'
         # Create a Django response object, and specify content_type as pdf
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="report.pdf"'
@@ -50,12 +50,12 @@ class ActionsReportApiView(APIView):
         employees = request.data['employees']
         context = self.getContext(startDate, endDate, data, {'emp_id__in': employees})
         
-        if 'asFaculty' in data.split('/'):
-            template_path = 'formatFaculty.html'
-            print('asFaculty')
-        else:
-            template_path = 'format.html'
-        
+        # if 'asFaculty' in data.split('/'):
+        #     template_path = 'formatFaculty.html'
+        #     print('asFaculty')
+        # else:
+        #     template_path = 'format.html'
+        template_path = 'format.html'
         # Create a Django response object, and specify content_type as pdf
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="report.pdf"'
