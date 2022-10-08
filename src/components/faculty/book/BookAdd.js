@@ -143,6 +143,9 @@ const BookAdd = ({ record }) => {
             <option value="SCI">SCI</option>
             <option value="SCIE">SCIE</option>
             <option value="SCOPUS">SCOPUS</option>
+            <option value="Springer">Springer</option>
+            <option value="Ei Compendex">Ei Compendex</option>
+            <option value="Others">Others</option>
           </select>
           <div className="cut" />
           <label htmlFor="type" className="placeholder">
@@ -322,7 +325,7 @@ const BookAdd = ({ record }) => {
           </select>
           <div className="cut" />
           <label htmlFor="type" className="placeholder">
-            Support
+            Support from VIT
           </label>
         </div>
         {/* ONLY IF OPEN ACCESS IS SELECTED */}

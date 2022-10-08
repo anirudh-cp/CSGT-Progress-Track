@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Report</title>
+    <style>
+      @page {
+        size: A4 portrait;
+        margin: 2cm;
+
+        @frame footer_frame {
+          /* Another static Frame */
+          -pdf-frame-content: footer_content;
+          left: 50pt;
+          width: 512pt;
+          top: 772pt;
+          height: 20pt;
+        }
+    }
+
+      h1 {
+        text-align: center;
+        font-size: 32px;
+        margin: 5px;
+      }
+
+      h2 {
+        font-size: 18px;
+        margin: 10px 0px 5px;
+      }
+
+      h3 {
+        font-size: 15px;
+        margin: 0px 0px 5px;
+      }
+
+      [class~="subtile"] {
+        text-align: center;
+        font-style: italic;
+        font-size: 13px;
+        margin: 0px;
+      }
+
+      [class~="normal"] {
+        font-size: 15px;
+        margin: 5px;
+      }
+
+      th {
+        font-size: 12px;
+        border: 1px solid;
+        border-collapse: collapse;
+        padding: 2px;
+      }
+
+      td {
+        font-size: 11px;
+        border: 1px solid;
+        border-collapse: collapse;
+        padding: 2px;
+        text-align: center;
+      }
+
+      table {
+        border-collapse: collapse;
+        border: 1px solid;
+      }
+    </style>
+  </head>
+
+  <body>
+    
+    <!-- Content for Static Frame 'footer_frame' -->
+    <div id="footer_content">(c) - page <pdf:pagenumber>
+        of <pdf:pagecount>
+    </div>
+
+    <h1>{{ employees.0.0 }}</h1>
+    <p class="subtile">
+      Generated on the {{ currentDate }}. Report on {{ params }} from {{
+      startDate }} to {{ endDate }}.
+    </p>
+    <hr />
+    <br />
+
+    <br /><br />
+
+    {% if conference|length > 0 %}
+    <h2>Conferences:</h2>
+    <ul>
+      {% for record in conference %}
+      <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
+      {% endfor %}
+    </ul>
+    <hr />
+    <br /><br />
+    {% endif %} {% if journal|length > 0 %}
+    <h2>Journals:</h2>
+    <ul>
+      {% for record in journal %}
+      <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
+      {% endfor %}
+    </ul>
+    <hr />
+    <br /><br />
+    {% endif %} {% if bookChapter|length > 0 or bookEditor|length > 0 %}
+    <h2>Books:</h2>
+    <ul>
+      {% if bookChapter|length > 0 %}
+      <li><h3>Book Chapters:</h3></li>
+      <ul>
+        {% for record in bookChapter %}
+        <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %} {% if bookEditor|length > 0 %}
+      <li><h3>Book Editorials:</h3></li>
+      <ul>
+        {% for record in bookEditor %}
+        <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </ul>
+    <hr />
+    <br /><br />
+    {% endif %} {% if eventOrg|length > 0 or eventAtd|length > 0 %}
+    <h2>Events:</h2>
+    <ul>
+      {% if eventOrg|length > 0 %}
+      <li><h3>Events Organized:</h3></li>
+      <ul>
+        {% for record in eventOrg %}
+        <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %} {% if eventAtd|length > 0 %}
+      <li><h3>Events Attended:</h3></li>
+      <ul>
+        {% for record in eventAtd %}
+        <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </ul>
+    <hr />
+    <br /><br />
+    {% endif %} {% if consultancy|length > 0 %}
+    <h2>Consultancies:</h2>
+    <ul>
+      {% for record in consultancy %}
+      <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
+      {% endfor %}
+    </ul>
+    <hr />
+    <br /><br />
+    {% endif %} {% if patent|length > 0 %}
+    <h2>Patents:</h2>
+    <ul>
+      {% for record in patent %}
+      <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
+      {% endfor %}
+    </ul>
+    <hr />
+    <br /><br />
+    {% endif %} {% if project|length > 0 %}
+    <h2>Projects:</h2>
+    <ul>
+      {% for record in project %}
+      <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
+      {% endfor %}
+    </ul>
+    <hr />
+    <br /><br />
+    {% endif %} {% if industrial|length > 0 %}
+    <h2>Industrial Interactions:</h2>
+    <ul>
+      {% for record in industrial %}
+      <li class="normal"><i>{{ record.0 }}</i> : {{ record.1 }}</li>
+      {% endfor %}
+    </ul>
+    <hr />
+    {% endif %}
+
+  </body>
+</html>

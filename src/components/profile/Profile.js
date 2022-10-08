@@ -2,7 +2,6 @@ import { MDBIcon } from "mdb-react-ui-kit";
 import "./../../assets/profile.css";
 
 import { useEffect, useState } from "react";
-import ProgressReport from './../director/progress/ProgressReport'
 import Modal from "../common/Modal";
 import AddFaculty from "./../UserMod/AddFaculty";
 
@@ -13,7 +12,6 @@ export default function Profile({ record }) {
         return () => { };
     }, []);
 
-    const [showProg, setShowProg] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
 
     return (
@@ -44,27 +42,35 @@ export default function Profile({ record }) {
                                     <MDBIcon fas icon="globe" className="ICON-MDB" />
                                     Website
                                 </h6>
-                                <span className="textField"> {record.personal_page} </span>
+                                <a href={record.personal_page}>
+                                    <span className="textField longText"> {record.personal_page} </span>
+                                </a>
                             </li>
                             <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">
                                     <MDBIcon fab icon="linkedin" className="ICON-MDB" />
                                     LinkedIn
                                 </h6>
-                                <span className="textField"> {record.linkedin} </span>
+                                <a href={record.linkedin}>
+                                    <span className="textField longText"> {record.linkedin} </span>
+                                </a>
                             </li>
                             <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">
                                     <MDBIcon fab icon="researchgate" className="ICON-MDB" />
                                     Research Gate
                                 </h6>
-                                <span className="textField"> {record.research_gate} </span>
+                                <a href={record.research_gate}>
+                                    <span className="textField longText"> {record.research_gate} </span>
+                                </a>
                             </li>
                             <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                 <h6 className="mb-0">
                                     <MDBIcon fab icon="google" className="ICON-MDB" />G Scholar
                                 </h6>
-                                <span className="textField"> {record.google_scholar} </span>
+                                <a href={record.google_scholar}>
+                                    <span className="textField longText"> {record.google_scholar} </span>
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -135,11 +141,7 @@ export default function Profile({ record }) {
                         </div>
                         <hr />
 
-                        <div className="row" style={{display: "flex", justifyContent: "space-between"}}>
-                            
-                            <Modal handleClick={() => { setShowProg(!showProg) }} show={showProg}
-                                childElement={<ProgressReport employees={[record.emp_id]} />}>
-                            </Modal>
+                        <div className="row" style={{ display: "flex", justifyContent: "space-between" }}>
 
                             <Modal handleClick={() => { setShowEdit(!showEdit) }} show={showEdit}
                                 childElement={<AddFaculty record={record} />}>
@@ -149,21 +151,11 @@ export default function Profile({ record }) {
                                 className="ripple ripple-surface ripple-surface-light btn btn-sm btn-outline-dark mx-2"
                                 size="sm"
                                 color="dark"
-                                outline
+
                                 onClick={() => {
                                     setShowEdit(!showEdit)
                                 }}>
                                 Edit Account Details
-                            </button>
-
-                            <button
-                                className="ripple ripple-surface ripple-surface-light btn btn-dark btn-sm mx-2"
-                                size="sm"
-                                color="dark"
-                                onClick={() => {
-                                    setShowProg(!showProg)
-                                }}>
-                                Generate Progress Report
                             </button>
                         </div>
                     </div>

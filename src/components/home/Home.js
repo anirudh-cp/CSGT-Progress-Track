@@ -54,8 +54,9 @@ export default function Home() {
                 
 
                 <form onSubmit={onsubmit} autoComplete="off">
-                    <div className="input-container ic1">
-                        <input id="email" className="input" type="email" style={{ backgroundColor: "rgb(245, 254, 255, 0.9)" }}
+                    <div className="input-container ic1_home" style={{marginTop: "25px"}}>
+                        <input id="email" className="input" type="email" 
+                            style={{ backgroundColor: "rgb(245, 254, 255, 0.9)" }}
                             placeholder=" " value={email}
                             required
                             onChange={e => setEmail(e.target.value)}
@@ -66,7 +67,7 @@ export default function Home() {
                         </label>
                     </div>
 
-                    <div className="input-container ic1" style={{marginBottom: "30px"}}>
+                    <div className="input-container ic1_home" style={{marginBottom: "30px"}}>
                         <input id="password" className="input" type="password" placeholder=" "
                             style={{ backgroundColor: "rgb(245, 254, 255, 0.9)" }}
                             value={password}

@@ -14,6 +14,7 @@ const FacultyList = ({ data }) => {
     const [show, setShow] = useState(false);
     const [showProg, setShowProg] = useState(false);
     const [out, setOut] = useState([]);
+    const [names, setNames] = useState([]);
     const [currentRecord, setCurrentRecord] = useState([]);
 
     const handleClick = (obj) => {
@@ -25,6 +26,7 @@ const FacultyList = ({ data }) => {
     const handleProgress = () => {
         setShowProg(!showProg)
         console.log(out)
+        console.log(names)
     }
 
     const handleOnChange = (event) => {
@@ -32,9 +34,16 @@ const FacultyList = ({ data }) => {
 
         setOut(
             prev => checked
-                ? [...prev, value]
-                : prev.filter(val => val !== value)
+                ? [...prev, value.split('/')[0]]
+                : prev.filter(val => val !== value.split('/')[0])
         );
+
+        setNames(
+            prev => checked
+            ? [...prev, value.split('/')[1]]
+            : prev.filter(val => val !== value.split('/')[1])
+        )
+
 
     }
 
@@ -56,7 +65,7 @@ const FacultyList = ({ data }) => {
 
             <div className="pt-2 pb-2">
                 <Modal handleClick={() => { setShowProg(!showProg) }} show={showProg}
-                    childElement={<ProgressReport employees={out} />}>
+                    childElement={<ProgressReport employees={out} names={names.join(", ")} />}>
                 </Modal>
                 <button
                     className="ripple ripple-surface ripple-surface-light btn btn-dark btn-sm mx-2"
@@ -83,12 +92,14 @@ const FacultyList = ({ data }) => {
                 <MDBTableBody>
                     {data.map((obj) => {
                         return (
-                            <tr key={obj.id}>
-                                <input type="checkbox" className="reportCheck"
-                                    key={obj.id}
-                                    id={obj.id}
-                                    value={obj.emp_id}
-                                    onChange={handleOnChange} />
+                            <tr key={obj.emp_id}>
+                                <th>
+                                    <input type="checkbox" className="reportCheck"
+                                        key={obj.id}
+                                        id={obj.id}
+                                        value={obj.emp_id + "/" + obj.name}
+                                        onChange={handleOnChange} />
+                                </th>
                                 <th scope="row"> {obj.name} </th>
                                 <th> {obj.emp_id} </th>
                                 <th> {obj.designation} </th>

@@ -4,16 +4,16 @@ import json
 import datetime
 
 users = [
-    ("prabhakar.m@vit.ac.in", "Prabhakar M", "Male"),
-    ("senthilkumar.nataraj@vit.ac.in", "Senthil Kumar Natraj", "Male"), 
-    ("maheswari.r@vit.ac.in", "Maheshwari R", "Female"),
-    ("kalaipriyan.t@vit.ac.in", "Kalaipriyan T", "Male"),
-    ("sofanareka.s@vit.ac.in", "Sofanareka S", "Female"),
-    ("sudha.a@vit.ac.in", "Sudha A", "Female"), 
-    ("kanimozhi.g@vit.ac.in", "Kanimozhi G", "Female"), 
-    ("gnanaswathika.ov@vit.ac.in", "Gnanaswathika OV", "Female"), 
-    ("sreedevi.vt@vit.ac.in", "Sreedevi VT", "Female"),
-    ("rajakumar.arul@vit.ac.in", "Rajakumar Arul", "Male")
+    ("prabhakar.m@vit.ac.in", "Prabhakar M", "Male", 50287),
+    ("senthilkumar.nataraj@vit.ac.in", "Senthil Kumar Natraj", "Male", 50264), 
+    ("maheswari.r@vit.ac.in", "Maheshwari R", "Female", 50136),
+    ("kalaipriyan.t@vit.ac.in", "Kalaipriyan T", "Male", 51946),
+    ("sofanareka.s@vit.ac.in", "Sofanareka S", "Female", 50906),
+    ("sudha.a@vit.ac.in", "Sudha A", "Female", 51948), 
+    ("kanimozhi.g@vit.ac.in", "Kanimozhi G", "Female", 50147), 
+    ("gnanaswathika.ov@vit.ac.in", "Gnanaswathika OV", "Female", 50137), 
+    ("sreedevi.vt@vit.ac.in", "Sreedevi VT", "Female", 50083),
+    ("rajakumar.arul@vit.ac.in", "Rajakumar Arul", "Male", 51947)
     ]
 
 director = ["dircc.csg@vit.ac.in", ]

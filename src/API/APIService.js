@@ -115,7 +115,7 @@ class API {
     }
 
 
-    async getReport(token, startDate, endDate, params, methodType, bodyData) {
+    async getReport(token, startDate, endDate, params, methodType, bodyData, asFaculty=false) {
         // TODO: Implement a dictionary to map the params to the path.
 
         let path = "";
@@ -150,6 +150,9 @@ class API {
         if (params.includes("Industrial Interactions")) {
             path += "/industrial";
         }
+
+        if(asFaculty)
+            path += '/asFaculty'
 
         let information = {}
         if (methodType === "get") {

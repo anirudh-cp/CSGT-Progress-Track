@@ -27,7 +27,7 @@ class ActionsReportApiView(APIView):
         
         context = self.getContext(startDate, endDate, data)
         
-        template_path = 'format.html'
+        template_path = 'test.html'
         # Create a Django response object, and specify content_type as pdf
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="report.pdf"'
@@ -50,7 +50,12 @@ class ActionsReportApiView(APIView):
         employees = request.data['employees']
         context = self.getContext(startDate, endDate, data, {'emp_id__in': employees})
         
-        template_path = 'format.html'
+        if 'asFaculty' in data.split('/'):
+            template_path = 'formatFaculty.html'
+            print('asFaculty')
+        else:
+            template_path = 'format.html'
+        
         # Create a Django response object, and specify content_type as pdf
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="report.pdf"'
@@ -68,7 +73,7 @@ class ActionsReportApiView(APIView):
         # return FileResponse(buffer, as_attachment=True, filename="report.pdf")
     
     
-    def getContext(self, startDate, endDate, data, filters={}):
+    def getContext(self, startDate, endDate, data, filters={}, asFaculty=False):
 
         data = data.split('/')
 
@@ -164,14 +169,15 @@ class ActionsReportApiView(APIView):
             for item in dataPool['conference']:
                 reportData.append((item['start_date'], f"{item['article_title']} in "
                                    f"{item['conference_name']} for {(item['end_date'] - item['start_date']).days} days "
-                                   f"by {NameDict[item['emp_id']]} ({item['emp_id']})"))
+                                   + f"by {NameDict[item['emp_id']]} ({item['emp_id']})" if not asFaculty else ""))
             context['conference'] = reportData
 
         if 'journal' in data:
             reportData = []
             for item in dataPool['journal']:
                 reportData.append((item['year'], f"{item['article_title']} in "
-                                   f"{item['journal_name']} by {NameDict[item['emp_id']]} ({item['emp_id']})"))
+                                   f"{item['journal_name']} "
+                                   + f"by {NameDict[item['emp_id']]} ({item['emp_id']})" if not asFaculty else ""))
             context['journal'] = reportData
             
         if 'book' in data:
@@ -179,14 +185,14 @@ class ActionsReportApiView(APIView):
             for item in dataPool['bookChapter']:
                 reportData.append((item['year'], f"{item['chapter_title']} in "
                                    f"{item['book_title']} published by {item['publisher_name']} and authored by "
-                                   f"{NameDict[item['emp_id']]} ({item['emp_id']})"))
+                                   + f"by {NameDict[item['emp_id']]} ({item['emp_id']})" if not asFaculty else ""))
             context['bookChapter'] = reportData
 
             reportData = []
             for item in dataPool['bookEditor']:
                 reportData.append((item['year'], f"{item['book_title']} published by "
                                    f"{item['publisher_name']} and authored by "
-                                   f"{NameDict[item['emp_id']]} ({item['emp_id']})"))
+                                   + f"by {NameDict[item['emp_id']]} ({item['emp_id']})" if not asFaculty else ""))
             context['bookEditor'] = reportData
         
         if 'event' in data:
@@ -195,7 +201,7 @@ class ActionsReportApiView(APIView):
                 reportData.append((item['start_date'], f"{item['title']} "
                                    f" ({item['event']}) organized "
                                    f"for {(item['end_date'] - item['start_date']).days} days "
-                                   f"by {NameDict[item['emp_id']]} ({item['emp_id']})"))
+                                   + f"by {NameDict[item['emp_id']]} ({item['emp_id']})" if not asFaculty else ""))
             context['eventOrg'] = reportData
             
             reportData = []
@@ -203,7 +209,7 @@ class ActionsReportApiView(APIView):
                 reportData.append((item['start_date'], f"{item['title']} "
                                    f" ({item['event']}) attended "
                                    f"for {(item['end_date'] - item['start_date']).days} days "
-                                   f"by {NameDict[item['emp_id']]} ({item['emp_id']})"))
+                                   + f"by {NameDict[item['emp_id']]} ({item['emp_id']})" if not asFaculty else ""))
             context['eventAtd'] = reportData
             
         if 'consultancy' in data:
@@ -212,7 +218,7 @@ class ActionsReportApiView(APIView):
                 reportData.append((item['start_date'], f"{item['type']} with "
                                    f"{item['company_name']} for {(item['end_date'] - item['start_date']).days} days "
                                    f"with Rs.{item['amount_sanctioned']} amount sanctioned "
-                                   f"by {NameDict[item['emp_id']]} ({item['emp_id']})"))
+                                   + f"by {NameDict[item['emp_id']]} ({item['emp_id']})" if not asFaculty else ""))
             context['consultancy'] = reportData
 
         if 'patent' in data:
@@ -223,7 +229,7 @@ class ActionsReportApiView(APIView):
                     line += f" published on {item['published_date']} "
                 if item['granted_date']:
                     line += f" granted on {item['granted_date']} "
-                line += f"by {NameDict[item['emp_id']]} ({item['emp_id']})"
+                line += f"by {NameDict[item['emp_id']]} ({item['emp_id']})" if not asFaculty else ""
                 reportData.append((f"Filed on {item['filed_date']}", line))
             context['patent'] = reportData
 
@@ -232,14 +238,14 @@ class ActionsReportApiView(APIView):
             for item in dataPool['project']:
                 reportData.append((item['start_date'], f"{item['title']} funded by  "
                                    f"{item['funding_agency']} for Rs.{item['amount_sanctioned']} "
-                                   f"by {NameDict[item['emp_id']]} ({item['emp_id']}) as {item['role']}"))
+                                   + f"by {NameDict[item['emp_id']]} ({item['emp_id']}) as {item['role']}" if not asFaculty else ""))
             context['project'] = reportData
 
         if 'industrial' in data:
             reportData = []
             for item in dataPool['industrial']:
                 reportData.append((item['date'], f"MOU signed status: {item['mou_signed']} "
-                                   f"by {NameDict[item['emp_id']]} ({item['emp_id']})"))
+                                   + f"by {NameDict[item['emp_id']]} ({item['emp_id']})" if not asFaculty else ""))
             context['industrial'] = reportData
 
 

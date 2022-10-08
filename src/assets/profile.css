@@ -48,3 +48,7 @@
 .textField {
     color: rgb(0, 0, 139)
 }
+
+.longText {
+    line-height: 130%;
+}

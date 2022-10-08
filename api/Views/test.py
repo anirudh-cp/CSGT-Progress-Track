@@ -8,7 +8,7 @@ startDate = datetime.date(2022, 7, 1)
 endDate = datetime.date(2022, 7, 10)
 data = ['hello', 'world']
 
-template_path = 'format.html'
+template_path = 'test.html'
 context = {'currentDate': datetime.datetime.now(),
             'startDate': startDate, 'endDate':endDate,
             'params': ', '.join(x for x in data)}

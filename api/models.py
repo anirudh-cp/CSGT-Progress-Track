@@ -86,11 +86,11 @@ class personal(models.Model):
     date_of_join = models.DateField()
     date_of_birth = models.DateField()
     gender = models.CharField(max_length=20, choices=GENDER)
-    orcid = models.IntegerField(null=True, blank=True, default=0)
-    research_gate = models.CharField(max_length=256, null=True, blank=True)
-    linkedin = models.CharField(max_length=256, null=True, blank=True)
-    google_scholar = models.CharField(max_length=256, null=True, blank=True)
-    personal_page = models.CharField(max_length=256, null=True, blank=True)
+    orcid = models.CharField(max_length=25, null=True, blank=True)
+    research_gate = models.URLField(max_length=350, blank=True, null=True)
+    linkedin = models.URLField(max_length=350, blank=True, null=True)
+    google_scholar = models.URLField(max_length=350, blank=True, null=True)
+    personal_page = models.URLField(max_length=350, blank=True, null=True)
 
     def __str__(self):
         return str(self.emp_id)
@@ -126,7 +126,7 @@ class conference(models.Model):
     conducting = models.CharField(max_length=20, choices=CONDUCTING)
     no_of_attendees = models.IntegerField()
     published_as = models.CharField(max_length=30, choices=PUBLISHED_AS)
-    digital_obj_id = models.CharField(max_length=30, null=True, blank=True)
+    digital_obj_id = models.CharField(max_length=75, null=True, blank=True)
     funder_name = models.CharField(max_length=100, null=True, blank=True)
     amount_of_publication = models.IntegerField(blank=True, null=True)
     support = models.CharField(max_length=4, choices=SUPPORT, null=True)
@@ -177,7 +177,7 @@ class journal(models.Model):
     year = models.IntegerField()
     volume_no = models.IntegerField(null=True, blank=True)
     issue_no = models.IntegerField(null=True, blank=True)
-    digital_obj_id = models.CharField(max_length=30, null=True, blank=True)
+    digital_obj_id = models.CharField(max_length=75, null=True, blank=True)
     funder_name = models.CharField(max_length=100, null=True, blank=True)
     amount_of_publication = models.IntegerField(blank=True, null=True)
     support = models.CharField(max_length=4, choices=SUPPORT, null=True)
@@ -201,7 +201,8 @@ class book(models.Model):
         ('SCIE', 'SCIE'),
         ('SCOPUS', 'SCOPUS'),
         ('Springer', 'Springer'),
-        ('Ei Compendex', 'Ei Compendex')
+        ('Ei Compendex', 'Ei Compendex'),
+        ('Others', 'Others')
     ]
 
     COLLABORATION = [
@@ -236,9 +237,9 @@ class book(models.Model):
         max_length=100, choices=TYPE_OF_PUBLICATION)
     volume_no = models.IntegerField(null=True, blank=True)
     issue_no = models.IntegerField(null=True, blank=True)
-    digital_obj_id = models.CharField(max_length=30, null=True, blank=True)
+    digital_obj_id = models.CharField(max_length=75, null=True, blank=True)
     year = models.IntegerField()
-    isbn = models.IntegerField()
+    isbn = models.CharField(max_length=15)
     indexing = models.CharField(max_length=20, choices=INDEXING)
     publisher_name = models.CharField(max_length=100)
     funder_name = models.CharField(max_length=100, null=True, blank=True)
