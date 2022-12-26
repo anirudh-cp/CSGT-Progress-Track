@@ -115,7 +115,7 @@ class conference(models.Model):
     PUBLISHED_AS = [('Research Paper', 'Research Paper'), ]
 
     emp_id = models.ForeignKey(personal, on_delete=models.CASCADE)
-    article_title = models.CharField(max_length=100)
+    article_title = models.CharField(max_length=256)
     no_of_authors = models.IntegerField()
     conference_name = models.CharField(max_length=100)
     start_date = models.DateField()
@@ -166,9 +166,9 @@ class journal(models.Model):
     SUPPORT = [('Yes', 'Yes'), ('No', 'No'), ]
 
     emp_id = models.ForeignKey(personal, null=True, on_delete=models.CASCADE)
-    article_title = models.CharField(max_length=100)
+    article_title = models.CharField(max_length=256)
     no_of_authors = models.IntegerField()
-    journal_name = models.CharField(max_length=100)
+    journal_name = models.CharField(max_length=512)
     collaboration = models.CharField(max_length=20, choices=COLLABORATION)
     type_of_publication = models.CharField(
         max_length=100, choices=TYPE_OF_PUBLICATION)
