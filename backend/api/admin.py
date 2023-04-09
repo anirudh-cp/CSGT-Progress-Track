@@ -17,7 +17,7 @@ from django.contrib.auth.admin import UserAdmin
 from .models import account
 
 
-class account_admin(UserAdmin):
+class user_admin(UserAdmin):
     list_display = ('email','date_joined', 'last_login', 'is_admin','is_staff')
     search_fields = ('email', )
     readonly_fields=('date_joined', 'last_login')
@@ -33,4 +33,4 @@ class account_admin(UserAdmin):
 )
 
 
-admin.site.register(account, account_admin)
+admin.site.register(account, user_admin)

@@ -13,6 +13,13 @@ from django.template.loader import get_template
 import sys
 import datetime
 
+import io
+from django.http import FileResponse
+from .PDFGenerator import ReportGenerator
+
+import sys
+
+
 sys.path.append('../..')
 
 
@@ -24,9 +31,18 @@ class ActionsReportApiView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, startDate, endDate, data, *args, **kwargs):
-        
+
         context = self.getContext(startDate, endDate, data)
-        
+
+        buffer = io.BytesIO()
+        reportObj = ReportGenerator(buffer, {'currentDate': datetime.datetime.now(),
+                                             'params': context['params'], 'startDate': startDate,
+                                             'endDate': endDate})
+        reportObj.build(context)
+
+        buffer.seek(0)
+        return FileResponse(buffer, as_attachment=True, filename='CSGT Report.pdf')
+
         template_path = 'format.html'
         # Create a Django response object, and specify content_type as pdf
         response = HttpResponse(content_type='application/pdf')
@@ -36,20 +52,22 @@ class ActionsReportApiView(APIView):
         html = template.render(context)
 
         # create a pdf
-        pisa_status = pisa.CreatePDF(html.encode('UTF-8'), encoding="UTF-8", dest=response)
+        pisa_status = pisa.CreatePDF(html.encode(
+            'UTF-8'), encoding="UTF-8", dest=response)
+
         # if error then show some funny view
         if pisa_status.err:
             return HttpResponse('We had some errors <pre>' + html + '</pre>')
         return response
         # return Response(' ', status.HTTP_200_OK)
         # return FileResponse(buffer, as_attachment=True, filename="report.pdf")
-        
-    
+
     def post(self, request, startDate, endDate, data, *args, **kwargs):
-        
+
         employees = request.data['employees']
-        context = self.getContext(startDate, endDate, data, {'emp_id__in': employees})
-        
+        context = self.getContext(startDate, endDate, data, {
+                                  'emp_id__in': employees})
+
         # if 'asFaculty' in data.split('/'):
         #     template_path = 'formatFaculty.html'
         #     print('asFaculty')
@@ -64,15 +82,15 @@ class ActionsReportApiView(APIView):
         html = template.render(context)
 
         # create a pdf
-        pisa_status = pisa.CreatePDF(html.encode('UTF-8'), encoding="UTF-8", dest=response)
+        pisa_status = pisa.CreatePDF(html.encode(
+            'UTF-8'), encoding="UTF-8", dest=response)
         # if error then show some funny view
         if pisa_status.err:
             return HttpResponse('We had some errors <pre>' + html + '</pre>')
         return response
         # return Response(' ', status.HTTP_200_OK)
         # return FileResponse(buffer, as_attachment=True, filename="report.pdf")
-    
-    
+
     def getContext(self, startDate, endDate, data, filters={}, asFaculty=False):
 
         data = data.split('/')
@@ -81,7 +99,9 @@ class ActionsReportApiView(APIView):
         context = {
             'currentDate': datetime.datetime.now(),
             'startDate': startDate, 'endDate': endDate,
-            'params': ', '.join(x for x in data)
+            'params': ', '.join(x for x in data),
+            'title': 'Center for Smart Grid Technologies',
+            'subtitle': 'VIT - Chennai'
         }
 
         if 'conference' in data:
@@ -89,7 +109,8 @@ class ActionsReportApiView(APIView):
                          conference.objects.filter(start_date__lte=startDate, end_date__gte=startDate, **filters))
             queryFields = queryData.values(
                 'emp_id', 'start_date', 'article_title', 'conference_name', 'end_date')
-            dataPool['conference'] = sorted(queryFields, key=lambda d: d['start_date'])
+            dataPool['conference'] = sorted(
+                queryFields, key=lambda d: d['start_date'])
 
         if 'journal' in data:
             queryData = (journal.objects.filter(
@@ -103,58 +124,68 @@ class ActionsReportApiView(APIView):
                 year__gte=startDate.year, year__lte=endDate.year, type='Book Chapter', **filters))
             queryDataEditor = (book.objects.filter(
                 year__gte=startDate.year, year__lte=endDate.year, type='Book Editorial', **filters))
-            
+
             queryFieldsChapter = queryDataChapter.values(
                 'emp_id', 'year', 'book_title', 'chapter_title', 'publisher_name')
-            dataPool['bookChapter'] = sorted(queryFieldsChapter, key=lambda d: d['year'])
-            
+            dataPool['bookChapter'] = sorted(
+                queryFieldsChapter, key=lambda d: d['year'])
+
             queryFieldsEditor = queryDataEditor.values(
                 'emp_id', 'year', 'book_title', 'publisher_name')
-            dataPool['bookEditor'] = sorted(queryFieldsEditor, key=lambda d: d['year'])
-            
+            dataPool['bookEditor'] = sorted(
+                queryFieldsEditor, key=lambda d: d['year'])
+
         if 'event' in data:
-            queryDataOrg = (event.objects.filter(start_date__gt=startDate, start_date__lte=endDate, 
+            queryDataOrg = (event.objects.filter(start_date__gt=startDate, start_date__lte=endDate,
                                                  type="Organized", **filters) |
-                            event.objects.filter(start_date__lte=startDate, end_date__gte=startDate, 
+                            event.objects.filter(start_date__lte=startDate, end_date__gte=startDate,
                                                  type="Organized", **filters))
-            
-            queryDataAtd = (event.objects.filter(start_date__gt=startDate, start_date__lte=endDate, 
+
+            queryDataAtd = (event.objects.filter(start_date__gt=startDate, start_date__lte=endDate,
                                                  type="Attended", **filters) |
-                            event.objects.filter(start_date__lte=startDate, end_date__gte=startDate, 
+                            event.objects.filter(start_date__lte=startDate, end_date__gte=startDate,
                                                  type="Attended", **filters))
-            
+
             queryFieldsOrg = queryDataOrg.values(
                 'emp_id', 'start_date', 'end_date', 'title', 'event')
-            dataPool['eventOrg'] = sorted(queryFieldsOrg, key=lambda d: d['start_date'])
-            
+            dataPool['eventOrg'] = sorted(
+                queryFieldsOrg, key=lambda d: d['start_date'])
+
             queryFieldsAtd = queryDataAtd.values(
                 'emp_id', 'start_date', 'end_date', 'title', 'event')
-            dataPool['eventAtd'] = sorted(queryFieldsAtd, key=lambda d: d['start_date'])
+            dataPool['eventAtd'] = sorted(
+                queryFieldsAtd, key=lambda d: d['start_date'])
 
         if 'consultancy' in data:
             queryData = (consultancy.objects.filter(start_date__gt=startDate, start_date__lte=endDate, **filters) |
                          consultancy.objects.filter(start_date__lte=startDate, end_date__gte=startDate, **filters))
             queryFields = queryData.values(
                 'emp_id', 'start_date', 'type', 'company_name', 'end_date', 'amount_sanctioned')
-            dataPool['consultancy'] = sorted(queryFields, key=lambda d: d['start_date'])
+            dataPool['consultancy'] = sorted(
+                queryFields, key=lambda d: d['start_date'])
 
         if 'patent' in data:
-            queryData = (patent.objects.filter(filed_date__gt=startDate, filed_date__lte=endDate, **filters))
+            queryData = (patent.objects.filter(
+                filed_date__gt=startDate, filed_date__lte=endDate, **filters))
             queryFields = queryData.values(
                 'emp_id', 'filed_date', 'published_date', 'granted_date', 'title')
-            dataPool['patent'] = sorted(queryFields, key=lambda d: d['filed_date'])
+            dataPool['patent'] = sorted(
+                queryFields, key=lambda d: d['filed_date'])
 
         if 'project' in data:
-            queryData = (project.objects.filter(start_date__gt=startDate, start_date__lte=endDate, **filters))
+            queryData = (project.objects.filter(
+                start_date__gt=startDate, start_date__lte=endDate, **filters))
             queryFields = queryData.values(
                 'emp_id', 'funding_agency', 'role', 'amount_sanctioned', 'title', 'start_date')
-            dataPool['project'] = sorted(queryFields, key=lambda d: d['start_date'])
+            dataPool['project'] = sorted(
+                queryFields, key=lambda d: d['start_date'])
 
         if 'industrial' in data:
-            queryData = (industrial_interaction.objects.filter(date__gt=startDate, date__lte=endDate, **filters))
+            queryData = (industrial_interaction.objects.filter(
+                date__gt=startDate, date__lte=endDate, **filters))
             queryFields = queryData.values('emp_id', 'mou_signed', 'date')
-            dataPool['industrial'] = sorted(queryFields, key=lambda d: d['date'])
-
+            dataPool['industrial'] = sorted(
+                queryFields, key=lambda d: d['date'])
 
         # Get list of all employee IDs to find their names.
         Emp_IDs = list(set(item['emp_id']
@@ -179,7 +210,7 @@ class ActionsReportApiView(APIView):
                                    f"{item['journal_name']} "
                                    + f"by {NameDict[item['emp_id']]} ({item['emp_id']})" if not asFaculty else ""))
             context['journal'] = reportData
-            
+
         if 'book' in data:
             reportData = []
             for item in dataPool['bookChapter']:
@@ -194,7 +225,7 @@ class ActionsReportApiView(APIView):
                                    f"{item['publisher_name']} and authored by "
                                    + f"by {NameDict[item['emp_id']]} ({item['emp_id']})" if not asFaculty else ""))
             context['bookEditor'] = reportData
-        
+
         if 'event' in data:
             reportData = []
             for item in dataPool['eventOrg']:
@@ -203,7 +234,7 @@ class ActionsReportApiView(APIView):
                                    f"for {(item['end_date'] - item['start_date']).days} days "
                                    + f"by {NameDict[item['emp_id']]} ({item['emp_id']})" if not asFaculty else ""))
             context['eventOrg'] = reportData
-            
+
             reportData = []
             for item in dataPool['eventAtd']:
                 reportData.append((item['start_date'], f"{item['title']} "
@@ -211,7 +242,7 @@ class ActionsReportApiView(APIView):
                                    f"for {(item['end_date'] - item['start_date']).days} days "
                                    + f"by {NameDict[item['emp_id']]} ({item['emp_id']})" if not asFaculty else ""))
             context['eventAtd'] = reportData
-            
+
         if 'consultancy' in data:
             reportData = []
             for item in dataPool['consultancy']:
@@ -248,10 +279,9 @@ class ActionsReportApiView(APIView):
                                    + f"by {NameDict[item['emp_id']]} ({item['emp_id']})" if not asFaculty else ""))
             context['industrial'] = reportData
 
-
         employees = []
         for key, value in NameDict.items():
-            employees.append([key, value, 
+            employees.append([key, value,
                               conference.objects.filter(emp_id=key).count(),
                               journal.objects.filter(emp_id=key).count(),
                               book.objects.filter(emp_id=key).count(),
@@ -261,7 +291,7 @@ class ActionsReportApiView(APIView):
                               project.objects.filter(emp_id=key).count(),
                               industrial_interaction.objects.filter(emp_id=key).count()])
         context['employees'] = employees
-        
+
         return context
 
 

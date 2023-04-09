@@ -57,7 +57,11 @@ with open('result.json', 'w+') as fp:
             year = i.get('prism:coverDate')[:4]
 
             volume_no = i.get('prism:volume')
+            if not isinstance(volume_no, int):
+                volume_no = 0
             issue_no = i.get('prism:issueIdentifier')
+            if not isinstance(issue_no, int):
+                issue_no = 0
 
             digital_obj_id = i.get('prism:doi')
 

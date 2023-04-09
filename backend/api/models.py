@@ -10,7 +10,7 @@ from rest_framework.authtoken.models import Token
 from datetime import datetime
 
 
-class my_account_manager(BaseUserManager):
+class my_user_manager(BaseUserManager):
     def create_user(self, email, password=None):
         if not email:
             raise ValueError('Users must have an email address')
@@ -48,7 +48,7 @@ class account(AbstractBaseUser):
 
     USERNAME_FIELD = 'email'
 
-    objects = my_account_manager()
+    objects = my_user_manager()
 
     def __str__(self):
         return self.email
@@ -62,7 +62,7 @@ class account(AbstractBaseUser):
         return True
 
 
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+@receiver(post_save, sender=account)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
@@ -78,7 +78,7 @@ class personal(models.Model):
     ]
 
     user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+        account, on_delete=models.CASCADE)
     emp_id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
     designation = models.CharField(max_length=100)
