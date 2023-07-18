@@ -10,7 +10,13 @@ from rest_framework import status, permissions
 
 from rest_framework.authtoken.models import Token
 
-from rest_framework_simplejwt.views import TokenObtainPairView
+
+from django.conf import settings as django_settings
+
+if django_settings.DATABASE_URL:
+    from rest_framework_simplejwt_mongoengine.views import TokenObtainPairView
+else:
+    from rest_framework_simplejwt.views import TokenObtainPairView
 
 import datetime
 import requests
@@ -77,7 +83,10 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     def post(self, request):
         context = {}
 
-        email = request.data.get('email')
+        email = request.data.get('email', None)
+        if not email:
+            email = request.data.get('username', None) 
+        
         password = request.data.get('password')
         
         account = authenticate(email=email, password=password)
@@ -87,9 +96,10 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             if serializer.is_valid():
                 return Response(serializer.validated_data, status=status.HTTP_200_OK)
             else:
-                return Response({'respones': 'Serialization error'}, status=status.HTTP_401_UNAUTHORIZED)
+                return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
 
         else:
+            print(email, password)
             context['response'] = 'Error'
             context['error_message'] = 'Invalid credentials'
             return Response(context, status=status.HTTP_404_NOT_FOUND)

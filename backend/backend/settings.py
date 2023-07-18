@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+from django.core.management.commands.runserver import Command as runserver
+import dj_database_url
 from pathlib import Path
 import dotenv
 import os
@@ -34,6 +36,8 @@ DEBUG = str(os.environ.get('DEBUG')) == "1"
 
 ALLOWED_HOSTS = []
 
+CORS_ORIGIN_ALLOW_ALL = True
+
 
 # Application definition
 
@@ -44,15 +48,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     'api',
     'rest_framework',
-    'rest_framework.authtoken',  # new	
-    
+    'rest_framework.authtoken',  # new
+
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -94,7 +101,6 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # }
 
 
-
 DB_USERNAME = os.environ.get("POSTGRES_USER")
 DB_PASSWORD = os.environ.get("POSTGRES_PASSWORD")
 DB_DATABASE = os.environ.get("POSTGRES_DB")
@@ -113,18 +119,17 @@ DB_URI = os.environ.get("MONGODB_URI")
 DATABASE_URL = os.environ.get("DATABASE_URL")
 DB_IGNORE_SSL = os.environ.get("DB_IGNORE_SSL") == "true"
 
-import dj_database_url
-if DATABASE_URL:   
+if DATABASE_URL:
     DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'CLIENT': {
-            'host': DATABASE_URL,
-            'authMechanism': 'SCRAM-SHA-1',
-            # 'host':"mongodb+srv://dbkritin:kritin@cluster0.labbs9t.mongodb.net/?retryWrites=true&w=majority",
-        },
+        'default': {
+            'ENGINE': 'djongo',
+            'CLIENT': {
+                'host': DATABASE_URL,
+                'authMechanism': 'SCRAM-SHA-1',
+                # 'host':"mongodb+srv://dbkritin:kritin@cluster0.labbs9t.mongodb.net/?retryWrites=true&w=majority",
+            },
+        }
     }
-}
 elif DB_IS_AVAIL:
     DATABASES = {
         "default": {
@@ -183,16 +188,29 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'api.account'
-# Rest Framework config. Add all of this.	
-REST_FRAMEWORK = {	
-    'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication', 'rest_framework_simplejwt.authentication.JWTAuthentication',],	
-}	
-
-SIMPLE_JWT = {
-    'USER_ID_FIELD': 'uid',
-    'AUTH_HEADER_TYPES': ('Token', 'JWT', )
+# Rest Framework config. Add all of this.
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication', 'rest_framework_simplejwt.authentication.JWTAuthentication', 
+                                       #'rest_framework_simplejwt_mongoengine.authentication.JWTAuthentication'
+                                       ],
 }
 
-from django.core.management.commands.runserver import Command as runserver
+SIMPLE_JWT  = {
+    'USER_ID_FIELD': 'email',
+    'AUTH_HEADER_TYPES': ('Token', 'JWT', ),
+    # 'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'SIGNING_KEY': SECRET_KEY,
+}
+
+SIMPLE_JWT_MONGOENGINE   = {
+    'USER_ID_FIELD': 'email',
+    'AUTH_HEADER_TYPES': ('Token', 'JWT', ),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'SIGNING_KEY': SECRET_KEY,
+}
+
+
 
 runserver.default_port = '8001'        # <-- Your port

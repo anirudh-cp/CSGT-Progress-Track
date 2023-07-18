@@ -1,7 +1,13 @@
 from rest_framework import serializers
 from .models import *
 from django.contrib.auth.models import Group
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+from django.conf import settings as django_settings
+
+if django_settings.DATABASE_URL:
+    from rest_framework_simplejwt_mongoengine.serializers import TokenObtainPairSerializer
+else:
+    from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class personalserializer(serializers.ModelSerializer):
 	class Meta:
@@ -87,9 +93,15 @@ class RegistrationUserSerializer(serializers.ModelSerializer):
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
+        
+        # print("Custom serializer entr")
+        
         token = super().get_token(user)
-
-        token['group'] = user.groups.values_list('name', flat=True)[0]
+        
+        try:
+            token['group'] = user.groups.values_list('name', flat=True)[0]
+        except:
+            token['group'] = 'None'
         if token['group'] == 'faculty':
             try:
                 queryData = personal.objects.get(user=user.email)
@@ -104,3 +116,5 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         elif token['group'] == 'director':
             token['name'] = "Director"
             token['emp_id'] = 0
+    
+        return token

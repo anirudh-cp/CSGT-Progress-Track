@@ -50,7 +50,7 @@ class DataSingleGetApiView(APIView):
             serializer = serilaizerTypes[Type](queryData, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
-        return Response("", status=status.HTTP_404_NOT_FOUND)
+        return Response([], status=status.HTTP_404_NOT_FOUND)
 
 
 class DataSinglePutApiView(APIView):
@@ -127,7 +127,7 @@ class DataAllApiView(APIView):
             serializer = serilaizerTypes[Type](queryData, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
-        return Response("", status=status.HTTP_404_NOT_FOUND)
+        return Response([], status=status.HTTP_404_NOT_FOUND)
 
 
 class DataSingleDeleteApiView(APIView):

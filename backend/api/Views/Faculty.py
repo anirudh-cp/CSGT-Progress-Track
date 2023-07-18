@@ -26,7 +26,7 @@ class FacultySingleApiView(APIView):
             serializer = personalserializer(data, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
             
-        return Response("", status=status.HTTP_404_NOT_FOUND)
+        return Response([], status=status.HTTP_404_NOT_FOUND)
         
 
     # 2. Create/Update
@@ -75,6 +75,6 @@ class FacultyAllApiView(APIView):
             serializer = personalserializer(data, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
-        return Response("", status=status.HTTP_404_NOT_FOUND)
+        return Response([], status=status.HTTP_404_NOT_FOUND)
     
         

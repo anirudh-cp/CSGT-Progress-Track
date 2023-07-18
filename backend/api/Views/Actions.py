@@ -67,6 +67,15 @@ class ActionsReportApiView(APIView):
         employees = request.data['employees']
         context = self.getContext(startDate, endDate, data, {
                                   'emp_id__in': employees})
+        
+        buffer = io.BytesIO()
+        reportObj = ReportGenerator(buffer, {'currentDate': datetime.datetime.now(),
+                                             'params': context['params'], 'startDate': startDate,
+                                             'endDate': endDate})
+        reportObj.build(context)
+
+        buffer.seek(0)
+        return FileResponse(buffer, as_attachment=True, filename='CSGT Report.pdf')
 
         # if 'asFaculty' in data.split('/'):
         #     template_path = 'formatFaculty.html'
@@ -329,16 +338,22 @@ class ActionsUsersApiView(APIView):
                 'email': data['email'], 'group': data['group']}
         return Response(data, status=status.HTTP_200_OK)
 
-    def delete(self, request, *args, **kwargs):
-        # Delete the user
 
+class ActionsUserDeletesApiView(APIView):
+    # add permission to check if user is authenticated
+    permission_classes = [permissions.IsAuthenticated]
+    
+    
+    def post(self, request, *args, **kwargs):
+        ''' Delete a specific record in a model. '''
+        
         group = request.user.groups.values_list('name', flat=True)
         data = {}
         if not any(item in ('admin', 'director') for item in group):
             data['error_message'] = 'Cannot delete user unless director or admin.'
             data['response'] = 'Error'
             return Response(data, status=status.HTTP_401_UNAUTHORIZED)
-
+        
         data = request.data
         try:
             accountObj = account.objects.get(email=data['email'])
@@ -346,3 +361,5 @@ class ActionsUsersApiView(APIView):
             return Response('User deleted', status=status.HTTP_200_OK)
         except account.DoesNotExist:
             return Response('User does not exist', status=status.HTTP_404_NOT_FOUND)
+
+
