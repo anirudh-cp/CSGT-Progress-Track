@@ -1,3 +1,4 @@
+import reportlab
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Frame, PageTemplate, BaseDocTemplate, Table, HRFlowable
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import cm, inch
@@ -18,6 +19,8 @@ import datetime
 
 
 CURRENT_DIR = Path(__file__).resolve().parent
+
+reportlab.rl_config.TTFSearchPath.append(CURRENT_DIR)
 
 pdfmetrics.registerFont(
     TTFont('Sans', os.path.join(CURRENT_DIR, r"assets/Helvetica.ttf")))
