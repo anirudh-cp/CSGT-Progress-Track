@@ -20,13 +20,13 @@ import datetime
 CURRENT_DIR = Path(__file__).resolve().parent
 
 pdfmetrics.registerFont(
-    TTFont('Sans', os.path.join(CURRENT_DIR, r"assets\Helvetica.ttf")))
+    TTFont('Sans', os.path.join(CURRENT_DIR, r"assets/Helvetica.ttf")))
 pdfmetrics.registerFont(
-    TTFont('Sans-bold', os.path.join(CURRENT_DIR, r"assets\Helvetica-bold.ttf")))
+    TTFont('Sans-bold', os.path.join(CURRENT_DIR, r"assets/Helvetica-bold.ttf")))
 pdfmetrics.registerFont(
-    TTFont('Sans-light', os.path.join(CURRENT_DIR, r"assets\Helvatica-light.ttf")))
+    TTFont('Sans-light', os.path.join(CURRENT_DIR, r"assets/Helvatica-light.ttf")))
 pdfmetrics.registerFont(
-    TTFont('Sans-italic', os.path.join(CURRENT_DIR, r"assets\Helvetica-Oblique.ttf")))
+    TTFont('Sans-italic', os.path.join(CURRENT_DIR, r"assets/Helvetica-Oblique.ttf")))
 
 
 registerFontFamily('Sans', normal='Sans',
