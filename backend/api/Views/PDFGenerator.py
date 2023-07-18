@@ -25,7 +25,7 @@ reportlab.rl_config.TTFSearchPath.append(CURRENT_DIR)
 pdfmetrics.registerFont(
     TTFont('Sans', os.path.join(CURRENT_DIR, r"assets/Helvetica.ttf")))
 pdfmetrics.registerFont(
-    TTFont('Sans-bold', os.path.join(CURRENT_DIR, r"assets/Helvetica-bold.ttf")))
+    TTFont('Sans-bold', os.path.join(CURRENT_DIR, r"assets/Helvetica-Bold.ttf")))
 pdfmetrics.registerFont(
     TTFont('Sans-light', os.path.join(CURRENT_DIR, r"assets/Helvatica-light.ttf")))
 pdfmetrics.registerFont(
